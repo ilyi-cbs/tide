@@ -1,0 +1,48 @@
+task,target,model,metric,value,ci_low,ci_high,n_test,wall_time_s,cu_est,note
+free_text,account_assignment,tabpfn,accuracy,0.8315,,,2000,101.0,2.5,
+free_text,account_assignment,tabpfn,automation_share,0.8635,,,2000,101.0,2.5,
+free_text,account_assignment,tabpfn,automation_accuracy,0.8980891719745223,,,2000,101.0,2.5,
+free_text,account_assignment,tabpfn,ece,0.033855896398425095,,,2000,101.0,2.5,
+free_text,account_assignment,lightgbm_default,accuracy,0.8,,,2000,9.7,0.0,
+free_text,account_assignment,lightgbm_default,automation_share,0.669,,,2000,9.7,0.0,
+free_text,account_assignment,lightgbm_default,automation_accuracy,0.9439461883408071,,,2000,9.7,0.0,
+free_text,account_assignment,lightgbm_default,ece,0.06542687105474247,,,2000,9.7,0.0,
+free_text,account_assignment,lightgbm_tuned,accuracy,0.802,,,2000,856.7,0.0,
+free_text,account_assignment,lightgbm_tuned,automation_share,0.745,,,2000,856.7,0.0,
+free_text,account_assignment,lightgbm_tuned,automation_accuracy,0.9187919463087248,,,2000,856.7,0.0,
+free_text,account_assignment,lightgbm_tuned,ece,0.09356540705825404,,,2000,856.7,0.0,
+free_text,account_assignment,lightgbm_tuned,tuning_trials,50,,,2000,856.7,0.0,
+free_text,account_assignment,tabpfn_minus_tuned,accuracy,0.02949999999999997,0.01649999999999996,0.04299999999999993,2000,,,
+free_text,account_assignment,tabpfn_minus_tuned,automation_share,0.11850000000000005,0.09950000000000003,0.137,2000,,,
+free_text,material_group,tabpfn,accuracy,0.679,,,2000,97.4,3.2,
+free_text,material_group,tabpfn,automation_share,0.565,,,2000,97.4,3.2,
+free_text,material_group,tabpfn,automation_accuracy,0.9221238938053097,,,2000,97.4,3.2,
+free_text,material_group,tabpfn,ece,0.04269611394777896,,,2000,97.4,3.2,
+free_text,material_group,lightgbm_default,accuracy,0.169,,,2000,10.1,0.0,
+free_text,material_group,lightgbm_default,automation_share,0.0,,,2000,10.1,0.0,
+free_text,material_group,lightgbm_default,ece,0.8309999999877299,,,2000,10.1,0.0,
+free_text,material_group,lightgbm_tuned,accuracy,0.625,,,2000,6249.3,0.0,"50-trial tuned fit, see reproduced-baseline-results.csv"
+free_text,material_group,lightgbm_tuned,automation_share,0.415,,,2000,6249.3,0.0,"50-trial tuned fit, see reproduced-baseline-results.csv"
+free_text,material_group,lightgbm_tuned,automation_accuracy,0.944578313253012,,,2000,6249.3,0.0,"50-trial tuned fit, see reproduced-baseline-results.csv"
+free_text,material_group,lightgbm_tuned,ece,0.10281132585996385,,,2000,1830.0,0.0,"from the capped 18-trial run, superseded; not recomputed for the 50-trial fit"
+free_text,material_group,lightgbm_tuned,tuning_trials,50,,,2000,6249.3,0.0,"50-trial tuned fit, see reproduced-baseline-results.csv"
+free_text,material_group,tabpfn_minus_tuned,accuracy,0.05400000000000005,0.040000000000000036,0.06851249999999993,2000,,,"50-trial tuned fit, see reproduced-baseline-results.csv"
+free_text,material_group,tabpfn_minus_tuned,automation_share,0.14999999999999997,0.1315,0.16899999999999993,2000,,,"50-trial tuned fit, see reproduced-baseline-results.csv"
+lead_time,lead_time,tabpfn,within_3_days,0.645,,,2000,145.9,3.5,
+lead_time,lead_time,tabpfn,range_coverage,0.8765,,,2000,145.9,3.5,
+lead_time,lead_time,tabpfn,range_width_days,18.73490153723955,,,2000,145.9,3.5,
+lead_time,lead_time,tabpfn,mae,5.761254190802574,,,2000,145.9,3.5,
+lead_time,lead_time,tabpfn,quantile_crossings,0,,,2000,145.9,3.5,
+lead_time,lead_time,lightgbm_default,within_3_days,0.629,,,2000,2.7,0.0,
+lead_time,lead_time,lightgbm_default,range_coverage,0.8795,,,2000,2.7,0.0,
+lead_time,lead_time,lightgbm_default,range_width_days,19.538812422180506,,,2000,2.7,0.0,
+lead_time,lead_time,lightgbm_default,mae,6.326191712855725,,,2000,2.7,0.0,
+lead_time,lead_time,lightgbm_default,quantile_crossings,5,,,2000,2.7,0.0,
+lead_time,lead_time,lightgbm_tuned,within_3_days,0.6185,,,2000,371.3,0.0,
+lead_time,lead_time,lightgbm_tuned,range_coverage,0.8825,,,2000,371.3,0.0,
+lead_time,lead_time,lightgbm_tuned,range_width_days,19.346795359984853,,,2000,371.3,0.0,
+lead_time,lead_time,lightgbm_tuned,mae,6.318508252118669,,,2000,371.3,0.0,
+lead_time,lead_time,lightgbm_tuned,quantile_crossings,14,,,2000,371.3,0.0,
+lead_time,lead_time,lightgbm_tuned,tuning_trials,50,,,2000,371.3,0.0,
+lead_time,lead_time,tabpfn_minus_tuned,within_3_days,0.026499999999999968,0.00950000000000006,0.04349999999999998,2000,,,
+lead_time,lead_time,tabpfn_minus_tuned,range_coverage,-0.006000000000000005,-0.018000000000000016,0.005512499999999988,2000,,,

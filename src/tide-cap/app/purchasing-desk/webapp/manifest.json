@@ -1,0 +1,1582 @@
+{
+  "_version": "2.0.0",
+  "sap.app": {
+    "id": "tide.cockpit",
+    "type": "application",
+    "i18n": {
+      "bundleUrl": "i18n/i18n.properties",
+      "supportedLocales": [""],
+      "fallbackLocale": ""
+    },
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "crossNavigation": {
+      "inbounds": {
+        "Cockpit-display": {
+          "semanticObject": "Cockpit",
+          "action": "display",
+          "title": "{{appTitle}}",
+          "signature": {
+            "parameters": {},
+            "additionalParameters": "allowed"
+          }
+        }
+      }
+    },
+    "sourceTemplate": {
+      "id": "@sap/generator-fiori:lrop",
+      "version": "1.23.0",
+      "toolsId": "ef626899-dd55-4c14-9532-32c137a91e2d"
+    },
+    "dataSources": {
+      "publicationService": {
+        "uri": "/odata/v4/publication/",
+        "type": "OData",
+        "settings": { "odataVersion": "4.0" }
+      },
+      "assessmentService": {
+        "uri": "/odata/v4/assessment/",
+        "type": "OData",
+        "settings": { "odataVersion": "4.0" }
+      },
+      "reviewService": {
+        "uri": "/odata/v4/review/",
+        "type": "OData",
+        "settings": { "odataVersion": "4.0" }
+      },
+      "workflowService": {
+        "uri": "/odata/v4/workflow/",
+        "type": "OData",
+        "settings": {
+          "odataVersion": "4.0"
+        }
+      },
+      "deskService": {
+        "uri": "/odata/v4/desk/",
+        "type": "OData",
+        "settings": {
+          "odataVersion": "4.0"
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "dependencies": {
+      "minUI5Version": "1.136.7",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.ui.layout": {},
+        "sap.fe.templates": {},
+        "sap.fe.macros": {},
+        "sap.suite.ui.microchart": {
+          "lazy": true
+        },
+        "sap.suite.ui.commons": {
+          "lazy": true
+        },
+        "sap.viz": {},
+        "sap.ui.table": {},
+        "sap.f": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "publication": {
+        "dataSource": "publicationService",
+        "settings": { "operationMode": "Server" }
+      },
+      "assessment": {
+        "dataSource": "assessmentService",
+        "settings": { "operationMode": "Server" }
+      },
+      "review": {
+        "dataSource": "reviewService",
+        "settings": { "operationMode": "Server" }
+      },
+      "workflow": {
+        "dataSource": "workflowService",
+        "settings": {
+          "operationMode": "Server"
+        }
+      },
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "tide.cockpit.i18n.i18n",
+          "supportedLocales": [""],
+          "fallbackLocale": ""
+        }
+      },
+      "": {
+        "dataSource": "deskService",
+        "preload": true,
+        "settings": {
+          "operationMode": "Server",
+          "autoExpandSelect": true,
+          "earlyRequests": true
+        }
+      },
+      "@i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "uri": "i18n/i18n.properties",
+        "settings": {
+          "supportedLocales": [""],
+          "fallbackLocale": ""
+        }
+      },
+      "user": {
+        "type": "sap.ui.model.json.JSONModel",
+        "uri": "/odata/v4/desk/me()",
+        "preload": false
+      },
+      "i18nAtrisk": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "tide.cockpit.ext.atrisk.i18n",
+          "supportedLocales": [""],
+          "fallbackLocale": ""
+        }
+      },
+      "i18nImpact": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "tide.cockpit.ext.impact.i18n",
+          "supportedLocales": [""],
+          "fallbackLocale": ""
+        }
+      },
+      "i18nOutlook": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "tide.cockpit.ext.outlook.i18n",
+          "supportedLocales": [""],
+          "fallbackLocale": ""
+        }
+      },
+      "i18nRules": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "tide.cockpit.ext.rules.i18n",
+          "supportedLocales": [""],
+          "fallbackLocale": ""
+        }
+      },
+      "i18nLeadtimes": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "tide.cockpit.ext.leadtimes.i18n",
+          "supportedLocales": [""],
+          "fallbackLocale": ""
+        }
+      },
+      "i18nPlanning": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "tide.cockpit.ext.planning.i18n",
+          "supportedLocales": [""],
+          "fallbackLocale": ""
+        }
+      },
+      "i18nFreetext": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "tide.cockpit.ext.freetext.i18n",
+          "supportedLocales": [""],
+          "fallbackLocale": ""
+        }
+      },
+      "i18nFeed": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "tide.cockpit.ext.feed.i18n",
+          "supportedLocales": [""],
+          "fallbackLocale": ""
+        }
+      },
+      "i18nOverview": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "tide.cockpit.ext.overview.i18n",
+          "supportedLocales": [""],
+          "fallbackLocale": ""
+        }
+      },
+      "i18nGuard": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "tide.cockpit.ext.guard.i18n",
+          "supportedLocales": [""],
+          "fallbackLocale": ""
+        }
+      },
+      "i18nApprovals": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "tide.cockpit.ext.approvals.i18n",
+          "supportedLocales": [""],
+          "fallbackLocale": ""
+        }
+      }
+    },
+    "resourceRoots": {
+      "highcharts": "./resources/highcharts/"
+    },
+    "resources": {
+      "css": [
+        {
+          "uri": "css/style.css"
+        }
+      ]
+    },
+    "routing": {
+      "config": {
+        "controlId": "appContent",
+        "routerClass": "sap.m.routing.Router"
+      },
+      "routes": [
+        {
+          "pattern": "MorningBrief:?query:",
+          "name": "MorningBrief",
+          "target": "MorningBrief"
+        },
+        {
+          "pattern": "Approvals:?query:",
+          "name": "ActionsList",
+          "target": "ActionsList"
+        },
+        {
+          "pattern": "Actions({key}):?query:",
+          "name": "ActionsObjectPage",
+          "target": "ActionsObjectPage"
+        },
+        {
+          "pattern": "Questions({key}):?query:",
+          "name": "QuestionsObjectPage",
+          "target": "QuestionsObjectPage"
+        },
+        {
+          "pattern": "Proof:?query:",
+          "name": "Proof",
+          "target": "Proof"
+        },
+        {
+          "pattern": ":?query:",
+          "name": "Home",
+          "target": "DeliveryRisksList"
+        },
+        {
+          "pattern": "Findings:?query:",
+          "name": "FindingsList",
+          "target": "DeliveryRisksList"
+        },
+        {
+          "pattern": "DeliveryRisks:?query:",
+          "name": "DeliveryRisksList",
+          "target": "DeliveryRisksList"
+        },
+        {
+          "pattern": "DeliveryRisks({key}):?query:",
+          "name": "DeliveryRiskCaseObjectPage",
+          "target": "DeliveryRiskCaseObjectPage"
+        },
+        {
+          "pattern": "Prevention:?query:",
+          "name": "PreventionList",
+          "target": "PreventionList"
+        },
+        {
+          "pattern": "PriceDeviations({key}):?query:",
+          "name": "PriceDeviationObjectPage",
+          "target": "PriceDeviationObjectPage"
+        },
+        {
+          "pattern": "DuplicateMaterials({key}):?query:",
+          "name": "DuplicateMaterialsObjectPage",
+          "target": "DuplicateMaterialsObjectPage"
+        },
+        {
+          "pattern": "UnusualSettings({key}):?query:",
+          "name": "UnusualSettingsObjectPage",
+          "target": "UnusualSettingsObjectPage"
+        },
+        {
+          "pattern": "SupplierPlannedTimes({key}):?query:",
+          "name": "SupplierPlannedTimesObjectPage",
+          "target": "SupplierPlannedTimesObjectPage"
+        },
+        {
+          "pattern": "MaterialPlannedTimes({key}):?query:",
+          "name": "MaterialPlannedTimesObjectPage",
+          "target": "MaterialPlannedTimesObjectPage"
+        },
+        {
+          "pattern": "Requests:?query:",
+          "name": "RequestsList",
+          "target": "RequestsList"
+        },
+        {
+          "pattern": "PurchaseRequisitionReviews({key}):?query:",
+          "name": "RequestsObjectPage",
+          "target": "RequestsReviewObjectPage"
+        },
+        {
+          "pattern": "Simulation:?query:",
+          "name": "Simulation",
+          "target": "Simulation"
+        },
+        {
+          "pattern": "Planning:?query:",
+          "name": "Planning",
+          "target": "Simulation"
+        },
+        {
+          "pattern": "HowItWorks:?query:",
+          "name": "HowItWorks",
+          "target": "HowItWorks"
+        }
+      ],
+      "targets": {
+        "MorningBrief": {
+          "type": "Component",
+          "id": "MorningBrief",
+          "name": "sap.fe.core.fpm",
+          "controlAggregation": "pages",
+          "contextPattern": "",
+          "options": {
+            "settings": {
+              "viewName": "tide.cockpit.ext.overview.Overview",
+              "contextPath": "/OpenItems"
+            }
+          }
+        },
+        "ActionsList": {
+          "type": "Component",
+          "id": "ActionsList",
+          "name": "sap.fe.templates.ListReport",
+          "controlAggregation": "pages",
+          "contextPattern": "",
+          "options": {
+            "settings": {
+              "contextPath": "/Actions",
+              "variantManagement": "Page",
+              "initialLoad": "Enabled",
+              "navigation": {
+                "Actions": {
+                  "detail": {
+                    "route": "ActionsObjectPage"
+                  }
+                },
+                "Questions": {
+                  "detail": {
+                    "route": "QuestionsObjectPage"
+                  }
+                }
+              },
+              "controlConfiguration": {
+                "@com.sap.vocabularies.UI.v1.LineItem": {
+                  "tableSettings": {
+                    "type": "ResponsiveTable",
+                    "selectionMode": "Multi",
+                    "growingThreshold": 50
+                  },
+                  "columns": {
+                    "DataField::title": {
+                      "availability": "Hidden"
+                    },
+                    "DataField::operationKey": {
+                      "availability": "Hidden"
+                    },
+                    "DataField::summary": {
+                      "availability": "Hidden"
+                    },
+                    "DataField::requestType": {
+                      "availability": "Hidden"
+                    },
+                    "approval": {
+                      "header": "Request",
+                      "template": "tide.cockpit.ext.approvals.ApprovalListCell",
+                      "properties": ["title"],
+                      "importance": "High",
+                      "availability": "Default",
+                      "position": {
+                        "placement": "After",
+                        "anchor": "DataField::status"
+                      }
+                    },
+                    "affectedObject": {
+                      "header": "Affected Object",
+                      "template": "tide.cockpit.ext.approvals.ApprovalObjectCell",
+                      "properties": ["objectKey"],
+                      "importance": "Medium",
+                      "availability": "Default",
+                      "position": {
+                        "placement": "After",
+                        "anchor": "approval"
+                      }
+                    },
+                    "requestType": {
+                      "header": "Request Type",
+                      "template": "tide.cockpit.ext.approvals.RequestTypeCell",
+                      "properties": ["requestType", "operationKey"],
+                      "importance": "Medium",
+                      "availability": "Default",
+                      "position": {
+                        "placement": "After",
+                        "anchor": "affectedObject"
+                      }
+                    }
+                  },
+                  "actions": {
+                    "approveSelected": {
+                      "press": "tide.cockpit.ext.CockpitActions.approveSelected",
+                      "text": "{i18nApprovals>approveSelected}",
+                      "requiresSelection": true
+                    },
+                    "declineSelected": {
+                      "press": "tide.cockpit.ext.CockpitActions.declineSelected",
+                      "text": "{i18nApprovals>declineSelected}",
+                      "requiresSelection": true
+                    }
+                  }
+                },
+                "/Questions/@com.sap.vocabularies.UI.v1.LineItem": {
+                  "tableSettings": {
+                    "type": "ResponsiveTable",
+                    "selectionMode": "None"
+                  }
+                }
+              },
+              "views": {
+                "paths": [
+                  {
+                    "key": "needsDecision",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#NeedsDecision"
+                  },
+                  {
+                    "key": "waiting",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#Waiting"
+                  },
+                  {
+                    "key": "completed",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#Completed"
+                  },
+                  {
+                    "key": "declined",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#Declined"
+                  },
+                  {
+                    "key": "questions",
+                    "entitySet": "Questions",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#Questions"
+                  }
+                ],
+                "showCounts": true
+              }
+            }
+          }
+        },
+        "ActionsObjectPage": {
+          "type": "Component",
+          "id": "ActionsObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "controlAggregation": "pages",
+          "contextPattern": "/Actions({key})",
+          "options": {
+            "settings": {
+              "enhanceI18n": "i18n/ObjectPage.properties",
+              "editableHeaderContent": false,
+              "contextPath": "/Actions",
+              "content": {
+                "header": {
+                  "facets": {
+                    "approvalHeader": {
+                      "template": "tide.cockpit.ext.approvals.ApprovalHeader"
+                    }
+                  }
+                },
+                "body": {
+                  "sections": {
+                    "approvalDecisionSection": {
+                      "template": "tide.cockpit.ext.approvals.ApprovalWorkspace",
+                      "title": "Decision",
+                      "position": {
+                        "placement": "Before",
+                        "anchor": "Lines"
+                      }
+                    },
+                    "approvalActionsSection": {
+                      "template": "tide.cockpit.ext.approvals.ApprovalActions",
+                      "title": "Actions",
+                      "position": {
+                        "placement": "After",
+                        "anchor": "approvalDecisionSection"
+                      }
+                    }
+                  }
+                },
+                "footer": {
+                  "actions": {
+                    "declineApproval": {
+                      "text": "{i18nApprovals>decline}",
+                      "press": ".extension.tide.cockpit.ext.controller.ApprovalWorkspace.onDecline",
+                      "visible": false,
+                      "enabled": "{= !${approval>/busy} }"
+                    },
+                    "approveApproval": {
+                      "text": "{approval>/approveText}",
+                      "press": ".extension.tide.cockpit.ext.controller.ApprovalWorkspace.onApprove",
+                      "visible": false,
+                      "enabled": "{= ${approval>/canApprove} && !${approval>/busy} }"
+                    },
+                    "recordOutcome": {
+                      "text": "{i18nApprovals>logOutcome}",
+                      "press": ".extension.tide.cockpit.ext.controller.ApprovalWorkspace.onLogOutcome",
+                      "visible": false,
+                      "enabled": "{= !${approval>/busy} }"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "QuestionsObjectPage": {
+          "type": "Component",
+          "id": "QuestionsObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "controlAggregation": "pages",
+          "contextPattern": "/Questions({key})",
+          "options": {
+            "settings": {
+              "enhanceI18n": "i18n/ObjectPage.properties",
+              "editableHeaderContent": false,
+              "contextPath": "/Questions",
+              "controlConfiguration": {
+                "rows/@com.sap.vocabularies.UI.v1.LineItem": {
+                  "tableSettings": {
+                    "type": "ResponsiveTable",
+                    "selectionMode": "None"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "Proof": {
+          "type": "Component",
+          "id": "Proof",
+          "name": "sap.fe.core.fpm",
+          "controlAggregation": "pages",
+          "contextPattern": "",
+          "options": {
+            "settings": {
+              "viewName": "tide.cockpit.ext.proof.Proof",
+              "contextPath": "/Proof"
+            }
+          }
+        },
+        "DeliveryRisksList": {
+          "type": "Component",
+          "id": "DeliveryRisksList",
+          "name": "sap.fe.templates.ListReport",
+          "controlAggregation": "pages",
+          "contextPattern": "",
+          "options": {
+            "settings": {
+              "contextPath": "/DeliveryRisks",
+              "variantManagement": "Page",
+              "initialLoad": "Enabled",
+              "defaultTemplateAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#ActionRequired",
+              "views": {
+                "showCounts": true,
+                "paths": [
+                  {
+                    "key": "actionRequired",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#ActionRequired",
+                    "label": "{i18n>attentionActionRequired}"
+                  },
+                  {
+                    "key": "inProgress",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#InProgress",
+                    "label": "{i18n>attentionInProgress}"
+                  },
+                  {
+                    "key": "waiting",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#Waiting",
+                    "label": "{i18n>attentionWaiting}"
+                  },
+                  {
+                    "key": "done",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#Done",
+                    "label": "{i18n>attentionDone}"
+                  }
+                ]
+              },
+              "navigation": {
+                "DeliveryRisks": {
+                  "detail": {
+                    "route": "DeliveryRiskCaseObjectPage"
+                  }
+                }
+              },
+              "controlConfiguration": {
+                "@com.sap.vocabularies.UI.v1.LineItem": {
+                  "tableSettings": {
+                    "type": "ResponsiveTable",
+                    "selectionMode": "None",
+                    "growingThreshold": 50
+                  },
+                  "columns": {
+                    "DataField::predictedArrival": {
+                      "availability": "Hidden"
+                    },
+                    "DataField::caseTitle": {
+                      "availability": "Hidden"
+                    },
+                    "DataField::phase": {
+                      "availability": "Hidden"
+                    },
+                    "DataField::casePriority": {
+                      "availability": "Hidden"
+                    },
+                    "DataField::caseAttention": {
+                      "availability": "Hidden"
+                    },
+                    "DataField::revenueAtRisk": {
+                      "availability": "Hidden"
+                    },
+                    "item": {
+                      "header": "Item / PO",
+                      "template": "tide.cockpit.ext.finding.DeliveryRiskItemCell",
+                      "properties": [
+                        "caseTitle",
+                        "PurchaseOrder",
+                        "PurchaseOrderItem"
+                      ],
+                      "importance": "High",
+                      "availability": "Default",
+                      "position": {
+                        "placement": "Before",
+                        "anchor": "DataField::Supplier"
+                      }
+                    },
+                    "condition": {
+                      "header": "Delivery condition",
+                      "template": "tide.cockpit.ext.finding.DeliveryRiskPhaseCell",
+                      "properties": ["phase"],
+                      "importance": "High",
+                      "availability": "Default",
+                      "position": {
+                        "placement": "After",
+                        "anchor": "days"
+                      }
+                    },
+                    "priority": {
+                      "header": "Priority",
+                      "template": "tide.cockpit.ext.finding.DeliveryRiskPriorityCell",
+                      "properties": ["casePriority"],
+                      "importance": "High",
+                      "availability": "Default",
+                      "position": {
+                        "placement": "Before",
+                        "anchor": "item"
+                      }
+                    },
+                    "predictedArrival": {
+                      "header": "{i18n>predictedArrival}",
+                      "template": "tide.cockpit.ext.finding.PredictedArrivalCell",
+                      "properties": ["predictedArrival", "arrivalSource"],
+                      "importance": "High",
+                      "availability": "Default",
+                      "position": {
+                        "placement": "After",
+                        "anchor": "DataField::dueDate"
+                      }
+                    },
+                    "days": {
+                      "header": "\u00d8",
+                      "template": "tide.cockpit.ext.finding.DeliveryRiskDaysCell",
+                      "properties": ["dueDate", "phase"],
+                      "importance": "High",
+                      "availability": "Default",
+                      "position": {
+                        "placement": "After",
+                        "anchor": "predictedArrival"
+                      }
+                    },
+                    "revenue": {
+                      "header": "Revenue at risk",
+                      "template": "tide.cockpit.ext.finding.DeliveryRiskRevenueCell",
+                      "properties": ["revenueAtRisk"],
+                      "importance": "High",
+                      "availability": "Default",
+                      "position": {
+                        "placement": "After",
+                        "anchor": "condition"
+                      }
+                    }
+                  }
+                }
+              },
+              "content": {
+                "header": {
+                  "customHeader": {
+                    "expandedHeaderFragment": "tide.cockpit.ext.finding.FindingsHubTiles",
+                    "collapsedHeaderFragment": "tide.cockpit.ext.finding.FindingsHubCollapsed"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "DeliveryRiskCaseObjectPage": {
+          "type": "Component",
+          "id": "DeliveryRiskCaseObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "controlAggregation": "pages",
+          "contextPattern": "/DeliveryRisks({key})",
+          "options": {
+            "settings": {
+              "contextPath": "/DeliveryRisks",
+              "editableHeaderContent": false,
+              "content": {
+                "header": {
+                  "facets": {
+                    "deliveryRiskSummary": {
+                      "template": "tide.cockpit.ext.finding.DeliveryRiskHeader"
+                    }
+                  }
+                },
+                "body": {
+                  "sections": {
+                    "deliveryStorySection": {
+                      "template": "tide.cockpit.ext.finding.DeliveryStory",
+                      "title": "{i18n>sectionDeliveryForecast}",
+                      "position": {
+                        "placement": "Before",
+                        "anchor": "Delivery"
+                      }
+                    },
+                    "businessImpactSection": {
+                      "template": "tide.cockpit.ext.finding.BusinessImpactSection",
+                      "title": "{i18n>sectionBusinessImpact}",
+                      "position": {
+                        "placement": "After",
+                        "anchor": "deliveryStorySection"
+                      }
+                    },
+                    "deliveryHistorySection": {
+                      "template": "tide.cockpit.ext.finding.DeliveryHistorySection",
+                      "title": "{i18n>sectionDeliveryHistory}",
+                      "position": {
+                        "placement": "After",
+                        "anchor": "businessImpactSection"
+                      }
+                    },
+                    "actSection": {
+                      "template": "tide.cockpit.ext.finding.ActSection",
+                      "title": "{i18n>sectionAct}",
+                      "position": {
+                        "placement": "After",
+                        "anchor": "deliveryHistorySection"
+                      }
+                    },
+                    "caseActivitySection": {
+                      "template": "tide.cockpit.ext.finding.CaseActivity",
+                      "title": "Activity",
+                      "position": {
+                        "placement": "After",
+                        "anchor": "actSection"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "RequestsList": {
+          "type": "Component",
+          "id": "RequestsList",
+          "name": "sap.fe.templates.ListReport",
+          "controlAggregation": "pages",
+          "contextPattern": "",
+          "options": {
+            "settings": {
+              "contextPath": "/PurchaseRequisitionReviews",
+              "variantManagement": "Page",
+              "initialLoad": "Enabled",
+              "defaultTemplateAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#ToReview",
+              "navigation": {
+                "PurchaseRequisitionReviews": {
+                  "detail": {
+                    "route": "RequestsObjectPage"
+                  }
+                }
+              },
+              "controlConfiguration": {
+                "@com.sap.vocabularies.UI.v1.LineItem#Queue": {
+                  "tableSettings": {
+                    "type": "ResponsiveTable",
+                    "selectionMode": "None",
+                    "growingThreshold": 50
+                  },
+                  "columns": {
+                    "DataField::requestText": {
+                      "availability": "Hidden"
+                    },
+                    "DataField::reviewStatusText": {
+                      "availability": "Hidden"
+                    },
+                    "request": {
+                      "header": "Request",
+                      "template": "tide.cockpit.ext.requisition.RequestCell",
+                      "properties": [
+                        "requestText",
+                        "PurchaseRequisition",
+                        "PurchaseRequisitionItem",
+                        "HasDraftEntity"
+                      ],
+                      "importance": "High",
+                      "availability": "Default"
+                    },
+                    "requester": {
+                      "header": "Requested By",
+                      "template": "tide.cockpit.ext.requisition.RequesterCell",
+                      "properties": ["RequisitionerName", "Plant"],
+                      "importance": "High",
+                      "availability": "Default"
+                    },
+                    "reviewStatus": {
+                      "header": "Review Status",
+                      "template": "tide.cockpit.ext.requisition.ReviewStatusCell",
+                      "properties": [
+                        "reviewStatusText",
+                        "reviewStatusCriticality"
+                      ],
+                      "importance": "High",
+                      "availability": "Default"
+                    }
+                  }
+                },
+                "@com.sap.vocabularies.UI.v1.SelectionFields": {
+                  "filterFields": {
+                    "reviewStatusText": {
+                      "availability": "Default"
+                    },
+                    "routedBuyer": {
+                      "availability": "Default"
+                    }
+                  }
+                }
+              },
+              "views": {
+                "showCounts": false,
+                "paths": [
+                  {
+                    "key": "toReview",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#ToReview"
+                  },
+                  {
+                    "key": "awaitingApproval",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#AwaitingApproval"
+                  },
+                  {
+                    "key": "completed",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#Completed"
+                  },
+                  {
+                    "key": "all",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#All"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "RequestsReviewObjectPage": {
+          "type": "Component",
+          "id": "RequestsReviewObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "controlAggregation": "pages",
+          "contextPattern": "/PurchaseRequisitionReviews({key})",
+          "options": {
+            "settings": {
+              "contextPath": "/PurchaseRequisitionReviews",
+              "editableHeaderContent": false,
+              "content": {
+                "header": {
+                  "facets": {
+                    "requestReviewHero": {
+                      "template": "tide.cockpit.ext.requisition.RequestReviewHero"
+                    }
+                  }
+                },
+                "footer": {
+                  "actions": {
+                    "submitForApproval": {
+                      "text": "{i18nFreetext>submitForApproval}",
+                      "press": ".extension.tide.cockpit.ext.controller.RequisitionWorkspace.onReviewOrder",
+                      "visible": "{= %{lifecycleStatus} === 'needs_review' || %{lifecycleStatus} === 'source_changed' }",
+                      "enabled": "{= !%{requiresSourceReconciliation} && !%{workspace>/actionBusy} }"
+                    }
+                  }
+                },
+                "body": {
+                  "sections": {
+                    "decisionWorkspace": {
+                      "title": "Item details",
+                      "subSections": {
+                        "reviewCommands": {
+                          "template": "tide.cockpit.ext.requisition.ReviewCommands",
+                          "title": "{i18nFreetext>predictionTargets}"
+                        },
+                        "itemDelivery": {
+                          "template": "tide.cockpit.ext.requisition.ItemDelivery",
+                          "title": "{i18nFreetext>itemAndDelivery}"
+                        },
+                        "purchasingClassification": {
+                          "template": "tide.cockpit.ext.requisition.PurchasingClassification",
+                          "title": "{i18nFreetext>purchasingAndClassification}"
+                        },
+                        "sourceOfSupply": {
+                          "template": "tide.cockpit.ext.requisition.SourceOfSupply",
+                          "title": "{i18nFreetext>sourceOfSupply}"
+                        },
+                        "accounting": {
+                          "template": "tide.cockpit.ext.requisition.Accounting",
+                          "title": "{i18nFreetext>accounting}"
+                        },
+                        "valuation": {
+                          "template": "tide.cockpit.ext.requisition.Valuation",
+                          "title": "{i18nFreetext>valuation}"
+                        },
+                        "requestTexts": {
+                          "template": "tide.cockpit.ext.requisition.RequestTexts",
+                          "title": "{i18nFreetext>requestTexts}"
+                        },
+                        "servicesLimits": {
+                          "template": "tide.cockpit.ext.requisition.ServicesLimits",
+                          "title": "{i18nFreetext>servicesAndLimits}",
+                          "visible": "{= %{reviewedItemCategory} === 'D' || %{reviewedItemCategory} === '9' || %{reviewedItemCategory} === 'B' || !!%{reviewedServicePerformer} || !!%{reviewedOverallLimitAmount} }"
+                        },
+                        "deliveryAddress": {
+                          "template": "tide.cockpit.ext.requisition.DeliveryAddress",
+                          "title": "{i18nFreetext>deliveryAddress}"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "PreventionList": {
+          "type": "Component",
+          "id": "PreventionList",
+          "name": "sap.fe.templates.ListReport",
+          "controlAggregation": "pages",
+          "contextPattern": "",
+          "options": {
+            "settings": {
+              "contextPath": "/PriceDeviations",
+              "variantManagement": "Page",
+              "initialLoad": "Enabled",
+              "defaultTemplateAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#Price",
+              "content": {
+                "header": {
+                  "customHeader": {
+                    "expandedHeaderFragment": "tide.cockpit.ext.prevention.PreventionHeader"
+                  }
+                }
+              },
+              "views": {
+                "showCounts": false,
+                "paths": [
+                  {
+                    "key": "price",
+                    "entitySet": "PriceDeviations",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#Price",
+                    "label": "{i18n>preventionPrice}"
+                  },
+                  {
+                    "key": "duplicate",
+                    "entitySet": "DuplicateMaterials",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#Duplicate",
+                    "label": "{i18n>preventionDuplicates}"
+                  },
+                  {
+                    "key": "rare",
+                    "entitySet": "UnusualSettings",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#Rare",
+                    "label": "{i18n>preventionUnusual}"
+                  },
+                  {
+                    "key": "plannedTime",
+                    "entitySet": "PlannedTimes",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#PlannedTime",
+                    "label": "{i18n>preventionPlannedTimes}"
+                  }
+                ]
+              },
+              "navigation": {
+                "PriceDeviations": {
+                  "detail": {
+                    "route": "PriceDeviationObjectPage"
+                  }
+                },
+                "DuplicateMaterials": {
+                  "detail": {
+                    "route": "DuplicateMaterialsObjectPage"
+                  }
+                },
+                "UnusualSettings": {
+                  "detail": {
+                    "route": "UnusualSettingsObjectPage"
+                  }
+                },
+                "SupplierPlannedTimes": {
+                  "detail": {
+                    "route": "SupplierPlannedTimesObjectPage"
+                  }
+                },
+                "MaterialPlannedTimes": {
+                  "detail": {
+                    "route": "MaterialPlannedTimesObjectPage"
+                  }
+                },
+                "PlannedTimes": {
+                  "detail": {
+                    "route": "SupplierPlannedTimesObjectPage"
+                  }
+                }
+              },
+              "controlConfiguration": {
+                "/PlannedTimes/@com.sap.vocabularies.UI.v1.LineItem#PlannedTime": {
+                  "tableSettings": {
+                    "type": "ResponsiveTable",
+                    "selectionMode": "None",
+                    "growingThreshold": 50
+                  },
+                  "columns": {
+                    "DataField::caseTitle": {
+                      "availability": "Hidden"
+                    },
+                    "caseLink": {
+                      "header": "Material",
+                      "template": "tide.cockpit.ext.prevention.PlannedTimeLink",
+                      "properties": ["caseTitle", "caseID", "caseKind"],
+                      "importance": "High",
+                      "position": {
+                        "placement": "Before",
+                        "anchor": "DataField::recordType"
+                      }
+                    },
+                    "DataField::caseAttention": {
+                      "availability": "Hidden"
+                    },
+                    "attention": {
+                      "header": "{i18n>attentionStatus}",
+                      "template": "tide.cockpit.ext.shared.AttentionStatus",
+                      "properties": ["caseAttention"],
+                      "importance": "High"
+                    }
+                  }
+                },
+                "@com.sap.vocabularies.UI.v1.SelectionFields": {
+                  "filterFields": {
+                    "Plant": {
+                      "availability": "Default"
+                    },
+                    "Material": {
+                      "availability": "Default"
+                    }
+                  }
+                },
+                "@com.sap.vocabularies.UI.v1.LineItem#Price": {
+                  "tableSettings": {
+                    "type": "ResponsiveTable",
+                    "selectionMode": "None",
+                    "growingThreshold": 50
+                  },
+                  "columns": {
+                    "DataField::caseAttention": {
+                      "availability": "Hidden"
+                    },
+                    "attention": {
+                      "header": "{i18n>attentionStatus}",
+                      "template": "tide.cockpit.ext.shared.AttentionStatus",
+                      "properties": ["caseAttention"],
+                      "importance": "High",
+                      "availability": "Default",
+                      "position": {
+                        "placement": "Before",
+                        "anchor": "DataField::caseTitle"
+                      }
+                    }
+                  }
+                },
+                "/DuplicateMaterials/@com.sap.vocabularies.UI.v1.LineItem#Duplicate": {
+                  "tableSettings": {
+                    "type": "ResponsiveTable",
+                    "selectionMode": "None",
+                    "growingThreshold": 50
+                  },
+                  "columns": {
+                    "DataField::caseAttention": {
+                      "availability": "Hidden"
+                    },
+                    "attention": {
+                      "header": "{i18n>attentionStatus}",
+                      "template": "tide.cockpit.ext.shared.AttentionStatus",
+                      "properties": ["caseAttention"],
+                      "importance": "High",
+                      "availability": "Default",
+                      "position": {
+                        "placement": "Before",
+                        "anchor": "DataField::caseTitle"
+                      }
+                    }
+                  }
+                },
+                "/UnusualSettings/@com.sap.vocabularies.UI.v1.LineItem#Rare": {
+                  "tableSettings": {
+                    "type": "ResponsiveTable",
+                    "selectionMode": "None",
+                    "growingThreshold": 50
+                  },
+                  "columns": {
+                    "DataField::caseAttention": {
+                      "availability": "Hidden"
+                    },
+                    "attention": {
+                      "header": "{i18n>attentionStatus}",
+                      "template": "tide.cockpit.ext.shared.AttentionStatus",
+                      "properties": ["caseAttention"],
+                      "importance": "High",
+                      "availability": "Default",
+                      "position": {
+                        "placement": "Before",
+                        "anchor": "DataField::caseTitle"
+                      }
+                    }
+                  }
+                },
+                "/SupplierPlannedTimes/@com.sap.vocabularies.UI.v1.LineItem#SupplierPlannedTime": {
+                  "tableSettings": {
+                    "type": "ResponsiveTable",
+                    "selectionMode": "None",
+                    "growingThreshold": 50
+                  },
+                  "columns": {
+                    "DataField::caseAttention": {
+                      "availability": "Hidden"
+                    },
+                    "attention": {
+                      "header": "{i18n>attentionStatus}",
+                      "template": "tide.cockpit.ext.shared.AttentionStatus",
+                      "properties": ["caseAttention"],
+                      "importance": "High",
+                      "availability": "Default",
+                      "position": {
+                        "placement": "Before",
+                        "anchor": "DataField::caseTitle"
+                      }
+                    }
+                  }
+                },
+                "/MaterialPlannedTimes/@com.sap.vocabularies.UI.v1.LineItem#MaterialMasterPlannedTime": {
+                  "tableSettings": {
+                    "type": "ResponsiveTable",
+                    "selectionMode": "None",
+                    "growingThreshold": 50
+                  },
+                  "columns": {
+                    "DataField::caseAttention": {
+                      "availability": "Hidden"
+                    },
+                    "attention": {
+                      "header": "{i18n>attentionStatus}",
+                      "template": "tide.cockpit.ext.shared.AttentionStatus",
+                      "properties": ["caseAttention"],
+                      "importance": "High",
+                      "availability": "Default",
+                      "position": {
+                        "placement": "Before",
+                        "anchor": "DataField::caseTitle"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "PriceDeviationObjectPage": {
+          "type": "Component",
+          "id": "PriceDeviationObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "controlAggregation": "pages",
+          "contextPattern": "/PriceDeviations({key})",
+          "options": {
+            "settings": {
+              "enhanceI18n": "i18n/ObjectPage.properties",
+              "editableHeaderContent": false,
+              "contextPath": "/PriceDeviations",
+              "content": {
+                "body": {
+                  "sections": {
+                    "priceComparison": {
+                      "template": "tide.cockpit.ext.prevention.PriceComparison",
+                      "title": "Price Comparison",
+                      "position": {
+                        "placement": "Before",
+                        "anchor": "Main"
+                      }
+                    },
+                    "supportingEvidence": {
+                      "template": "tide.cockpit.ext.prevention.Evidence",
+                      "title": "Price Evidence",
+                      "position": {
+                        "placement": "After",
+                        "anchor": "Main"
+                      }
+                    },
+                    "pageActions": {
+                      "template": "tide.cockpit.ext.prevention.DecisionSection",
+                      "title": "Decision",
+                      "position": {
+                        "placement": "After",
+                        "anchor": "supportingEvidence"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "DuplicateMaterialsObjectPage": {
+          "type": "Component",
+          "id": "DuplicateMaterialsObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "controlAggregation": "pages",
+          "contextPattern": "/DuplicateMaterials({key})",
+          "options": {
+            "settings": {
+              "enhanceI18n": "i18n/ObjectPage.properties",
+              "editableHeaderContent": false,
+              "contextPath": "/DuplicateMaterials",
+              "content": {
+                "header": {
+                  "facets": {
+                    "duplicateContext": {
+                      "template": "tide.cockpit.ext.prevention.DuplicateHeader"
+                    }
+                  }
+                },
+                "body": {
+                  "sections": {
+                    "comparisonEvidence": {
+                      "template": "tide.cockpit.ext.prevention.ComparisonEvidence",
+                      "title": "Candidate Comparison",
+                      "position": {
+                        "placement": "Before",
+                        "anchor": "Main"
+                      }
+                    },
+                    "supportingEvidence": {
+                      "template": "tide.cockpit.ext.prevention.Evidence",
+                      "title": "Match Evidence",
+                      "position": {
+                        "placement": "After",
+                        "anchor": "Main"
+                      }
+                    },
+                    "pageActions": {
+                      "template": "tide.cockpit.ext.prevention.DecisionSection",
+                      "title": "Decision",
+                      "position": {
+                        "placement": "After",
+                        "anchor": "supportingEvidence"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "UnusualSettingsObjectPage": {
+          "type": "Component",
+          "id": "UnusualSettingsObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "controlAggregation": "pages",
+          "contextPattern": "/UnusualSettings({key})",
+          "options": {
+            "settings": {
+              "enhanceI18n": "i18n/ObjectPage.properties",
+              "editableHeaderContent": false,
+              "contextPath": "/UnusualSettings",
+              "content": {
+                "body": {
+                  "sections": {
+                    "comparisonEvidence": {
+                      "template": "tide.cockpit.ext.prevention.RareCombinationEvidence",
+                      "title": "Evidence & Forecast",
+                      "position": {
+                        "placement": "Before",
+                        "anchor": "Main"
+                      }
+                    },
+                    "pageActions": {
+                      "template": "tide.cockpit.ext.prevention.DecisionSection",
+                      "title": "Decision",
+                      "position": {
+                        "placement": "After",
+                        "anchor": "Main"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "SupplierPlannedTimesObjectPage": {
+          "type": "Component",
+          "id": "SupplierPlannedTimesObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "controlAggregation": "pages",
+          "contextPattern": "/SupplierPlannedTimes({key})",
+          "options": {
+            "settings": {
+              "enhanceI18n": "i18n/ObjectPage.properties",
+              "editableHeaderContent": false,
+              "contextPath": "/SupplierPlannedTimes",
+              "content": {
+                "header": {},
+                "body": {
+                  "sections": {
+                    "leadTimeComparison": {
+                      "template": "tide.cockpit.ext.prevention.SupplierLeadTimeComparison",
+                      "title": "Supplier Lead-Time Comparison",
+                      "position": {
+                        "placement": "Before",
+                        "anchor": "Main"
+                      }
+                    },
+                    "pageActions": {
+                      "template": "tide.cockpit.ext.prevention.DecisionSection",
+                      "title": "Decision",
+                      "position": {
+                        "placement": "After",
+                        "anchor": "supportingEvidence"
+                      }
+                    },
+                    "supportingEvidence": {
+                      "template": "tide.cockpit.ext.prevention.Evidence",
+                      "title": "Delivery Evidence",
+                      "position": {
+                        "placement": "After",
+                        "anchor": "Main"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "MaterialPlannedTimesObjectPage": {
+          "type": "Component",
+          "id": "MaterialPlannedTimesObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "controlAggregation": "pages",
+          "contextPattern": "/MaterialPlannedTimes({key})",
+          "options": {
+            "settings": {
+              "enhanceI18n": "i18n/ObjectPage.properties",
+              "editableHeaderContent": false,
+              "contextPath": "/MaterialPlannedTimes",
+              "content": {
+                "header": {},
+                "body": {
+                  "sections": {
+                    "leadTimeComparison": {
+                      "template": "tide.cockpit.ext.prevention.MaterialLeadTimeComparison",
+                      "title": "Material Lead-Time Comparison",
+                      "position": {
+                        "placement": "Before",
+                        "anchor": "Main"
+                      }
+                    },
+                    "pageActions": {
+                      "template": "tide.cockpit.ext.prevention.DecisionSection",
+                      "title": "Decision",
+                      "position": {
+                        "placement": "After",
+                        "anchor": "supportingEvidence"
+                      }
+                    },
+                    "supportingEvidence": {
+                      "template": "tide.cockpit.ext.prevention.Evidence",
+                      "title": "Recommendation Basis",
+                      "position": {
+                        "placement": "After",
+                        "anchor": "Main"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "Simulation": {
+          "type": "Component",
+          "id": "Simulation",
+          "name": "sap.fe.core.fpm",
+          "controlAggregation": "pages",
+          "contextPattern": "",
+          "options": {
+            "settings": {
+              "viewName": "tide.cockpit.ext.planning.Planning",
+              "contextPath": "/Findings"
+            }
+          }
+        },
+        "HowItWorks": {
+          "type": "Component",
+          "id": "HowItWorks",
+          "name": "sap.fe.core.fpm",
+          "controlAggregation": "pages",
+          "contextPattern": "",
+          "options": {
+            "settings": {
+              "viewName": "tide.cockpit.ext.overview.HowItWorks",
+              "contextPath": "/Findings"
+            }
+          }
+        }
+      }
+    },
+    "rootView": {
+      "viewName": "sap.fe.core.rootView.NavContainer",
+      "type": "XML",
+      "id": "appRootView"
+    },
+    "extends": {
+      "extensions": {
+        "sap.ui.controllerExtensions": {
+          "sap.fe.templates.ListReport.ListReportController#tide.cockpit::DeliveryRisksList": {
+            "controllerName": "tide.cockpit.ext.finding.FindingsHub"
+          },
+          "sap.fe.templates.ObjectPage.ObjectPageController#tide.cockpit::RequestsReviewObjectPage": {
+            "controllerName": "tide.cockpit.ext.controller.RequisitionWorkspace"
+          },
+          "sap.fe.templates.ListReport.ListReportController#tide.cockpit::PreventionList": {
+            "controllerName": "tide.cockpit.ext.prevention.PreventionHeader"
+          },
+          "sap.fe.templates.ObjectPage.ObjectPageController#tide.cockpit::ActionsObjectPage": {
+            "controllerName": "tide.cockpit.ext.controller.ApprovalWorkspace"
+          }
+        }
+      }
+    }
+  },
+  "sap.fiori": {
+    "registrationIds": [],
+    "archeType": "transactional"
+  },
+  "sap.fe": {
+    "app": {
+      "enableLazyLoading": true
+    }
+  },
+  "tide.actions": {
+    "Actions": [],
+    "PurchaseRequisitionReviews": [
+      {
+        "id": "reconcileSource",
+        "text": "{i18nFreetext>reviewSourceChanges}",
+        "press": "tide.cockpit.ext.freetext.Review.reconcileSource",
+        "visible": "{= %{requiresSourceReconciliation} && %{IsActiveEntity} }"
+      },
+      {
+        "id": "openApproval",
+        "text": "{i18nFreetext>openApproval}",
+        "press": "tide.cockpit.ext.freetext.Review.openApproval",
+        "visible": "{= !!%{actionID} }"
+      }
+    ],
+    "PriceDeviations": [
+      {
+        "id": "askTide",
+        "press": "tide.cockpit.ext.CockpitActions.askTideForPrevention",
+        "text": "{i18n>askTide}"
+      }
+    ],
+    "DuplicateMaterials": [
+      {
+        "id": "askTide",
+        "press": "tide.cockpit.ext.CockpitActions.askTideForPrevention",
+        "text": "{i18n>askTide}"
+      }
+    ],
+    "UnusualSettings": [
+      {
+        "id": "askTide",
+        "press": "tide.cockpit.ext.CockpitActions.askTideForPrevention",
+        "text": "{i18n>askTide}"
+      }
+    ],
+    "SupplierPlannedTimes": [
+      {
+        "id": "askTide",
+        "press": "tide.cockpit.ext.CockpitActions.askTideForPrevention",
+        "text": "{i18n>askTide}"
+      }
+    ],
+    "MaterialPlannedTimes": [
+      {
+        "id": "askTide",
+        "press": "tide.cockpit.ext.CockpitActions.askTideForPrevention",
+        "text": "{i18n>askTide}"
+      }
+    ],
+    "DeliveryRisks": [
+      {
+        "id": "whyDeliveryRisk",
+        "press": "tide.cockpit.ext.CockpitActions.whyFinding",
+        "text": "{i18n>why}",
+        "visible": false
+      }
+    ]
+  }
+}

@@ -1,0 +1,12 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+    <VBox width="100%" class="sapUiSmallMarginTop sapUiSmallMarginBottom" busy="{prevention>/assessing}">
+        <OverflowToolbar>
+            <Title text="{prevention>/config/predictionTitle}" level="H3" />
+            <ObjectStatus text="AI" icon="sap-icon://ai" class="tideAIStatus" visible="{prevention>/hasAI}" />
+            <ToolbarSpacer />
+            <Button icon="sap-icon://refresh" tooltip="Refresh predictions" press="Workspace.assess" enabled="{= %{prevention>/canAssess} &amp;&amp; !%{prevention>/busy} }" />
+        </OverflowToolbar>
+        <MessageStrip text="{prevention>/assessmentError}" type="Error" showIcon="true" visible="{= !!%{prevention>/assessmentError} }" />
+        <Text text="{prevention>/assessment/generatedText}" visible="{= !!%{prevention>/assessment/generatedText} }" class="tidePreventionNote sapUiTinyMarginTop" />
+    </VBox>
+</core:FragmentDefinition>

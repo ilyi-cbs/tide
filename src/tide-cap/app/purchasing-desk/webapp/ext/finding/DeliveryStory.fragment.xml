@@ -1,0 +1,36 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+    <VBox id="deliveryStoryBox" width="100%" class="tideForecastCard"
+        core:require="{Outlook: 'tide/cockpit/ext/outlook/Outlook'}"
+        modelContextChange="Outlook.onContextChange">
+        <HBox id="deliveryForecastHeading" justifyContent="SpaceBetween" alignItems="Center" class="sapUiSmallMarginBottom">
+            <Title id="deliveryForecastTitle" text="{i18nOutlook>aiForecast}" level="H3" />
+            <core:Icon id="deliveryForecastAiIcon" src="sap-icon://ai" decorative="false" tooltip="{i18nOutlook>aiForecastSource}" visible="{out>/hasAiPrediction}" class="tideForecastAiIcon" />
+        </HBox>
+        <HBox id="deliveryForecastFacts" wrap="Wrap" class="tideForecastFacts">
+            <VBox id="deliveryForecastExpected" class="tideForecastFact">
+                <Label text="{i18nOutlook>expectedArrival}" design="Bold" />
+                <Text text="{out>/arrivalText}" wrapping="true" class="tideForecastFactValue" />
+            </VBox>
+            <VBox id="deliveryForecastDelay" class="tideForecastFact">
+                <Label text="{i18nOutlook>delayAgainstRequested}" design="Bold" />
+                <ObjectStatus text="{out>/delayText}" state="{= %{phase} === 'overdue' ? 'Error' : 'Warning' }" visible="{= !!${out>/delayText} }" />
+                <Text text="{i18nOutlook>noDelayAgainstRequested}" visible="{= !${out>/delayText} }" class="tideForecastFactValue" />
+            </VBox>
+            <VBox id="deliveryForecastWindow" class="tideForecastFact" visible="{= !!${out>/arrivalWindowText} }">
+                <Label text="{i18nOutlook>arrivalWindow}" design="Bold" />
+                <Text text="{out>/arrivalWindowText}" wrapping="true" class="tideForecastFactValue" />
+            </VBox>
+            <VBox id="deliveryForecastOnTime" class="tideForecastFact" visible="{= !!${out>/onTimeProbabilityText} }">
+                <Label text="{i18nOutlook>onTimeProbability}" design="Bold" />
+                <Text text="{out>/onTimeProbabilityText}" wrapping="true" class="tideForecastFactValue" />
+            </VBox>
+        </HBox>
+        <VBox id="deliveryTimeline" class="tideDeliveryTimeline tideForecastChart sapUiSmallMarginTop">
+            <Text id="deliveryTimelineMissing" text="{i18nOutlook>timelineNone}" visible="{= !${out>/hasTimeline} &amp;&amp; !!${out>/has} }" />
+            <core:HTML id="deliveryTimelineChart" preferDOM="false" content="&lt;div class='tideForecastChartHost'&gt;&lt;/div&gt;" visible="{out>/hasTimeline}" />
+            <Text id="deliveryTimelineAlternative" text="{out>/textAlternative}" wrapping="true" visible="{= !!${out>/textAlternative} }" class="sapUiInvisibleText" />
+            <MessageStrip id="deliveryTimelineError" text="{out>/highchartsError}" type="Error" showIcon="true" visible="{= !!${out>/highchartsError} }" class="sapUiTinyMarginTop" />
+        </VBox>
+        <Text id="deliveryTimelineFoot" text="{out>/provenanceText}" visible="{= !!${out>/provenanceText} }" wrapping="true" class="sapUiTinyMarginTop tideFigureNote" />
+    </VBox>
+</core:FragmentDefinition>

@@ -1,0 +1,183 @@
+<mvc:View
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.f"
+    xmlns:l="sap.ui.layout"
+    xmlns:micro="sap.suite.ui.microchart"
+    xmlns:charts="tide.cockpit.ext.overview"
+    xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+    controllerName="tide.cockpit.ext.overview.Overview"
+    core:require="{
+        Decimal: 'sap/ui/model/odata/type/Decimal',
+        Int32: 'sap/ui/model/odata/type/Int32',
+        DateType: 'sap/ui/model/odata/type/Date',
+        formatter: 'tide/cockpit/ext/overview/formatter'
+    }"
+    height="100%">
+    <f:DynamicPage id="overviewPage" headerExpanded="true" showFooter="false" fitContent="false">
+        <f:title>
+            <f:DynamicPageTitle id="overviewTitle">
+                <f:heading>
+                    <Title id="overviewHeading" text="{i18nOverview>ovTitle}" level="H2" />
+                </f:heading>
+                <f:snappedContent>
+                    <Text id="overviewSnapped" text="{ov>/subtitle}" />
+                </f:snappedContent>
+                <f:expandedContent>
+                    <HBox id="briefIdentity" alignItems="Center" wrap="Wrap" class="sapUiTinyMarginEnd">
+                        <ObjectStatus id="briefUser" text="{ov>/header/userName}" icon="sap-icon://person-placeholder" tooltip="{ov>/header/userId}" class="sapUiTinyMarginEnd" />
+                        <ObjectStatus id="briefCurrentDate" text="{ov>/header/currentDate}" icon="sap-icon://calendar" tooltip="{ov>/header/currentDate}" class="sapUiTinyMarginEnd" />
+                        <ObjectStatus id="briefLastUpdated" text="{ov>/header/lastUpdated}" icon="sap-icon://history" tooltip="{ov>/header/lastUpdated}" />
+                    </HBox>
+                </f:expandedContent>
+            </f:DynamicPageTitle>
+        </f:title>
+        <f:content>
+            <VBox id="overviewContainer" width="100%">
+            <VBox id="overviewLoading" visible="{ov>/initialLoading}" class="sapUiLargeMarginTop sapUiLargeMarginBottom" alignItems="Center">
+                <BusyIndicator id="overviewBusy" size="1rem" />
+                <Text id="overviewLoadingText" text="{i18nOverview>loading}" class="sapUiSmallMarginTop" />
+            </VBox>
+            <VBox id="overviewBody" visible="{= !%{ov>/initialLoading} }">
+            <MessageStrip id="overviewRefreshFailure" text="{= %{i18nOverview>refreshFailed} + ' ' + %{ov>/lastSuccessfulUpdate} }" type="Warning" showIcon="true" visible="{ov>/refreshFailed}" class="sapUiSmallMarginBottom" />
+            <MessageStrip id="overviewPublicationNotice" text="{ov>/publicationNotice}" type="{ov>/publicationNoticeType}" showIcon="true" visible="{= !!%{ov>/publicationNotice} }" class="sapUiSmallMarginBottom" />
+            <Panel id="narrativePanel" class="sapUiNoContentPadding sapUiSmallMarginBottom">
+                <VBox id="narrativeBox" class="sapUiSmallMargin">
+                    <Text id="narrativeText" text="{ov>/narrative}" />
+                </VBox>
+            </Panel>
+            <VBox id="kpiTiles" class="tideKpiGrid sapUiSmallMarginBottom">
+                <GenericTile id="tileAtRisk" width="100%" header="{i18nOverview>kpiAtRisk}" subheader="{i18nOverview>kpiAtRiskSub}" press=".onOpenList" app:list="at_risk">
+                    <TileContent id="tileAtRiskContent">
+                        <NumericContent id="tileAtRiskValue" withMargin="false" truncateValueTo="6" value="{path: 'ov>/kpis/atRisk', type: 'sap.ui.model.odata.type.Int32'}" valueColor="{= %{ov>/kpis/atRisk} > 0 ? 'Error' : 'Neutral' }" icon="sap-icon://shipping-status" />
+                    </TileContent>
+                </GenericTile>
+                <GenericTile id="tileRevenue" width="100%" header="{i18nOverview>kpiRevenue}" subheader="{ov>/revenueSub}" press=".onOpenList" app:list="delivery_risks">
+                    <TileContent id="tileRevenueContent" unit="{ov>/kpis/currency}">
+                        <NumericContent id="tileRevenueValue" withMargin="false" value="{ov>/revenueValue}" scale="{ov>/revenueScale}" valueColor="{= %{ov>/kpis/revenueAtRisk} > 0 ? 'Critical' : 'Neutral' }" icon="sap-icon://lead" />
+                    </TileContent>
+                </GenericTile>
+                <GenericTile id="tileFindings" width="100%" header="{i18nOverview>kpiPdt}" subheader="{i18nOverview>kpiPdtSub}" press=".onOpenList" app:list="pdt">
+                    <TileContent id="tileFindingsContent">
+                        <NumericContent id="tileFindingsValue" withMargin="false" truncateValueTo="6" value="{path: 'ov>/kpis/pdtFindings', type: 'sap.ui.model.odata.type.Int32'}" valueColor="{= %{ov>/kpis/pdtFindings} > 0 ? 'Critical' : 'Neutral' }" icon="sap-icon://appointment" />
+                    </TileContent>
+                </GenericTile>
+                <GenericTile id="tileCodes" width="100%" header="{i18nOverview>kpiCodes}" subheader="{ov>/codesSub}" press=".onOpenList" app:list="freetext">
+                    <TileContent id="tileCodesContent">
+                        <NumericContent id="tileCodesValue" withMargin="false" truncateValueTo="6" value="{path: 'ov>/kpis/requestsToReview', type: 'sap.ui.model.odata.type.Int32'}" valueColor="{= %{ov>/kpis/requestsToReview} > 0 ? 'Critical' : 'Neutral' }" icon="sap-icon://request" />
+                    </TileContent>
+                </GenericTile>
+                <GenericTile id="tileApprovals" width="100%" header="{i18nOverview>kpiApprovals}" subheader="{i18nOverview>kpiApprovalsSub}" press=".onOpenApprovals">
+                    <TileContent id="tileApprovalsContent">
+                        <NumericContent id="tileApprovalsValue" withMargin="false" value="{path: 'ov>/kpis/pendingApprovals', type: 'sap.ui.model.odata.type.Int32'}" valueColor="{= %{ov>/kpis/pendingApprovals} > 0 ? 'Critical' : 'Neutral' }" icon="sap-icon://approvals" />
+                    </TileContent>
+                </GenericTile>
+            </VBox>
+            <l:Grid id="overviewColumns" defaultSpan="XL12 L12 M12 S12" containerQuery="true" hSpacing="1" class="tideOverviewColumns">
+            <VBox id="overviewContent">
+                <layoutData>
+                    <l:GridData id="overviewContentSpan" span="XL9 L9 M12 S12" />
+                </layoutData>
+                <Panel id="priorityPanel" headerText="{i18nOverview>priorityTitle}" class="sapUiNoContentPadding">
+                    <List id="priorityList" items="{path: 'ov>/topPriorities', templateShareable: false}" noDataText="{i18nOverview>priorityEmpty}">
+                        <CustomListItem id="priorityItem" type="Navigation" press=".onBriefItemPress">
+                            <HBox id="priorityRow" justifyContent="SpaceBetween" alignItems="Center" class="sapUiSmallMargin">
+                                <VBox id="priorityMain">
+                                    <Text id="priorityItemTitle" text="{ov>itemTitle}" class="sapMTextBold" />
+                                    <Text id="priorityItemSubtitle" text="{ov>itemSubtitle}" class="sapUiTinyMarginTop" />
+                                    <Text id="priorityImpactText" text="{= %{ov>impactText} || %{ov>nextStep} }" class="sapUiTinyMarginTop" />
+                                </VBox>
+                                <VBox id="priorityMeta" alignItems="End">
+                                    <ObjectStatus id="prioritySourceTag" text="{ov>sourceText}" inverted="true" class="sapUiTinyMarginBottom"
+                                        state="{= %{ov>sourceTag} === 'ai' ? 'Indication06' : %{ov>sourceTag} === 'history' ? 'Success' : %{ov>sourceTag} === 'rule' ? 'Information' : 'None' }" />
+                                    <ObjectStatus id="priorityList2" text="{ov>listText}" state="{= %{ov>list} === 'at_risk' || %{ov>list} === 'overdue' ? 'Error' : 'None' }" />
+                                    <ObjectStatus id="priorityDueDate" class="sapUiTinyMarginTop" visible="{= !!%{ov>dueDate} }"
+                                        icon="sap-icon://appointment-2" text="{path: 'ov>dueDate', type: 'sap.ui.model.odata.type.Date', formatOptions: {UTC: true}}" />
+                                </VBox>
+                            </HBox>
+                        </CustomListItem>
+                    </List>
+                </Panel>
+                <Panel id="changePanel" headerText="{i18nOverview>changeTitle}" class="sapUiNoContentPadding sapUiSmallMarginTop">
+                    <VBox class="sapUiSmallMargin" visible="{= !!%{ov>/changeSummary} }">
+                        <HBox justifyContent="SpaceAround" wrap="Wrap" class="tideChangeSummary">
+                            <VBox alignItems="Center"><Text text="{i18nOverview>changeNew}" /><ObjectNumber number="{path: 'ov>/changeSummary/newCount', type: 'sap.ui.model.odata.type.Int32', formatOptions: {groupingEnabled: true}}" state="{= %{ov>/changeSummary/newCount} > 0 ? 'Information' : 'None' }" /></VBox>
+                            <VBox alignItems="Center"><Text text="{i18nOverview>changeNoLongerDetected}" /><ObjectNumber number="{path: 'ov>/changeSummary/noLongerDetectedCount', type: 'sap.ui.model.odata.type.Int32', formatOptions: {groupingEnabled: true}}" state="{= %{ov>/changeSummary/noLongerDetectedCount} > 0 ? 'Information' : 'None' }" /></VBox>
+                            <VBox alignItems="Center"><Text text="{i18nOverview>changeEscalated}" /><ObjectNumber number="{path: 'ov>/changeSummary/escalatedCount', type: 'sap.ui.model.odata.type.Int32', formatOptions: {groupingEnabled: true}}" state="{= %{ov>/changeSummary/escalatedCount} > 0 ? 'Error' : 'None' }" /></VBox>
+                        </HBox>
+                        <HBox class="sapUiTinyMarginTop tideFigureNote"><Text text="{i18nOverview>changeComparedWith}" class="sapUiTinyMarginEnd" /><Text text="{path: 'ov>/changeSummary/comparedDay', type: 'sap.ui.model.odata.type.Date', formatOptions: {UTC: true, style: 'long'}}" /></HBox>
+                    </VBox>
+                    <Text text="{i18nOverview>changeUnavailable}" visible="{= !%{ov>/changeSummary} }" class="sapUiSmallMargin" />
+                </Panel>
+                <Panel id="priorityTrendPanel" headerText="{i18nOverview>priorityTrendTitle}" class="sapUiNoContentPadding sapUiSmallMarginTop">
+                    <headerToolbar>
+                        <Toolbar id="priorityTrendToolbar">
+                            <Text id="priorityTrendSubtitle" text="{ov>/priorityTrendSubtitle}" />
+                            <ToolbarSpacer id="priorityTrendSpacer" />
+                            <ObjectStatus id="priorityTrendCriticalLegend" text="{i18nOverview>priorityTrendCritical}" state="Error" class="sapUiTinyMarginEnd" />
+                            <ObjectStatus id="priorityTrendHighLegend" text="{i18nOverview>priorityTrendHigh}" state="Warning" class="sapUiTinyMarginEnd" />
+                            <ObjectStatus id="priorityTrendMediumLegend" text="{i18nOverview>priorityTrendMedium}" state="Information" class="sapUiTinyMarginEnd" />
+                            <ObjectStatus id="priorityTrendLowLegend" text="{i18nOverview>priorityTrendLow}" state="Success" />
+                        </Toolbar>
+                    </headerToolbar>
+                    <charts:PriorityTrendChart id="priorityTrendChart" rows="{ov>/priorityTrend}" labels="{ov>/priorityTrendLabels}" asOf="{ov>/asOf}" title="{i18nOverview>priorityTrendTitle}" visible="{ov>/priorityTrendHasData}" />
+                    <Text id="priorityTrendEmpty" text="{i18nOverview>priorityTrendEmpty}" visible="{= !%{ov>/priorityTrendHasData} }" class="sapUiSmallMargin" />
+                    <Panel id="priorityTrendNumbersPanel" expandable="true" expanded="false" headerText="{i18nOverview>priorityTrendNumbers}" class="sapUiNoContentPadding" visible="{ov>/priorityTrendHasData}">
+                    <ScrollContainer width="100%" horizontal="true" vertical="false">
+                    <Table id="priorityTrendNumbers" width="52rem" items="{path: 'ov>/priorityTrend', templateShareable: false}" class="sapUiSmallMargin tidePriorityTable">
+                        <columns>
+                            <Column><Text text="{i18nOverview>priorityTrendDate}" /></Column>
+                            <Column hAlign="End"><Text text="{i18nOverview>priorityTrendCritical}" /></Column>
+                            <Column hAlign="End"><Text text="{i18nOverview>priorityTrendHigh}" /></Column>
+                            <Column hAlign="End"><Text text="{i18nOverview>priorityTrendMedium}" /></Column>
+                            <Column hAlign="End"><Text text="{i18nOverview>priorityTrendLow}" /></Column>
+                            <Column hAlign="End"><Text text="{i18nOverview>priorityTrendTotal}" /></Column>
+                        </columns>
+                        <items><ColumnListItem><cells>
+                            <Text text="{path: 'ov>day', type: 'sap.ui.model.odata.type.Date', formatOptions: {UTC: true, style: 'medium'}}" />
+                            <ObjectNumber number="{path: 'ov>critical', type: 'sap.ui.model.odata.type.Int32', formatOptions: {groupingEnabled: true}}" state="Error" />
+                            <ObjectNumber number="{path: 'ov>high', type: 'sap.ui.model.odata.type.Int32', formatOptions: {groupingEnabled: true}}" state="Warning" />
+                            <ObjectNumber number="{path: 'ov>medium', type: 'sap.ui.model.odata.type.Int32', formatOptions: {groupingEnabled: true}}" state="Information" />
+                            <ObjectNumber number="{path: 'ov>low', type: 'sap.ui.model.odata.type.Int32', formatOptions: {groupingEnabled: true}}" state="Success" />
+                            <ObjectNumber number="{path: 'ov>total', type: 'sap.ui.model.odata.type.Int32', formatOptions: {groupingEnabled: true}}" /></cells></ColumnListItem></items>
+                    </Table>
+                    </ScrollContainer>
+                    </Panel>
+                </Panel>
+
+                <l:Grid defaultSpan="XL6 L6 M12 S12" hSpacing="1" class="sapUiSmallMarginTop">
+                    <Panel id="revenueByPriorityPanel" headerText="{i18nOverview>exposureTitle}" class="sapUiNoContentPadding">
+                        <List items="{path: 'ov>/revenueByPriority', templateShareable: false}" showSeparators="Inner" noDataText="{i18nOverview>exposureEmpty}">
+                            <CustomListItem visible="{= %{ov>findingCount} > 0 }"><HBox justifyContent="SpaceBetween" class="sapUiSmallMargin"><ObjectStatus text="{ov>priority}" state="{= %{ov>priority} === 'Critical' ? 'Error' : %{ov>priority} === 'High' ? 'Warning' : %{ov>priority} === 'Medium' ? 'Information' : 'Success' }" /><VBox alignItems="End"><ObjectNumber number="{path: 'ov>revenueAtRisk', type: 'sap.ui.model.odata.type.Decimal', formatOptions: {groupingEnabled: true, maxFractionDigits: 0}}" unit="{ov>/kpis/currency}" /><Text text="{= %{ov>findingCount} + ' ' + %{i18nOverview>exposureItems} }" /></VBox></HBox></CustomListItem>
+                        </List>
+                    </Panel>
+                    <Panel id="supplierExposurePanel" headerText="{i18nOverview>supplierTitle}" class="sapUiNoContentPadding">
+                        <List items="{path: 'ov>/topSuppliers', templateShareable: false}" noDataText="{i18nOverview>supplierEmpty}"><CustomListItem><HBox justifyContent="SpaceBetween" class="sapUiSmallMargin"><VBox><Text text="{ov>supplier}" class="sapMTextBold" /><Text text="{= %{ov>findingCount} + ' ' + %{i18nOverview>supplierFindings} }" /></VBox><VBox alignItems="End"><ObjectNumber number="{path: 'ov>revenueAtRisk', type: 'sap.ui.model.odata.type.Decimal', formatOptions: {groupingEnabled: true, maxFractionDigits: 0}}" unit="{ov>/kpis/currency}" /><ObjectStatus text="{ov>priority}" state="{= %{ov>priority} === 'Critical' ? 'Error' : %{ov>priority} === 'High' ? 'Warning' : %{ov>priority} === 'Medium' ? 'Information' : 'Success' }" /></VBox></HBox></CustomListItem></List>
+                    </Panel>
+                </l:Grid>
+            </VBox>
+            <VBox id="sidebarSlot">
+                <layoutData>
+                    <l:GridData id="sidebarSlotSpan" span="XL3 L3 M12 S12" />
+                </layoutData>
+                <Panel id="arrivedPanel" headerText="{i18nOverview>arrivedTitle}" class="sapUiNoContentPadding sapUiSmallMarginBottom">
+                    <List id="arrivedList" items="{path: 'ov>/arrivedToday', templateShareable: false}" noDataText="{i18nOverview>arrivedEmpty}">
+                        <StandardListItem
+                            id="arrivedItem"
+                            title="{ov>itemTitle}"
+                            description="{ov>nextStep}"
+                            info="{ov>listText}"
+                            type="Navigation"
+                            press=".onBriefItemPress" />
+                    </List>
+                </Panel>
+                <!-- EventFeed polls the stored Events entity independently. -->
+                <core:Fragment fragmentName="tide.cockpit.ext.feed.EventFeed" type="XML" />
+            </VBox>
+            </l:Grid>
+            </VBox>
+            </VBox>
+        </f:content>
+    </f:DynamicPage>
+</mvc:View>

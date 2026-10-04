@@ -1,0 +1,15 @@
+{
+  "name": "purchasing-desk",
+  "version": "0.0.1",
+  "private": true,
+  "description": "TIDE purchasing desk: open PO items at risk, customers, lead times, approvals and proof",
+  "main": "webapp/index.html",
+  "dependencies": {
+    "highcharts": "^13.1.1"
+  },
+  "devDependencies": {
+    "@sap/ux-ui5-tooling": "1",
+    "@ui5/cli": "^4.0.33",
+    "ui5-tooling-modules": "^3.39.0"
+  }
+}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cbs TIDE</title>
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="./assistant/index.css">
+    <script type="module" src="./assistant/index.js"></script>
+    <script
+        id="sap-ui-bootstrap"
+        src="resources/sap-ui-core.js"
+        data-sap-ui-theme="sap_horizon"
+        data-sap-ui-resource-roots='{"tide.cockpit": "./"}'
+        data-sap-ui-on-init="module:sap/ui/core/ComponentSupport"
+        data-sap-ui-compat-version="edge"
+        data-sap-ui-async="true"
+        data-sap-ui-xx-component-preload="off"
+        data-sap-ui-xx-view-cache="false"
+        data-sap-ui-frame-options="trusted"
+    ></script>
+</head>
+<body class="sapUiBody sapUiSizeCompact" id="content">
+    <div id="shellbar"></div>
+    <main id="app-content">
+        <div
+            data-sap-ui-component
+            data-name="tide.cockpit"
+            data-id="container"
+            data-settings='{"id" : "tide.cockpit"}'
+            data-handle-validation="true"
+        ></div>
+    </main>
+    <tide-assistant app-id="cockpit" agent-url="/agent"></tide-assistant>
+</body>
+</html>

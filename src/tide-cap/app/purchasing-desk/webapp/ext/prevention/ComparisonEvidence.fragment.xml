@@ -1,0 +1,50 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:p="tide.cockpit.ext.prevention" xmlns:macros="sap.fe.macros" xmlns:macrosTable="sap.fe.macros.table">
+    <VBox id="comparisonEvidence" width="100%" class="tidePreventionComparison" core:require="{Workspace: 'tide/cockpit/ext/prevention/Workspace'}" modelContextChange="Workspace.onContextChange" busy="{prevention>/loading}">
+        <core:Fragment fragmentName="tide.cockpit.ext.prevention.CaseSummary" type="XML" />
+        <core:Fragment fragmentName="tide.cockpit.ext.prevention.LoadState" type="XML" />
+        <MessageStrip text="{prevention>/banner}" type="Warning" showIcon="true" visible="{prevention>/loaded}" />
+        <HBox id="duplicateMetrics" width="100%" wrap="Wrap" class="sapUiSmallMarginTop">
+            <VBox id="duplicateCandidateMetric" class="tidePreventionMetric"><Label text="Candidate materials" /><ObjectNumber number="{prevention>/row/candidateCount}" /></VBox>
+            <VBox id="duplicateOrdersMetric" class="tidePreventionMetric" visible="{= %{prevention>/orders} !== null &amp;&amp; %{prevention>/orders} !== undefined }"><Label text="PO orders (12 months)" /><ObjectNumber number="{prevention>/orders}" /></VBox>
+            <VBox id="duplicateMovementsMetric" class="tidePreventionMetric" visible="{= %{prevention>/movements} !== null &amp;&amp; %{prevention>/movements} !== undefined }"><Label text="Material movements (12 months)" /><ObjectNumber number="{prevention>/movements}" /></VBox>
+        </HBox>
+        <Table id="duplicateCandidates" items="{prevention>/lines}" autoPopinMode="true" class="sapUiSmallMarginTop">
+            <headerToolbar><OverflowToolbar><Title text="Candidate Materials" level="H3" /></OverflowToolbar></headerToolbar>
+            <columns>
+                <Column importance="High"><Text text="Material" /></Column>
+                <Column importance="High"><Text text="Recorded description" /></Column>
+                <Column><Text text="Description similarity" /></Column>
+                <Column hAlign="End"><Text text="Orders (12 months)" /></Column>
+                <Column hAlign="End"><Text text="Movements (12 months)" /></Column>
+            </columns>
+            <items><ColumnListItem><cells>
+                <VBox><Text text="{prevention>label}" /><ObjectStatus text="Reference material" visible="{prevention>reference}" state="Information" /></VBox>
+                <Text text="{prevention>text}" /><Text text="{prevention>similarityText}" /><Text text="{prevention>orders}" /><Text text="{prevention>movements}" />
+            </cells></ColumnListItem></items>
+        </Table>
+        <Table id="duplicatePlanning" items="{prevention>/lines}" autoPopinMode="true" class="sapUiMediumMarginTop tidePlanningMatrix">
+            <headerToolbar><OverflowToolbar><Title text="Planning Comparison" level="H3" /></OverflowToolbar></headerToolbar>
+            <columns>
+                <Column importance="High" width="9rem"><Text text="Material" /></Column>
+                <Column importance="High"><Text text="MRP type" /></Column>
+                <Column><Text text="Procurement type" /></Column>
+                <Column><Text text="Procurement subtype" /></Column>
+                <Column importance="High"><Text text="Lot-sizing" /></Column>
+                <Column importance="High"><Text text="MRP responsible" /></Column>
+            </columns>
+            <items><ColumnListItem><cells>
+                <VBox><Text text="{prevention>label}" /><ObjectStatus text="Reference material" visible="{prevention>reference}" state="Information" /></VBox>
+                <VBox binding="{prevention>planningFields/0}"><core:Fragment fragmentName="tide.cockpit.ext.prevention.PlanningCell" type="XML" /></VBox>
+                <VBox binding="{prevention>planningFields/1}"><core:Fragment fragmentName="tide.cockpit.ext.prevention.PlanningCell" type="XML" /></VBox>
+                <VBox binding="{prevention>planningFields/2}"><core:Fragment fragmentName="tide.cockpit.ext.prevention.PlanningCell" type="XML" /></VBox>
+                <VBox binding="{prevention>planningFields/3}"><core:Fragment fragmentName="tide.cockpit.ext.prevention.PlanningCell" type="XML" /></VBox>
+                <VBox binding="{prevention>planningFields/4}"><core:Fragment fragmentName="tide.cockpit.ext.prevention.PlanningCell" type="XML" /></VBox>
+            </cells></ColumnListItem></items>
+        </Table>
+        <Title text="Candidate Activity - Last 12 Months" level="H3" class="sapUiMediumMarginTop sapUiSmallMarginBottom" />
+        <HBox wrap="Wrap" width="100%" visible="{prevention>/hasLines}" class="tideCandidateCharts">
+            <VBox width="100%"><Title text="Purchase orders" level="H4" /><p:EvidenceChart data="{prevention>/ordersChart}" /></VBox>
+            <VBox width="100%"><Title text="Material movements" level="H4" /><p:EvidenceChart data="{prevention>/movementsChart}" /></VBox>
+        </HBox>
+    </VBox>
+</core:FragmentDefinition>

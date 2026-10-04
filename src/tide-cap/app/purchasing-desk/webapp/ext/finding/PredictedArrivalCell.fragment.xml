@@ -1,0 +1,13 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+    <HBox alignItems="Center" renderType="Bare"
+        visible="{= %{arrivalSource} !== 'requested' &amp;&amp; !!%{predictedArrival} }">
+        <core:Icon src="sap-icon://ai" decorative="false"
+            alt="{i18n>predictedArrivalIcon}" tooltip="{i18n>predictedArrivalIcon}"
+            visible="{= !!%{predictedArrival} &amp;&amp; %{arrivalSource} === 'grid' }"
+            class="sapUiTinyMarginEnd tideForecastAiIcon" />
+        <Text core:require="{ODataDate: 'sap/ui/model/odata/type/Date'}"
+            text="{path: 'predictedArrival', type: 'sap.ui.model.odata.type.Date', formatOptions: {style: 'medium'}}" />
+        <Text text="{i18n>confirmedArrivalNote}"
+            visible="{= %{arrivalSource} === 'confirmation' }" class="sapUiTinyMarginBegin" />
+    </HBox>
+</core:FragmentDefinition>

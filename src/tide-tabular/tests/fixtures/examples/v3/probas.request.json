@@ -1,0 +1,56 @@
+{
+  "backendKey": "fake",
+  "columns": [
+    {
+      "kind": "categorical",
+      "name": "Plant"
+    },
+    {
+      "kind": "numeric",
+      "name": "OrderQuantity"
+    }
+  ],
+  "keys": [
+    "PO1-10",
+    "PO2-10"
+  ],
+  "modelKey": "default",
+  "output": {
+    "type": "probas"
+  },
+  "task": "classification",
+  "x_test": [
+    [
+      "P1",
+      15
+    ],
+    [
+      "P2",
+      null
+    ]
+  ],
+  "x_train": [
+    [
+      "P1",
+      10
+    ],
+    [
+      "P1",
+      20
+    ],
+    [
+      "P2",
+      5
+    ],
+    [
+      "P2",
+      50
+    ]
+  ],
+  "y_train": [
+    "late",
+    "on_time",
+    "on_time",
+    "late"
+  ]
+}

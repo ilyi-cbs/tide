@@ -1,0 +1,73 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:chart="tide.cockpit.ext.prevention">
+    <VBox id="deliveryHistoryBox" width="100%"
+        core:require="{DeliveryHistory: 'tide/cockpit/ext/finding/DeliveryHistorySection'}"
+        modelContextChange="DeliveryHistory.onContextChange">
+        <BusyIndicator id="deliveryHistoryLoading" visible="{= ${history>/state} === 'loading' }" text="Loading delivery history" class="sapUiSmallMarginBottom" />
+        <MessageStrip id="deliveryHistoryError" text="{history>/errorText}" type="Error" showIcon="true" visible="{= ${history>/state} === 'error' }" class="sapUiSmallMarginBottom">
+            <link><Link text="Retry" press="DeliveryHistory.onRetry" /></link>
+        </MessageStrip>
+        <Text id="deliveryHistoryNone" text="No observed receipts are available for this material, supplier, and plant." visible="{= ${history>/state} === 'loaded' &amp;&amp; !${history>/observedReceipts} }" />
+        <f:Form id="deliveryHistoryForm" editable="false" visible="{= ${history>/state} === 'loaded' &amp;&amp; !!${history>/observedReceipts} }" class="sapUiTinyMarginBottom">
+            <f:layout><f:ColumnLayout id="deliveryHistoryLayout" columnsM="2" columnsL="3" columnsXL="5" /></f:layout>
+            <f:formContainers><f:FormContainer id="deliveryHistoryContainer"><f:formElements>
+                <f:FormElement id="historyDeliveries" label="Observed receipts"><f:fields><Text id="historyDeliveriesValue" text="{history>/observedReceipts}" /></f:fields></f:FormElement>
+                <f:FormElement id="historyTypical" label="Typical lead time"><f:fields><Text id="historyTypicalValue" text="{history>/typicalText}" /></f:fields></f:FormElement>
+                <f:FormElement id="historyRange" label="Observed range"><f:fields><Text id="historyRangeValue" text="{history>/rangeText}" /></f:fields></f:FormElement>
+                <f:FormElement id="historyPlanned" label="PO planned delivery duration"><f:fields><Text id="historyPlannedValue" text="{history>/plannedText}" /></f:fields></f:FormElement>
+                <f:FormElement id="historyTrend" label="Recent trend"><f:fields><Text id="historyTrendValue" text="{history>/trendText}" /></f:fields></f:FormElement>
+            </f:formElements></f:FormContainer></f:formContainers>
+        </f:Form>
+        <VBox id="deliveryHistoryVisual" visible="{= %{history>/state} === 'loaded' &amp;&amp; (!!%{history>/observedReceipts} || %{history>/showForecast}) }" class="tideHistoryVisual sapUiSmallMarginBottom">
+            <Title id="deliveryHistoryChartTitle" text="Supplier lead times and current forecast" level="H3" />
+            <HBox id="deliveryHistoryContent" width="100%" wrap="Wrap" class="tideSupplierHistoryContent sapUiTinyMarginTop">
+                <VBox id="deliveryHistoryChartColumn" visible="{history>/hasChartDeliveries}" class="tideSupplierHistoryChartColumn">
+                    <Title id="deliveryHistoryObservedTitle" text="Observed receipts" level="H4" />
+                    <Text id="deliveryHistoryObservedDescription" text="{history>/chartScope}" wrapping="true" class="tideFigureNote" />
+                    <chart:EvidenceChart id="deliveryHistoryChart" data="{history>/chart}" height="20rem" class="sapUiTinyMarginTop" />
+                </VBox>
+                <VBox id="deliveryHistoryForecastColumn" visible="{history>/showForecast}" class="tideSupplierHistoryForecastColumn tideCurrentForecast">
+                    <Title id="deliveryHistoryForecastTitle" text="Current item forecast" level="H4" />
+                    <ObjectStatus id="deliveryHistoryForecastSource" text="{history>/forecastSourceText}" state="{history>/forecastSourceState}" class="sapUiTinyMarginTop" />
+                    <ObjectNumber id="deliveryHistoryForecastMedian" number="{history>/typicalForecastDays}" unit="days" emphasized="true" class="sapUiTinyMarginTop tideCurrentForecastMedian" />
+                    <Text id="deliveryHistoryForecastMedianLabel" text="Median total lead time from order" wrapping="true" class="tideFigureNote" />
+                    <Table id="deliveryHistoryForecastTable" items="{history>/forecastRows}" visible="{history>/hasProbabilityForecast}" ariaLabelledBy="deliveryHistoryForecastTableTitle" autoPopinMode="true" class="sapUiSmallMarginTop">
+                        <headerToolbar><Toolbar><Title id="deliveryHistoryForecastTableTitle" text="Forecast thresholds" level="H5" /><ToolbarSpacer /></Toolbar></headerToolbar>
+                        <columns>
+                            <Column id="deliveryHistoryThresholdColumn" importance="High"><header><Text text="Arrival threshold" /></header></Column>
+                            <Column id="deliveryHistoryDaysColumn" hAlign="End" importance="High"><header><Text text="Total lead time" /></header></Column>
+                            <Column id="deliveryHistoryArrivalColumn" importance="Medium"><header><Text text="Arrival date" /></header></Column>
+                        </columns>
+                        <items><ColumnListItem id="deliveryHistoryForecastRow"><cells>
+                            <Text id="deliveryHistoryThreshold" text="{history>threshold}" />
+                            <ObjectNumber id="deliveryHistoryForecastDays" number="{history>days}" unit="days" />
+                            <Text id="deliveryHistoryForecastArrival" text="{history>arrival}" />
+                        </cells></ColumnListItem></items>
+                    </Table>
+                    <Text id="deliveryHistoryConfirmedArrival" text="{= 'Supplier confirmed arrival: ' + %{history>/confirmedArrival} }" visible="{= !!%{history>/confirmedArrival} }" wrapping="true" class="sapUiSmallMarginTop" />
+                    <ObjectStatus id="deliveryHistoryPlanned" text="{= 'SAP planned duration: ' + %{history>/plannedText} }" visible="{= %{history>/plannedDays} !== null &amp;&amp; %{history>/plannedDays} !== undefined }" state="None" class="sapUiTinyMarginTop" />
+                    <Text id="deliveryHistoryForecastAttribution" text="{history>/forecastAttribution}" visible="{= !!%{history>/forecastAttribution} }" wrapping="true" class="sapUiSmallMarginTop tideForecastAttribution" />
+                </VBox>
+            </HBox>
+            <Text id="deliveryHistoryForecastText" text="{history>/forecastText}" wrapping="true" class="sapUiTinyMarginTop tideFigureNote" />
+        </VBox>
+        <Panel id="deliveryHistoryEvidence" headerText="Previous purchase orders" expandable="true" expanded="false" visible="{= ${history>/state} === 'loaded' &amp;&amp; !!${history>/observedReceipts} }" class="sapUiNoContentPadding">
+        <Table id="deliveryHistoryTable" items="{history>/deliveries}" ariaLabelledBy="deliveryHistoryTableTitle" autoPopinMode="true">
+            <headerToolbar><Toolbar><Title id="deliveryHistoryTableTitle" text="Previous purchase orders" level="H3" /><ToolbarSpacer /></Toolbar></headerToolbar>
+            <columns>
+                <Column id="historyPoColumn" importance="High"><header><Text text="Previous PO" /></header></Column>
+                <Column id="historyOrderedColumn" importance="Medium"><header><Text text="Ordered" /></header></Column>
+                <Column id="historyRequestedColumn" importance="High"><header><Text text="Requested" /></header></Column>
+                <Column id="historyAvailableColumn" importance="High"><header><Text text="Available" /></header></Column>
+                <Column id="historyLeadTimeColumn" hAlign="End" importance="Low"><header><Text text="Lead time" /></header></Column>
+            </columns>
+            <items><ColumnListItem id="deliveryHistoryRow"><cells>
+                <Text id="historyPo" text="{= ${history>purchaseOrder} + '/' + ${history>item} }" />
+                <Text id="historyOrdered" text="{history>ordered}" />
+                <Text id="historyRequested" text="{history>requested}" />
+                <Text id="historyAvailable" text="{history>available}" />
+                <ObjectNumber id="historyLeadTime" number="{history>leadTimeDays}" unit="days" />
+            </cells></ColumnListItem></items>
+        </Table>
+        </Panel>
+    </VBox>
+</core:FragmentDefinition>

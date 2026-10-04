@@ -1,0 +1,5 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+    <VBox id="pageActionSection" width="100%"
+        core:require="{ActionSection: 'tide/cockpit/ext/ActionSection'}"
+        modelContextChange="ActionSection.onContextChange" />
+</core:FragmentDefinition>

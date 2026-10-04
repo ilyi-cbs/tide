@@ -1,0 +1,313 @@
+<mvc:View
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.f"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:l="sap.ui.layout"
+    xmlns:charts="tide.cockpit.ext.rangeBar"
+    controllerName="tide.cockpit.ext.planning.Planning"
+    height="100%">
+    <f:DynamicPage id="planPage" headerExpanded="true" fitContent="false">
+        <f:landmarkInfo>
+            <f:DynamicPageAccessibleLandmarkInfo
+                rootRole="Region" rootLabel="{i18nPlanning>pageLandmark}"
+                contentRole="Main" contentLabel="{i18nPlanning>resultsLandmark}"
+                headerRole="Region" headerLabel="{i18nPlanning>inputsLandmark}" />
+        </f:landmarkInfo>
+        <f:title>
+            <f:DynamicPageTitle id="planTitle">
+                <f:heading>
+                    <Title id="planHeading" text="{i18nPlanning>planTitle}" level="H1" />
+                </f:heading>
+                <f:snappedContent>
+                    <Text id="planSnapped" text="{plan>/summary}" />
+                </f:snappedContent>
+                <f:expandedContent>
+                    <ObjectStatus id="planStatusBadge" text="{plan>/status/text}" state="{plan>/status/state}"
+                        visible="{= !!${plan>/status} }" class="sapUiTinyMarginBegin" />
+                </f:expandedContent>
+            </f:DynamicPageTitle>
+        </f:title>
+        <f:header>
+            <f:DynamicPageHeader id="planHeader" pinnable="false">
+                <l:Grid id="planInputGrid" defaultSpan="XL3 L3 M6 S12" hSpacing="1" vSpacing="0.5">
+                    <VBox id="planPlantBox">
+                        <Label id="planPlantLabel" text="{i18nPlanning>plant}" labelFor="planPlant" required="true" />
+                        <Input id="planPlant" value="{plan>/input/Plant}" description="{plan>/input/PlantName}"
+                            showValueHelp="true" valueHelpRequest=".onPlantHelp" required="true"
+                            change=".onPlantChange" submit=".onCalculate" />
+                    </VBox>
+                    <VBox id="planMaterialBox">
+                        <Label id="planMaterialLabel" text="{i18nPlanning>material}" labelFor="planMaterial" required="true" />
+                        <Input id="planMaterial" value="{plan>/input/Material}" description="{plan>/input/MaterialText}"
+                            showValueHelp="true" valueHelpRequest=".onMaterialHelp" required="true"
+                            editable="{= !!${plan>/input/Plant} }"
+                            valueState="{plan>/materialState}" valueStateText="{plan>/materialStateText}"
+                            change=".onInputChange" submit=".onCalculate" />
+                        <Text id="planMaterialHint" text="{i18nPlanning>materialNeedsPlant}" visible="{= !${plan>/input/Plant} }" class="tideFigureNote" />
+                    </VBox>
+                    <VBox id="planSupplierBox">
+                        <Label id="planSupplierLabel" text="{i18nPlanning>supplier}" labelFor="planSupplier" />
+                        <Input id="planSupplier" value="{plan>/input/Supplier}" description="{plan>/input/SupplierText}"
+                            placeholder="{i18nPlanning>supplierDefault}" showValueHelp="true" valueHelpRequest=".onSupplierHelp"
+                            change=".onSupplierChange" submit=".onCalculate" />
+                    </VBox>
+                    <VBox id="planNeedDateBox">
+                        <Label id="planNeedDateLabel" text="{i18nPlanning>needDate}" labelFor="planNeedDate" />
+                        <DatePicker id="planNeedDate" value="{plan>/input/needDate}" valueFormat="yyyy-MM-dd" displayFormat="medium"
+                            minDate="{plan>/asOfDate}" valueState="{plan>/needDateState}" valueStateText="{plan>/needDateStateText}"
+                            change=".onNeedDateChange" submit=".onCalculate" />
+                    </VBox>
+                </l:Grid>
+                <OverflowToolbar id="planActions" class="sapUiTinyMarginTop">
+                    <CheckBox id="planCompareSuppliers" text="{i18nPlanning>compareSuppliers}"
+                        selected="{plan>/compareSuppliers}" enabled="{= !${plan>/busy} &amp;&amp; !${plan>/comparisonBusy} }" />
+                    <CheckBox id="planForcePrediction" text="{i18nPlanning>forcePrediction}"
+                        selected="{plan>/forcePrediction}" enabled="{= !${plan>/busy} &amp;&amp; !${plan>/comparisonBusy} }" />
+                    <ToolbarSpacer id="planActionsSpacer" />
+                    <BusyIndicator id="planBusy" size="1rem" visible="{plan>/busy}" class="sapUiSmallMarginEnd" />
+                    <Button id="planCalculate" text="{i18nPlanning>calculate}" type="Emphasized" icon="sap-icon://simulate"
+                        press=".onCalculate" enabled="{= !${plan>/busy} &amp;&amp; !${plan>/needDateInvalid} }" />
+                </OverflowToolbar>
+                <Text id="planRiskContext" text="{plan>/riskContext}" visible="{= !!${plan>/riskContext} }" wrapping="true" class="sapUiTinyMarginTop" />
+            </f:DynamicPageHeader>
+        </f:header>
+        <f:content>
+            <VBox id="planContent">
+                <MessageStrip id="planError" type="Error" showIcon="true" text="{plan>/error}" visible="{= !!${plan>/error} }" class="sapUiSmallMarginBottom" />
+                <VBox id="planWarnings" items="{path: 'plan>/result/warnings', templateShareable: false}" visible="{= !!${plan>/result} }">
+                    <MessageStrip id="planWarning" type="Warning" showIcon="true" text="{plan>}" class="sapUiTinyMarginBottom" />
+                </VBox>
+                <IllustratedMessage id="planEmpty" title="{i18nPlanning>emptyTitle}" description="{i18nPlanning>emptyDescription}"
+                    illustrationType="sapIllus-NoData" visible="{= !${plan>/result} &amp;&amp; !${plan>/comparisonRan} &amp;&amp; !${plan>/busy} }" />
+                <VBox id="planSimulationLoading" visible="{plan>/busy}" class="tideSimulationLoading sapUiSmallMarginBottom">
+                    <ObjectStatus id="planSimulationLoadingAi" text="{i18nPlanning>aiPrediction}" icon="sap-icon://ai" class="tideAIStatus" />
+                    <Text id="planSimulationLoadingText" text="{i18nPlanning>simulationLoading}" class="sapUiTinyMarginTop" />
+                    <ProgressIndicator id="planSimulationProgress" percentValue="{plan>/simulationProgress}" showValue="false" displayAnimation="false" width="100%" ariaLabelledBy="planSimulationLoadingAi planSimulationLoadingText" class="sapUiSmallMarginTop" />
+                </VBox>
+
+                <Panel id="planDecisionPanel" accessibleRole="Region" class="sapUiSmallMarginBottom tideAIResultSurface" visible="{= !!${plan>/result} }">
+                    <headerToolbar><Toolbar id="planDecisionToolbar">
+                        <Title id="planDecisionTitle" text="{i18nPlanning>decisionSummaryTitle}" level="H2" />
+                        <ToolbarSpacer id="planDecisionToolbarSpacer" />
+                        <ObjectStatus id="planDecisionAiStatus" text="{i18nPlanning>aiForecastBadge}" icon="sap-icon://ai" class="tideAIStatus" />
+                    </Toolbar></headerToolbar>
+                    <Text id="planNoDemandDecision" text="{i18nPlanning>noDemand}" visible="{= !!${plan>/result} &amp;&amp; !${plan>/hasRows} &amp;&amp; !${plan>/hasDemand} }" />
+                    <VBox id="planDecisionContent" visible="{plan>/hasRows}">
+                        <l:Grid id="planDecisionGrid" defaultSpan="XL3 L3 M6 S12" hSpacing="1" vSpacing="1">
+                            <VBox id="planRecommendedBox" class="tidePlanDecisionRecommended">
+                                <Label id="planRecommendedLabel" text="{plan>/decision/recommendedLabel}" />
+                                <Title id="planRecommendedDate" text="{plan>/decision/orderByDateText}" level="H2" />
+                                <Text id="planSelectedScenarioSummary" text="{plan>/decision/selectedScenarioText}" wrapping="true" />
+                                <ObjectStatus id="planDaysRemaining" text="{plan>/decision/daysText}" state="{plan>/decision/daysState}" icon="{plan>/decision/daysIcon}" />
+                            </VBox>
+                            <VBox id="planNeedDateSummaryBox" class="tidePlanDecisionMetric">
+                                <Label id="planNeedDateSummaryLabel" text="{i18nPlanning>needDate}" />
+                                <Title id="planNeedDateSummary" text="{plan>/decision/needDateText}" level="H3" />
+                            </VBox>
+                            <VBox id="planFeasibilityBox" class="tidePlanDecisionMetric">
+                                <Label id="planFeasibilityLabel" text="{i18nPlanning>feasibility}" />
+                                <ObjectStatus id="planFeasibility" text="{plan>/decision/feasibilityText}" state="{plan>/decision/feasibilityState}" icon="{plan>/decision/feasibilityIcon}" />
+                            </VBox>
+                            <VBox id="planSapGapBox" class="tidePlanDecisionMetric">
+                                <Label id="planSapGapLabel" text="{i18nPlanning>sapComparison}" />
+                                <Text id="planSapGap" text="{plan>/decision/sapText}" wrapping="true" />
+                            </VBox>
+                        </l:Grid>
+                        <Text id="planPercentileNote" text="{i18nPlanning>percentileExplanation}" wrapping="true" class="sapUiTinyMarginTop" />
+                        <Title id="planArrivalChartTitle" text="{i18nPlanning>arrivalChartTitle}" level="H3" visible="{plan>/hasSingleChart}" class="sapUiSmallMarginTop" />
+                        <charts:RangeChart id="planArrivalChart" axisType="datetime" visible="{= ${plan>/hasSingleChart} || ${plan>/hasComparisonChart} }"
+                            class="tideSimulationArrivalChart"
+                            lanes="{= ${plan>/hasSupplierOptions} ? ${plan>/comparisonLanes} : ${plan>/singleLanes} }" selectedQuantile="{plan>/selectedQuantile}"
+                            asOf="{path: 'plan>/asOf', targetType: 'any'}" asOfLabel="{i18nPlanning>today}"
+                            requested="{path: 'plan>/result/needDate', targetType: 'any'}" requestedLabel="{i18nPlanning>needDate}"
+                            chartTitle="{i18nPlanning>arrivalChartTitle}" feasibleLabel="{i18nPlanning>arrivalMeetsNeed}"
+                            infeasibleLabel="{i18nPlanning>arrivalMissesNeed}" noRangeLabel="{i18nPlanning>supplierNoRangeShort}"
+                            scenarioSelect=".onChartScenarioSelect" />
+                        <MessageStrip id="planNotAchievable" type="Error" showIcon="true" text="{plan>/earliestAchievableText}"
+                            visible="{= !${plan>/result/feasible} }" class="sapUiSmallMarginTop" />
+                    </VBox>
+                    <VBox id="planNoRangeBox" visible="{= !!${plan>/result} &amp;&amp; !${plan>/hasRows} }">
+                        <MessageStrip id="planNoRange" type="Information" showIcon="true" text="{i18nPlanning>noRange}" />
+                        <Text id="planNoRangeSap" text="{plan>/decision/sapText}" visible="{= !!${plan>/decision/sapText} }" class="sapUiTinyMarginTop" />
+                    </VBox>
+                </Panel>
+
+                <Panel id="planScenariosPanel" accessibleRole="Region" class="sapUiSmallMarginBottom tideAIResultSurface" visible="{plan>/hasRows}">
+                    <headerToolbar><Toolbar id="planScenariosToolbar">
+                        <Title id="planScenariosTitle" text="{i18nPlanning>scenarioDetailsTitle}" level="H2" />
+                        <ToolbarSpacer id="planScenariosToolbarSpacer" />
+                        <ObjectStatus id="planScenariosAiStatus" text="{i18nPlanning>aiForecastBadge}" icon="sap-icon://ai" class="tideAIStatus" />
+                    </Toolbar></headerToolbar>
+                    <SegmentedButton id="planLevels" selectedKey="{plan>/index}" selectionChange=".onLevelSelect" class="sapUiTinyMarginBottom">
+                        <items>
+                            <SegmentedButtonItem id="planLevel0" key="0" text="{i18nPlanning>scenarioP30}" />
+                            <SegmentedButtonItem id="planLevel1" key="1" text="{i18nPlanning>scenarioP40}" />
+                            <SegmentedButtonItem id="planLevel2" key="2" text="{i18nPlanning>scenarioP50}" />
+                            <SegmentedButtonItem id="planLevel3" key="3" text="{i18nPlanning>scenarioP60}" />
+                            <SegmentedButtonItem id="planLevel4" key="4" text="{i18nPlanning>scenarioP70}" />
+                            <SegmentedButtonItem id="planLevel5" key="5" text="{i18nPlanning>scenarioP80}" />
+                            <SegmentedButtonItem id="planLevel6" key="6" text="{i18nPlanning>scenarioP85}" />
+                            <SegmentedButtonItem id="planLevel7" key="7" text="{i18nPlanning>scenarioP90}" />
+                            <SegmentedButtonItem id="planLevel8" key="8" text="{i18nPlanning>scenarioP95}" />
+                        </items>
+                    </SegmentedButton>
+                    <Table id="planLevelTable" items="{path: 'plan>/rows', templateShareable: false}"
+                        mode="SingleSelectMaster" selectionChange=".onRowSelect" growing="false"
+                        ariaLabelledBy="planScenariosTitle" autoPopinMode="true">
+                        <columns>
+                                <Column id="planColLevel" width="16%" importance="High"><header><Text text="{i18nPlanning>scenario}" /></header></Column>
+                            <Column id="planColOrderBy" width="18%" importance="High"><header><Text text="{i18nPlanning>orderBy}" /></header></Column>
+                            <Column id="planColDaysLeft" hAlign="End" width="16%" importance="High"><header><Text text="{i18nPlanning>daysRemaining}" /></header></Column>
+                            <Column id="planColMeets" hAlign="Center" width="16%" importance="High"><header><Text text="{i18nPlanning>feasibility}" /></header></Column>
+                            <Column id="planColBuffer" hAlign="End" width="14%" importance="Medium"><header><Text text="{i18nPlanning>bufferDays}" /></header></Column>
+                            <Column id="planColStock" hAlign="End" width="12%" importance="Low" visible="{plan>/hasDemand}"><header><Text text="{i18nPlanning>stockQty}" /></header></Column>
+                            <Column id="planColValue" hAlign="End" width="16%" importance="Low" visible="{plan>/hasValue}"><header><Text text="{i18nPlanning>stockValue}" /></header></Column>
+                        </columns>
+                        <items>
+                            <ColumnListItem id="planRow" selected="{plan>selected}">
+                                <cells>
+                                    <Text id="planRowLevel" text="{plan>levelText}" />
+                                    <Text id="planRowOrderBy" text="{plan>latestText}" />
+                                    <ObjectStatus id="planRowDaysLeft" text="{plan>daysLeftText}" state="{plan>daysLeftState}" icon="{plan>latestIcon}" />
+                                    <ObjectStatus id="planRowMeets" text="{plan>meetsNeedText}" state="{plan>meetsNeedState}" />
+                                    <Text id="planRowBuffer" text="{plan>bufferText}" />
+                                    <Text id="planRowStock" text="{plan>stockText}" />
+                                    <Text id="planRowValue" text="{plan>stockValueText}" />
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                </Panel>
+
+                <Panel id="planEvidencePanel" accessibleRole="Region" headerText="{i18nPlanning>evidenceTitle}"
+                    expandable="true" expanded="false" class="sapUiSmallMarginBottom" visible="{= !!${plan>/result} }">
+                    <l:Grid id="planEvidenceGrid" defaultSpan="XL6 L6 M12 S12" hSpacing="1" vSpacing="1">
+                        <Panel id="planPanelSap" accessibleRole="Region" headerText="{i18nPlanning>sapEvidenceTitle}">
+                            <form:Form id="planTimingForm" editable="false" ariaLabelledBy="planPanelSap">
+                                <form:layout><form:ColumnLayout id="planTimingLayout" columnsM="2" columnsL="3" columnsXL="4" /></form:layout>
+                                <form:formContainers><form:FormContainer id="planTimingC"><form:formElements>
+                                    <form:FormElement id="planSapEl" label="{i18nPlanning>sapOrderDate}"><form:fields><Text id="planSap" text="{plan>/sapText}" /></form:fields></form:FormElement>
+                                    <form:FormElement id="planReachableEl" label="{i18nPlanning>feasibility}"><form:fields><ObjectStatus id="planReachable" text="{plan>/cur/reachableText}" state="{plan>/cur/reachableState}" /></form:fields></form:FormElement>
+                                    <form:FormElement id="planMaintainedEl" label="{i18nPlanning>maintained}"><form:fields><Text id="planMaintained" text="{plan>/maintainedText}" /></form:fields></form:FormElement>
+                                    <form:FormElement id="planGoodsReceiptEl" label="{i18nPlanning>goodsReceiptLabel}" visible="{= !!${plan>/goodsReceiptText} }"><form:fields><Text id="planGoodsReceipt" text="{plan>/goodsReceiptText}" /></form:fields></form:FormElement>
+                                    <form:FormElement id="planInfoRecordEl" label="{i18nPlanning>infoRecordLabel}" visible="{= !!${plan>/infoRecordText} }"><form:fields><Text id="planInfoRecord" text="{plan>/infoRecordText}" /></form:fields></form:FormElement>
+                                    <form:FormElement id="planMaterialSinceEl" label="{i18nPlanning>materialSince}" visible="{= !!${plan>/materialSinceText} }"><form:fields><Text id="planMaterialSince" text="{plan>/materialSinceText}" /></form:fields></form:FormElement>
+                                    <form:FormElement id="planSupplierSinceEl" label="{i18nPlanning>supplierSince}" visible="{= !!${plan>/supplierSinceText} }"><form:fields><Text id="planSupplierSince" text="{plan>/supplierSinceText}" /></form:fields></form:FormElement>
+                                    <form:FormElement id="planDemandEl" label="{i18nPlanning>dailyDemand}" visible="{plan>/hasDemand}"><form:fields><Text id="planDemand" text="{plan>/demandText}" /></form:fields></form:FormElement>
+                                    <form:FormElement id="planRangeAgreementEl" label="{i18nPlanning>deliveryTimeEvidence}" visible="{= !!${plan>/rangeEvidenceText} }"><form:fields><Text id="planRangeAgreement" text="{plan>/rangeEvidenceText}" wrapping="true" /></form:fields></form:FormElement>
+                                </form:formElements></form:FormContainer></form:formContainers>
+                            </form:Form>
+                            <ObjectStatus id="planVerdict" text="{plan>/verdictText}" state="{plan>/verdictState}"
+                                icon="{= ${plan>/verdictActionable} ? 'sap-icon://alert' : 'sap-icon://accept' }"
+                                visible="{= !!${plan>/verdictText} }" class="sapUiTinyMarginTop" />
+                            <Text id="planEvidenceSource" text="{plan>/evidenceSourceText}" wrapping="true" class="sapUiTinyMarginTop" />
+                        </Panel>
+                    </l:Grid>
+                </Panel>
+                        <Panel id="planPanelPrice" accessibleRole="Region" expandable="false" visible="{= !!${plan>/result} }" class="sapUiSmallMarginBottom tideAIResultSurface">
+                            <headerToolbar><Toolbar id="planPriceToolbar">
+                                <Title id="planPriceTitle" text="{i18nPlanning>priceEvidenceTitle}" level="H3" />
+                                <ToolbarSpacer id="planPriceToolbarSpacer" />
+                                <ObjectStatus id="planPriceAiStatus" text="{i18nPlanning>aiPriceBadge}" icon="sap-icon://ai" class="tideAIStatus" />
+                            </Toolbar></headerToolbar>
+                            <VBox id="planPriceLoading" visible="{plan>/priceLoading}" class="sapUiSmallMarginBottom">
+                                <BusyIndicator id="planPriceLoadingIndicator" size="1rem" />
+                                <Text id="planPriceLoadingText" text="{i18nPlanning>priceLoading}" class="sapUiTinyMarginBegin" />
+                            </VBox>
+                            <MessageStrip id="planPriceError" type="Information" showIcon="true" text="{plan>/priceError}"
+                                visible="{= !!${plan>/priceError} }" class="sapUiTinyMarginBottom" />
+                            <charts:RangeChart id="planPriceChart" class="tideSimulationArrivalChart"
+                                visible="{= ${plan>/hasSupplierOptions} || ${plan>/priceAvailable} }"
+                                lanes="{= ${plan>/hasSupplierOptions} ? ${plan>/comparisonPriceLanes} : ${plan>/singlePriceLanes} }"
+                                axisType="linear" selectedQuantile="0.5" noRangeLabel="{i18nPlanning>priceUnavailable}"
+                                p10="{plan>/result/priceP10}" p50="{plan>/result/priceP50}" p90="{plan>/result/priceP90}"
+                                planned="{plan>/result/historicalPriceReference}" plannedLabel="{i18nPlanning>historicalPrice}"
+                                unit="{plan>/price/unit}" valueDecimals="2" includeZero="false" minimumPadding="0.01"
+                                chartTitle="{i18nPlanning>priceEvidenceTitle}" rangeTitle="{i18nPlanning>priceRangeShort}" />
+                            <form:Form id="planPriceForm" editable="false" visible="{= !${plan>/hasSupplierOptions} &amp;&amp; ${plan>/priceAvailable} }">
+                                <form:layout><form:ColumnLayout id="planPriceLayout" columnsM="2" columnsL="3" columnsXL="4" /></form:layout>
+                                <form:formContainers><form:FormContainer id="planPriceContainer"><form:formElements>
+                                    <form:FormElement id="planPriceEstimateEl" label="{i18nPlanning>expectedPrice}"><form:fields><Text id="planPriceEstimate" text="{plan>/price/p50Text}" /></form:fields></form:FormElement>
+                                    <form:FormElement id="planPriceRangeEl" label="{i18nPlanning>expectedPriceRange}"><form:fields><Text id="planPriceRange" text="{plan>/price/rangeText}" /></form:fields></form:FormElement>
+                                    <form:FormElement id="planPriceHistoricalEl" label="{i18nPlanning>historicalPrice}"><form:fields><Text id="planPriceHistorical" text="{plan>/price/historicalText}" /></form:fields></form:FormElement>
+                                    <form:FormElement id="planPriceAssumptionEl" label="{i18nPlanning>priceAssumption}"><form:fields><Text id="planPriceAssumption" text="{plan>/price/assumptionText}" /></form:fields></form:FormElement>
+                                    <form:FormElement id="planPriceSourceEl" label="{i18nPlanning>priceSource}"><form:fields><ObjectStatus id="planPriceSource" text="{plan>/price/sourceText}" state="{plan>/price/sourceState}" /></form:fields></form:FormElement>
+                                </form:formElements></form:FormContainer></form:formContainers>
+                            </form:Form>
+                            <VBox id="planSupplierPrices" visible="{plan>/hasSupplierOptions}" items="{path: 'plan>/supplierOptions', templateShareable: false}">
+                                <items><VBox id="planSupplierPriceEstimate" visible="{= ${plan>priceP50} === null || ${plan>priceP50} === undefined }" class="sapUiSmallMarginBottom">
+                                    <Text id="planSupplierPriceName" text="{plan>supplierText}" wrapping="true" />
+                                    <Text id="planSupplierPriceUnavailable" text="{i18nPlanning>priceUnavailable}"
+                                        visible="{= ${plan>priceP50} === null || ${plan>priceP50} === undefined }" />
+                                </VBox></items>
+                            </VBox>
+                            <Text id="planPriceNote" text="{i18nPlanning>priceNote}" wrapping="true" class="sapUiTinyMarginTop" />
+                        </Panel>
+
+                <Panel id="planComparisonPanel" accessibleRole="Region"
+                    class="sapUiSmallMarginBottom tideAIResultSurface" visible="{plan>/comparisonVisible}">
+                    <headerToolbar><Toolbar id="planComparisonToolbar">
+                        <Title id="planComparisonTitle" text="{i18nPlanning>supplierComparisonTitle}" level="H2" />
+                        <ToolbarSpacer id="planComparisonToolbarSpacer" />
+                        <ObjectStatus id="planComparisonAiStatus" text="{i18nPlanning>aiForecastBadge}" icon="sap-icon://ai" class="tideAIStatus" />
+                    </Toolbar></headerToolbar>
+                    <Text id="planComparisonIntro" text="{i18nPlanning>supplierComparisonIntro}" wrapping="true" class="sapUiTinyMarginBottom" />
+                    <MessageStrip id="planComparisonFailure" type="Error" showIcon="true" text="{plan>/comparisonError}"
+                        visible="{= !!${plan>/comparisonError} }" class="sapUiTinyMarginBottom" />
+                    <HBox id="planComparisonLoading" alignItems="Center" visible="{plan>/comparisonBusy}" class="sapUiSmallMarginBottom">
+                        <BusyIndicator id="planComparisonBusy" size="1rem" />
+                        <Text id="planComparisonLoadingText" text="{i18nPlanning>supplierComparisonLoading}" class="sapUiTinyMarginBegin" />
+                    </HBox>
+                    <MessageStrip id="planComparisonEmpty" type="Information" showIcon="true" text="{i18nPlanning>noSuppliersToCompare}"
+                        visible="{= ${plan>/comparisonRan} &amp;&amp; !${plan>/comparisonBusy} &amp;&amp; !${plan>/hasSupplierOptions} &amp;&amp; !${plan>/comparisonError} }" />
+                    <VBox id="planSupplierLanes" items="{path: 'plan>/supplierOptions', templateShareable: false}"
+                        visible="{= ${plan>/hasSupplierOptions} }">
+                    <VBox id="planSupplierLane" class="tideSupplierLane sapUiSmallMarginBottom" visible="{= !!${plan>errorText} || !!${plan>rangeMessage} }">
+                            <HBox id="planSupplierLaneHeading" alignItems="Center" justifyContent="SpaceBetween" wrap="Wrap">
+                                <Title id="planSupplierLaneName" text="{plan>supplierText}" level="H3" />
+                                <ObjectStatus id="planSupplierLaneStatus" text="{plan>feasibilitySummary}" state="{plan>feasibilityState}" />
+                            </HBox>
+                            <Text id="planSupplierNoRange" text="{plan>rangeMessage}" visible="{= !!${plan>rangeMessage} }" />
+                            <MessageStrip id="planSupplierError" type="Error" showIcon="true" text="{plan>errorText}"
+                                visible="{= !!${plan>errorText} }" />
+                        </VBox>
+                    </VBox>
+                    <Title id="planSupplierTableTitle" text="{i18nPlanning>supplierComparisonTableTitle}" level="H3"
+                        visible="{plan>/hasSupplierOptions}" class="sapUiSmallMarginTop" />
+                    <Table id="planSupplierComparisonTable" items="{path: 'plan>/supplierOptions', templateShareable: false}"
+                        ariaLabelledBy="planSupplierTableTitle" autoPopinMode="true" visible="{plan>/hasSupplierOptions}">
+                        <columns>
+                            <Column id="planSupplierOptionColumn" importance="High"><header><Text text="{i18nPlanning>supplier}" /></header></Column>
+                            <Column id="planSupplierP50Column" hAlign="End" importance="High"><header><Text text="{i18nPlanning>scenarioP50Short}" /></header></Column>
+                            <Column id="planSupplierP50FeasibilityColumn" importance="High"><header><Text text="{i18nPlanning>scenarioP50Feasibility}" /></header></Column>
+                            <Column id="planSupplierP80Column" hAlign="End" importance="High"><header><Text text="{i18nPlanning>scenarioP80Short}" /></header></Column>
+                            <Column id="planSupplierP80FeasibilityColumn" importance="High"><header><Text text="{i18nPlanning>scenarioP80Feasibility}" /></header></Column>
+                            <Column id="planSupplierP90Column" hAlign="End" importance="Medium"><header><Text text="{i18nPlanning>scenarioP90Short}" /></header></Column>
+                            <Column id="planSupplierP90FeasibilityColumn" importance="Medium"><header><Text text="{i18nPlanning>scenarioP90Feasibility}" /></header></Column>
+                            <Column id="planSupplierPriceColumn" hAlign="End" importance="High"><header><Text text="{i18nPlanning>priceP50}" /></header></Column>
+                            <Column id="planSupplierPriceRangeColumn" hAlign="End" importance="Medium"><header><Text text="{i18nPlanning>priceRangeShort}" /></header></Column>
+                            <Column id="planSupplierPriceSourceColumn" importance="Low"><header><Text text="{i18nPlanning>priceSource}" /></header></Column>
+                        </columns>
+                        <items><ColumnListItem id="planSupplierOptionRow" class="tideAIResultRow"><cells>
+                            <Text id="planSupplierOptionSupplier" text="{plan>supplierText}" />
+                            <Text id="planSupplierOptionP50" text="{plan>p50Text}" />
+                            <ObjectStatus id="planSupplierP50Feasibility" text="{plan>p50FeasibilityText}" state="{plan>p50FeasibilityState}" />
+                            <Text id="planSupplierOptionP80" text="{plan>p80Text}" />
+                            <ObjectStatus id="planSupplierP80Feasibility" text="{plan>p80FeasibilityText}" state="{plan>p80FeasibilityState}" />
+                            <Text id="planSupplierOptionP90" text="{plan>p90Text}" />
+                            <VBox id="planSupplierP90FeasibilityBox">
+                                <ObjectStatus id="planSupplierP90Feasibility" text="{plan>p90FeasibilityText}" state="{plan>p90FeasibilityState}" />
+                                <MessageStrip id="planSupplierTableError" type="Error" showIcon="true" text="{plan>errorText}" visible="{= !!${plan>errorText} }" />
+                            </VBox>
+                            <Text id="planSupplierPrice" text="{plan>priceP50Text}" />
+                            <Text id="planSupplierPriceRange" text="{plan>priceRangeText}" />
+                            <ObjectStatus id="planSupplierPriceSource" text="{plan>priceSourceText}" icon="{= ${plan>priceSource} === 'tabpfn' ? 'sap-icon://ai' : '' }" state="{= ${plan>priceSource} === 'tabpfn' ? 'Information' : 'None' }" class="{= ${plan>priceSource} === 'tabpfn' ? 'tideAIStatus' : '' }" />
+                        </cells></ColumnListItem></items>
+                    </Table>
+                </Panel>
+            </VBox>
+        </f:content>
+    </f:DynamicPage>
+</mvc:View>

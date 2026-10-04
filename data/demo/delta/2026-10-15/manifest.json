@@ -1,0 +1,131 @@
+{
+  "date": "2026-10-15",
+  "cut_before": "2026-10-15",
+  "cut_after": "2026-10-16",
+  "rows": {
+    "API_INBOUND_DELIVERY_SRV_0002/A_InbDeliveryDocFlow": 50,
+    "API_INBOUND_DELIVERY_SRV_0002/A_InbDeliveryHeader": 21,
+    "API_INBOUND_DELIVERY_SRV_0002/A_InbDeliveryItem": 77,
+    "API_INFORECORD_PROCESS_SRV/A_PurchasingInfoRecord": 2,
+    "API_INFORECORD_PROCESS_SRV/A_PurgInfoRecdOrgPlantData": 2,
+    "API_MATERIAL_DOCUMENT_SRV/A_MaterialDocumentHeader": 45,
+    "API_MATERIAL_DOCUMENT_SRV/A_MaterialDocumentItem": 118,
+    "API_MATERIAL_STOCK_SRV/A_MatlStkInAcctMod": 2577,
+    "API_PLND_INDEP_RQMT_SRV/A_PlannedIndepRqmtItem": 3,
+    "API_PRODUCTION_ORDER_2_SRV/A_ProductionOrderComponent_2": 30,
+    "API_PRODUCTION_ORDER_2_SRV/A_ProductionOrder_2": 2,
+    "API_PURCHASEORDER_2/PurchaseOrder": 16,
+    "API_PURCHASEORDER_2/PurchaseOrderAccountAssignment": 70,
+    "API_PURCHASEORDER_2/PurchaseOrderItem": 131,
+    "API_PURCHASEORDER_2/PurchaseOrderScheduleLine": 132,
+    "API_PURCHASEREQUISITION_2/PurchaseReqn": 10,
+    "API_PURCHASEREQUISITION_2/PurchaseReqnAcctAssgmt": 21,
+    "API_PURCHASEREQUISITION_2/PurchaseReqnItem": 123,
+    "API_SALESORDER/SalesOrder": 7,
+    "API_SALESORDER/SalesOrderItem": 29,
+    "CE_SUPPLIERCONFIRMATION_0001/Confirmation": 2,
+    "CE_SUPPLIERCONFIRMATION_0001/ConfirmationItem": 2,
+    "CE_SUPPLIERCONFIRMATION_0001/ConfirmationLine": 3,
+    "OP_PLANNEDORDER_0001/PlannedOrderComponent": 65,
+    "OP_PLANNEDORDER_0001/PlannedOrderHeader": 63,
+    "truth/confirmations": 6,
+    "truth/injected_slips": 6,
+    "truth/lead_times": 89,
+    "truth/mto_e_items": 5
+  },
+  "replace": [
+    "API_MATERIAL_STOCK_SRV/A_MatlStkInAcctMod",
+    "OP_PLANNEDORDER_0001/PlannedOrderComponent",
+    "OP_PLANNEDORDER_0001/PlannedOrderHeader"
+  ],
+  "truth_keys": {
+    "truth/confirmations": [
+      "PurchaseOrder",
+      "PurchaseOrderItem"
+    ],
+    "truth/injected_slips": [
+      "PurchaseOrder",
+      "PurchaseOrderItem"
+    ],
+    "truth/lead_times": [
+      "PurchaseOrder",
+      "PurchaseOrderItem"
+    ],
+    "truth/mto_e_items": [
+      "PurchaseRequisition",
+      "PurchaseRequisitionItem"
+    ]
+  },
+  "changed_columns": {
+    "API_INBOUND_DELIVERY_SRV_0002/A_InbDeliveryHeader": [
+      "ActualGoodsMovementDate",
+      "OverallGoodsMovementStatus",
+      "OverallSDProcessStatus"
+    ],
+    "API_INBOUND_DELIVERY_SRV_0002/A_InbDeliveryItem": [
+      "GoodsMovementStatus"
+    ],
+    "API_PLND_INDEP_RQMT_SRV/A_PlannedIndepRqmtItem": [
+      "WithdrawalQuantity"
+    ],
+    "API_PRODUCTION_ORDER_2_SRV/A_ProductionOrderComponent_2": [
+      "WithdrawnQuantity"
+    ],
+    "API_PRODUCTION_ORDER_2_SRV/A_ProductionOrder_2": [
+      "OrderIsCreated",
+      "OrderIsReleased"
+    ],
+    "API_PURCHASEORDER_2/PurchaseOrderItem": [
+      "IsCompletelyDelivered"
+    ],
+    "API_PURCHASEORDER_2/PurchaseOrderScheduleLine": [
+      "OpenPurchaseOrderQuantity"
+    ],
+    "API_PURCHASEREQUISITION_2/PurchaseReqnItem": [
+      "PurchasingDocument",
+      "PurchasingDocumentItem",
+      "OrderedQuantity",
+      "ProcessingStatus",
+      "Supplier",
+      "IsClosed"
+    ],
+    "API_SALESORDER/SalesOrderItem": [
+      "DeliveryStatus"
+    ],
+    "truth/confirmations": [
+      "LatestConfirmedDateAtCut"
+    ]
+  },
+  "lost_keys": {},
+  "file_sha256": {
+    "API_INBOUND_DELIVERY_SRV_0002/A_InbDeliveryDocFlow": "b937ccb292b2f65ba8328fcea1f335987b846b0c4cd970295074358cfb6223df",
+    "API_INBOUND_DELIVERY_SRV_0002/A_InbDeliveryHeader": "ecba8a6dd7ff1501a8be693b98ef416217d068a9078ed38ac0d836ac8954d791",
+    "API_INBOUND_DELIVERY_SRV_0002/A_InbDeliveryItem": "5cd7042181e471104d65ceeb08f81dd0f202dbb5568a373751e1560a998b056d",
+    "API_INFORECORD_PROCESS_SRV/A_PurchasingInfoRecord": "d7d572b4c8f03f8a2b7fd47f5ef03fdb8026b7859a4a61069185a10cd626b466",
+    "API_INFORECORD_PROCESS_SRV/A_PurgInfoRecdOrgPlantData": "297c62a91a25a8b06efc4df1fbc7242ea31f5a99f0c943a2881c2ba9b7b7b86b",
+    "API_MATERIAL_DOCUMENT_SRV/A_MaterialDocumentHeader": "3e7c9355124c48c63954ce9dfc0ba9dbae489ad6d78b99ccedcd3869011e3ee8",
+    "API_MATERIAL_DOCUMENT_SRV/A_MaterialDocumentItem": "6d50a705c66a66911675d80829d9c11c1286958ff5f9c021a6553845cbcf992e",
+    "API_MATERIAL_STOCK_SRV/A_MatlStkInAcctMod": "919067ca1bea348b1749b60e662db611bb7c7c67662f0e3d92687fd3f916ba64",
+    "API_PLND_INDEP_RQMT_SRV/A_PlannedIndepRqmtItem": "8ea9b8a312bfc2d995442492b7bacfe2e4011dc32f895ee9ce785ac1b23cdee9",
+    "API_PRODUCTION_ORDER_2_SRV/A_ProductionOrderComponent_2": "65bac07b2e48ce89bc722f35f65fb2de3aaedcaae79fb004c5e5bc9d008e8725",
+    "API_PRODUCTION_ORDER_2_SRV/A_ProductionOrder_2": "fa141d8eeb6b29df0ae3d33ae6dfa4f49cca6d79e78ae7fcb8038436db76fc5e",
+    "API_PURCHASEORDER_2/PurchaseOrder": "5b799a9abcfba8a5ee8afc554713a0a079797d6bd3a6ac6e1ba00efe7186681d",
+    "API_PURCHASEORDER_2/PurchaseOrderAccountAssignment": "c145853de59a9975dc0836e38c996dab80e72656ac4d612be715cacd85095f5f",
+    "API_PURCHASEORDER_2/PurchaseOrderItem": "66ea2664d072c01d66448ebc8d363e3f0eee6128714349fa6080f9654ebb3aff",
+    "API_PURCHASEORDER_2/PurchaseOrderScheduleLine": "83f0c5b96e3622c2cb6160cf97dd8cb8ee662cd32c2fa19fc4336fa1c475bec0",
+    "API_PURCHASEREQUISITION_2/PurchaseReqn": "5958524f88d385a9c88583f0b52b617ea85f8a1d972d2dbaa3fdd191f3a59f63",
+    "API_PURCHASEREQUISITION_2/PurchaseReqnAcctAssgmt": "3cefd47929633fab16ccb562459f1efc61120a9ef7d0190aca2255c73e31ee3b",
+    "API_PURCHASEREQUISITION_2/PurchaseReqnItem": "f2d52f8f01a60ad2e435ac9f6be9e3c91d5a1730512188193338bd7ad83bcf2d",
+    "API_SALESORDER/SalesOrder": "72f7418865e1af596aa79a7f9aee4b2ba82dfe9610d2264a16e81708ddc82a26",
+    "API_SALESORDER/SalesOrderItem": "766924197ec15fd0e041fffe9ec44e0d90cf80f155837c508497c968273e1d95",
+    "CE_SUPPLIERCONFIRMATION_0001/Confirmation": "2b5be521779eb8ea238861c4f25784608210ba0786c2bd809dbcbd5930a60249",
+    "CE_SUPPLIERCONFIRMATION_0001/ConfirmationItem": "6bdf7512fbb44f82364331fc6c542e00f09727e268bf019a6fbfe97a4f18b957",
+    "CE_SUPPLIERCONFIRMATION_0001/ConfirmationLine": "aa157d870c05de563b3b8d9c56d5195922a66152eb7c0871fecefc1985eb9571",
+    "OP_PLANNEDORDER_0001/PlannedOrderComponent": "e32f2286f2c9be31cf5f8af497e77101c317bde1caf0372b5f2fdfe79e40aadc",
+    "OP_PLANNEDORDER_0001/PlannedOrderHeader": "0e9dc53f3230f4fbf62203027c0715c9d53100c67ac455831af75d5783fe07a5",
+    "truth/confirmations": "1bd3a86940e24c46c080cb39d5e6076570771c507da977d7df06a1b9cf360084",
+    "truth/injected_slips": "cd1be3427012f20f34d53d1b04cf480767e52be67509be677124e202a4b9b73c",
+    "truth/lead_times": "909b67cd94221688a806ddcb0002ae3c69422ff64478caa6039340c0c558ed6d",
+    "truth/mto_e_items": "62ff371bac5465a13a656b83b42824181e5b576971e1bf56545e84b8cfcebf3c"
+  }
+}

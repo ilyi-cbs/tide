@@ -1,0 +1,25 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+    <Dialog id="predictionChooser" title="{= %{workspace>/predictionStage} === 'targets' ? ${i18nFreetext>predictionTargets} : ${i18nFreetext>predictionResults} }" contentWidth="40rem" stretch="{device>/system/phone}" initialFocus="predictionFieldList">
+        <OverflowToolbar visible="{= %{workspace>/predictionStage} === 'targets' }" design="Transparent">
+            <Button text="{i18nFreetext>selectMissing}" icon="sap-icon://add" press=".extension.tide.cockpit.ext.controller.RequisitionWorkspace.onSelectMissingPredictions" />
+            <Button text="{i18nFreetext>selectStale}" icon="sap-icon://history" press=".extension.tide.cockpit.ext.controller.RequisitionWorkspace.onSelectStalePredictions" />
+            <Button text="{i18nFreetext>clearSelection}" icon="sap-icon://clear-all" press=".extension.tide.cockpit.ext.controller.RequisitionWorkspace.onClearPredictionSelection" />
+        </OverflowToolbar>
+        <List id="predictionFieldList" mode="None" items="{path: 'workspace>/predictionChoices'}">
+            <CustomListItem id="predictionFieldChoice" type="Inactive">
+                <VBox id="predictionChoiceContent" class="sapUiSmallMarginBeginEnd sapUiTinyMarginTopBottom">
+                    <CheckBox id="predictionFieldCheckbox" text="{workspace>label}" selected="{workspace>selected}" enabled="{= !!%{workspace>enabled} &amp;&amp; !%{workspace>/actionBusy} }" select=".extension.tide.cockpit.ext.controller.RequisitionWorkspace.onPredictionChoiceChanged" />
+                    <Text id="predictionChoiceReason" text="{workspace>description}" wrapping="true" class="sapUiSmallMarginBegin sapUiTinyMarginBottom" />
+                    <Label id="predictionCurrentLabel" text="{i18nFreetext>currentValue}" visible="{= %{workspace>/predictionStage} === 'results' }" />
+                    <Text id="predictionCurrentValue" text="{workspace>currentText}" wrapping="true" visible="{= %{workspace>/predictionStage} === 'results' }" />
+                    <Label id="predictionSuggestedLabel" text="{i18nFreetext>suggestedValue}" labelFor="predictionCandidate" visible="{= %{workspace>/predictionStage} === 'results' }" />
+                    <Select id="predictionCandidate" width="100%" selectedKey="{workspace>candidateID}" visible="{= %{workspace>/predictionStage} === 'results' }" enabled="{= !!%{workspace>enabled} &amp;&amp; !%{workspace>/actionBusy} }" items="{path: 'workspace>alternatives', templateShareable: false}" change=".extension.tide.cockpit.ext.controller.RequisitionWorkspace.onPredictionCandidateChanged">
+                        <core:Item id="predictionCandidateOption" key="{workspace>id}" text="{workspace>displayText}" />
+                    </Select>
+                </VBox>
+            </CustomListItem>
+        </List>
+        <beginButton><Button id="startPrediction" text="{= %{workspace>/predictionStage} === 'targets' ? ${i18nFreetext>predictSelected} : ${i18nFreetext>applySelected} }" icon="{= %{workspace>/predictionStage} === 'targets' ? 'sap-icon://ai' : 'sap-icon://accept' }" enabled="{= (%{workspace>/predictionStage} === 'targets' ? !!%{workspace>/canStartPrediction} : !!%{workspace>/canAcceptPredictions}) &amp;&amp; !%{workspace>/actionBusy} }" type="Emphasized" press=".extension.tide.cockpit.ext.controller.RequisitionWorkspace.onPredictionCommand" /></beginButton>
+        <endButton><Button id="cancelPredictionChooser" text="{= %{workspace>/predictionStage} === 'targets' ? ${i18nFreetext>cancelSuggestions} : ${i18nFreetext>close} }" press=".extension.tide.cockpit.ext.controller.RequisitionWorkspace.onClosePredictionChooser" /></endButton>
+    </Dialog>
+</core:FragmentDefinition>

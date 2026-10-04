@@ -1,0 +1,4 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+    <Text text="{path: 'objectKey', formatter: 'Approval.objectLabel'}" wrapping="true"
+        core:require="{Approval: 'tide/cockpit/ext/approvals/ApprovalFormatters'}" />
+</core:FragmentDefinition>

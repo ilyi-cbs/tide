@@ -1,0 +1,62 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:p="tide.cockpit.ext.prevention" xmlns:r="tide.cockpit.ext.rangeBar">
+    <VBox id="rareCombinationEvidence" width="100%" class="tidePreventionComparison tideComparisonWorkspace" core:require="{Workspace: 'tide/cockpit/ext/prevention/Workspace'}" modelContextChange="Workspace.onContextChange" busy="{prevention>/loading}">
+        <core:Fragment fragmentName="tide.cockpit.ext.prevention.CaseSummary" type="XML" />
+        <core:Fragment fragmentName="tide.cockpit.ext.prevention.LoadState" type="XML" />
+        <MessageStrip text="{prevention>/banner}" type="Warning" showIcon="true" visible="{prevention>/loaded}" />
+        <core:Fragment fragmentName="tide.cockpit.ext.prevention.PredictionControls" type="XML" />
+        <HBox id="rareCombinationMetrics" width="100%" wrap="Wrap" class="tidePriceSummary tideComparisonSummary">
+            <VBox id="rareCombinationCountMetric" class="tidePreventionMetric"><Label text="Rare combinations" /><ObjectNumber number="{prevention>/row/unusualPairCount}" /></VBox>
+            <VBox id="rareCombinationPeerMetric" class="tidePreventionMetric"><Label text="Peer-group materials" /><ObjectNumber number="{prevention>/row/groupSize}" /></VBox>
+        </HBox>
+        <HBox width="100%" wrap="Wrap" class="tideRareComparisonColumns sapUiMediumMarginTop">
+        <VBox width="100%">
+        <Title text="Suggested Planning Values" level="H3" visible="{prevention>/hasPlanningPredictions}" />
+        <Table items="{prevention>/planningPredictions}" autoPopinMode="true" visible="{prevention>/hasPlanningPredictions}" noDataText="No supported planning suggestions are available.">
+            <columns>
+                <Column importance="High"><Text text="Planning Field" /></Column>
+                <Column importance="High"><Text text="SAP Current" /></Column>
+                <Column importance="High"><HBox alignItems="Center"><core:Icon src="sap-icon://ai" tooltip="AI suggested value" class="sapUiTinyMarginEnd tideAIIcon" /><Text text="Suggested Value" /></HBox></Column>
+                <Column importance="Medium" width="12rem"><Text text="Prediction Confidence" /></Column>
+            </columns>
+            <items><ColumnListItem highlight="{prevention>predictionState}"><cells>
+                <Text text="{prevention>field}" />
+                <Text text="{prevention>currentText}" />
+                <VBox><ObjectStatus text="{prevention>valueText}" icon="sap-icon://ai" class="tideAIStatus" state="{prevention>predictionState}" visible="{prevention>ai}" /><Text text="{prevention>valueText}" visible="{= !%{prevention>ai} }" /><Text text="{prevention>comparisonText}" wrapping="true" /><Text text="{prevention>detail/warning}" wrapping="true" visible="{= !!%{prevention>detail/warning} }" class="tidePreventionNote" /></VBox>
+                <VBox><ProgressIndicator percentValue="{prevention>confidence}" displayValue="{prevention>confidenceText}" state="Information" visible="{prevention>hasConfidence}" tooltip="Model probability for the suggested planning value; not probability that the current setting is wrong" /><ObjectStatus text="{= %{prevention>ai} ? 'AI' : %{prevention>sourceText} }" icon="{= %{prevention>ai} ? 'sap-icon://ai' : 'sap-icon://information' }" class="tideAIStatus" /></VBox>
+            </cells></ColumnListItem></items>
+        </Table>
+        <Text text="Source: TabPFN by PriorLabs" visible="{prevention>/hasTabPFNPlanning}" class="tideModelAttribution sapUiTinyMarginTop" />
+        <Text text="Planning suggestions are not yet available." visible="{= %{prevention>/loaded} &amp;&amp; !%{prevention>/hasPlanningPredictions} }" class="tidePreventionNote" />
+        </VBox>
+        <VBox width="100%" visible="{prevention>/hasDeliveryEvidence}">
+            <Title text="Predicted and Observed Delivery Time" level="H3" />
+            <VBox items="{path: 'prevention>/deliveryRanges', templateShareable: false}">
+                <VBox class="sapUiSmallMarginBottom">
+                    <ObjectStatus text="{= %{prevention>ai} ? 'AI' : %{prevention>source} }" icon="{= %{prevention>ai} ? 'sap-icon://ai' : 'sap-icon://information' }" class="tideAIStatus" />
+                    <r:RangeChart chartTitle="{= %{prevention>Supplier} + ' - ' + (%{prevention>ai} ? 'AI' : %{prevention>source}) }" p10="{prevention>p10}" p50="{prevention>p50}" p90="{prevention>p90}" planned="{prevention>currentDays}" plannedLabel="SAP current" unit="days" rangeTitle="Delivery-time P10-P90" visible="{prevention>supported}" />
+                </VBox>
+            </VBox>
+            <Text text="Source: TabPFN by PriorLabs" visible="{prevention>/hasTabPFNDelivery}" class="tideModelAttribution sapUiTinyMarginTop" />
+        </VBox>
+        </HBox>
+        <VBox visible="{prevention>/hasLatePredictions}" class="sapUiMediumMarginTop">
+            <Title text="Requested-Date Risk" level="H3" />
+            <Table items="{prevention>/latePredictions}" autoPopinMode="true" growing="true" growingThreshold="10">
+                <columns><Column importance="High"><Text text="Order / Late Threshold" /></Column><Column importance="High" width="12rem"><Text text="Predicted Late Probability" /></Column><Column importance="Medium"><Text text="Source" /></Column></columns>
+                <items><ColumnListItem><cells><Text text="{prevention>label}" wrapping="true" /><ObjectStatus text="{prevention>valueText}" icon="{= %{prevention>ai} ? 'sap-icon://ai' : 'sap-icon://information' }" state="Information" /><Text text="{= %{prevention>ai} ? 'AI' : %{prevention>sourceText} }" /></cells></ColumnListItem></items>
+            </Table>
+            <Text text="Uncalibrated per-order probability; not complete-case material risk." class="tidePreventionNote sapUiTinyMarginTop" />
+            <Text text="Source: TabPFN by PriorLabs" visible="{prevention>/hasTabPFNLate}" class="tideModelAttribution sapUiTinyMarginTop" />
+        </VBox>
+        <Table id="rareCombinationPairs" items="{prevention>/lines}" autoPopinMode="true" growing="true" noDataText="No retained setting-pair records are available." visible="{prevention>/loaded}">
+            <columns>
+                <Column importance="High"><Text text="Setting Pair" /></Column>
+                <Column importance="High"><Text text="Recorded Values" /></Column>
+                <Column importance="Medium" hAlign="End"><Text text="Materials with First Value" /></Column>
+                <Column importance="Medium" hAlign="End"><Text text="Materials with Second Value" /></Column>
+                <Column importance="High" hAlign="End"><Text text="Materials with Both Values" /></Column>
+            </columns>
+            <items><ColumnListItem><cells><Text text="{prevention>label}" wrapping="true" /><Text text="{prevention>text}" wrapping="true" /><ObjectNumber number="{prevention>n1}" emphasized="false" /><ObjectNumber number="{prevention>n2}" emphasized="false" /><ObjectNumber number="{prevention>count}" emphasized="false" /></cells></ColumnListItem></items>
+        </Table>
+    </VBox>
+</core:FragmentDefinition>

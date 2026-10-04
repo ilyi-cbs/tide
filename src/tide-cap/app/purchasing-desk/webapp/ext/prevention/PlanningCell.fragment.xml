@@ -1,0 +1,7 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+    <Text text="{= 'SAP: ' + %{prevention>currentText} }" />
+    <ObjectStatus text="{= %{prevention>valueText} + (%{prevention>hasConfidence} ? ' (' + %{prevention>confidenceText} + ')' : '') }" icon="sap-icon://ai" state="{prevention>predictionState}" class="tideAIStatus" visible="{prevention>ai}" tooltip="AI planning prediction. Confidence is the model probability of this value, not duplicate probability." />
+    <Text text="{= %{prevention>detail/reason} || 'Prediction unavailable' }" wrapping="true" visible="{= !%{prevention>ai} }" />
+    <Text text="{prevention>detail/warning}" wrapping="true" visible="{= !!%{prevention>detail/warning} }" class="tidePreventionNote" />
+    <Text text="Differs from SAP" visible="{prevention>changed}" />
+</core:FragmentDefinition>

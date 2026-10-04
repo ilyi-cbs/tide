@@ -1,0 +1,24 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+    <VBox width="100%" visible="{= ${approval>/state} === 'loaded' }">
+        <HBox justifyContent="SpaceBetween" alignItems="Center" wrap="Wrap" visible="{approval>/canDecide}" class="tideActionRow tideRecommendedAction">
+            <VBox>
+                <HBox alignItems="Center" class="tideRecommendedActionBadge">
+                    <core:Icon src="sap-icon://ai" decorative="false" alt="{i18nOutlook>recommendedTag}" tooltip="{i18nOutlook>recommendedTag}" class="tideRecommendedActionIcon" />
+                    <Label text="{i18nOutlook>recommendedTag}" design="Bold" class="tideRecommendedActionLabel" />
+                </HBox>
+                <Title text="{approval>/approveText}" level="H4" wrapping="true" />
+                <Text text="{i18nApprovals>approvalDoesNotExecute}" wrapping="true" class="sapUiTinyMarginTop tideFigureNote" />
+            </VBox>
+            <Button text="{approval>/approveText}" type="Emphasized" press=".extension.tide.cockpit.ext.controller.ApprovalWorkspace.onApprove" enabled="{= ${approval>/canApprove} &amp;&amp; !${approval>/busy} }" />
+        </HBox>
+        <HBox justifyContent="SpaceBetween" alignItems="Center" wrap="Wrap" visible="{approval>/canDecide}" class="tideActionRow">
+            <VBox><Title text="{i18nApprovals>decline}" level="H4" wrapping="true" /></VBox>
+            <Button text="{i18nApprovals>decline}" press=".extension.tide.cockpit.ext.controller.ApprovalWorkspace.onDecline" enabled="{= !${approval>/busy} }" />
+        </HBox>
+        <HBox justifyContent="SpaceBetween" alignItems="Center" wrap="Wrap" visible="{approval>/canLogOutcome}" class="tideActionRow">
+            <VBox><Title text="{i18nApprovals>logOutcome}" level="H4" wrapping="true" /></VBox>
+            <Button text="{i18nApprovals>logOutcome}" press=".extension.tide.cockpit.ext.controller.ApprovalWorkspace.onLogOutcome" enabled="{= !${approval>/busy} }" />
+        </HBox>
+        <core:Fragment fragmentName="tide.cockpit.ext.ActionSection" type="XML" />
+    </VBox>
+</core:FragmentDefinition>

@@ -1,0 +1,44 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout">
+    <VBox id="deliveryRiskHeader" width="100%" class="tideRiskHeader"
+        core:require="{Outlook: 'tide/cockpit/ext/outlook/Outlook', Attention: 'tide/cockpit/ext/shared/Attention'}"
+        modelContextChange="Outlook.onContextChange">
+        <HBox id="riskHeaderStatus" justifyContent="SpaceBetween" alignItems="Center" wrap="Wrap">
+            <HBox id="riskHeaderBadges" wrap="Wrap" class="tideRiskHeaderBadges">
+                <ObjectStatus id="riskCaseStatus" text="{= ${caseStatus} === 'closed' ? 'Closed' : 'Open' }" icon="sap-icon://status-in-process" state="{= ${caseStatus} === 'closed' ? 'Success' : 'Information' }" />
+                <ObjectStatus id="riskPriority" text="{= ${phase} === 'overdue' ? 'Overdue' : 'At Risk' }" icon="sap-icon://alert" state="{= ${phase} === 'overdue' ? 'Error' : 'Warning' }" />
+                <ObjectStatus id="riskAttention"
+                    text="{parts: [{path: 'caseAttention'}, {path: 'i18n>attentionActionRequired'}, {path: 'i18n>attentionInProgress'}, {path: 'i18n>attentionWaiting'}, {path: 'i18n>attentionDone'}], formatter: 'Attention.text'}"
+                    icon="{path: 'caseAttention', formatter: 'Attention.icon'}"
+                    state="{path: 'caseAttention', formatter: 'Attention.state'}" />
+            </HBox>
+        </HBox>
+        <l:Grid id="riskHeaderMetrics" defaultSpan="XL3 L3 M6 S6" hSpacing="0.5" vSpacing="0.5" class="sapUiSmallMarginTop">
+            <VBox id="riskRequiredMetric" class="tideRiskMetric">
+                <Label text="Requested" design="Bold" />
+                <Text text="{out>/requiredDateText}" class="tideRiskMetricValue" />
+                <Text text="{= +${out>/daysAfterRequired} > 0 ? ${out>/daysAfterRequired} + ' days late' : '' }" class="tideFigureNote" />
+            </VBox>
+            <VBox id="riskPredictedMetric" class="tideRiskMetric">
+                <Label text="Forecast arrival" design="Bold" />
+                <HBox alignItems="Center" renderType="Bare">
+                    <Text text="{out>/mostLikelyDateText}" class="tideRiskMetricValue" />
+                    <core:Icon src="sap-icon://ai" decorative="false" tooltip="{i18nOutlook>aiForecastSource}" visible="{out>/hasAiPrediction}" class="sapUiTinyMarginBegin tideForecastAiIcon" />
+                </HBox>
+            </VBox>
+            <VBox id="riskRevenueMetric" class="tideRiskMetric">
+                <Label text="Revenue at risk" design="Bold" />
+                <ObjectNumber number="{revenueAtRisk}" unit="EUR" state="Error" emphasized="true" visible="{= %{revenueAtRisk} !== null &amp;&amp; %{revenueAtRisk} !== undefined }" class="tideRiskRevenueValue" />
+                <Text text="Not available" visible="{= %{revenueAtRisk} === null || %{revenueAtRisk} === undefined }" class="tideRiskMetricValue" />
+            </VBox>
+            <VBox id="riskDemandMetric" class="tideRiskMetric">
+                <Label text="Affected demand" design="Bold" />
+                <Text text="{= ${impact/salesOrders} ? ${impact/salesOrders} + ' sales orders' : ${impact/productionOrders} ? ${impact/productionOrders} + ' production orders' : (${impact/stock} !== null &amp;&amp; ${impact/stock} !== undefined) ? 'Stock projection available' : 'No affected demand calculated' }" class="tideRiskMetricValue" />
+                <Text text="{= ${impact/shortageDays} !== null &amp;&amp; ${impact/shortageDays} !== undefined ? ${impact/shortageDays} + ' shortage days' : ${impact/shortageFrom} ? 'Short from ' + ${impact/shortageFrom} : '' }" class="tideFigureNote" />
+            </VBox>
+            <VBox id="riskCustomerImpactMetric" class="tideRiskMetric">
+                <Label text="Customer impact" design="Bold" />
+                <Text text="{impact/impactLevelText}" class="tideRiskMetricValue" />
+            </VBox>
+        </l:Grid>
+    </VBox>
+</core:FragmentDefinition>

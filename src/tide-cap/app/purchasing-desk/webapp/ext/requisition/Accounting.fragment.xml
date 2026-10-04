@@ -1,0 +1,32 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:macros="sap.fe.macros" xmlns:assist="tide.cockpit.ext.requisition">
+    <VBox id="accountingWorkspace" width="100%" modelContextChange=".extension.tide.cockpit.ext.controller.RequisitionWorkspace.onAccountingContextChange">
+        <f:Form editable="{ui>/isEditable}">
+            <f:layout><f:ColumnLayout columnsM="1" columnsL="2" columnsXL="2" labelCellsLarge="12" /></f:layout>
+            <f:formContainers><f:FormContainer><f:formElements>
+                <macros:FormElement id="accountCategoryElement" metaPath="reviewedAccountAssignmentCategory"><macros:fields><core:Fragment fragmentName="tide.cockpit.ext.requisition.AccountAssignmentCategoryField" type="XML" /></macros:fields></macros:FormElement>
+            </f:formElements></f:FormContainer></f:formContainers>
+        </f:Form>
+        <VBox id="accountAssignmentPanel" visible="{= !!%{workspace>/accountCategory} }">
+            <OverflowToolbar design="Transparent"><ToolbarSpacer /><Button text="{i18nFreetext>allocationPredictionTargets}" icon="sap-icon://ai" type="Transparent" enabled="{= !%{workspace>/actionBusy} &amp;&amp; !%{workspace>/predictionRunning} }" press=".extension.tide.cockpit.ext.controller.RequisitionWorkspace.onAllocationAssistance" /></OverflowToolbar>
+            <VBox id="singleAllocationForm" visible="{= %{workspace>/allocationCount} === 1 &amp;&amp; !%{workspace>/splitAllocation} }" items="{path: 'reviewAccountAssignments', templateShareable: false}">
+                <f:Form id="singleAllocation" editable="{ui>/isEditable}">
+                    <f:layout><f:ColumnLayout columnsM="1" columnsL="2" columnsXL="2" labelCellsLarge="12" /></f:layout>
+                    <f:formContainers><f:FormContainer id="singleAllocationFields"><f:formElements>
+                        <macros:FormElement id="allocationGlElement" contextPath="/FreetextReviewAccountAssignments" metaPath="GLAccount"><macros:fields><assist:AssistedField width="100%"><HBox alignItems="Center"><VBox><layoutData><FlexItemData growFactor="1" shrinkFactor="1" /></layoutData><macros:Field id="allocationGlWorkingField" contextPath="/FreetextReviewAccountAssignments" metaPath="GLAccount" /></VBox><Button icon="sap-icon://ai" type="Transparent" tooltip="{i18nFreetext>allocationGlAssistance}" press=".extension.tide.cockpit.ext.controller.RequisitionWorkspace.onAllocationAssistance"><customData><core:CustomData key="predictionField" value="GLAccount" /></customData></Button></HBox></assist:AssistedField></macros:fields></macros:FormElement>
+                        <macros:FormElement id="allocationCostElement" contextPath="/FreetextReviewAccountAssignments" metaPath="CostCenter" visible="{= %{workspace>/accountCategory} === 'K' }"><macros:fields><assist:AssistedField width="100%"><HBox alignItems="Center"><VBox><layoutData><FlexItemData growFactor="1" shrinkFactor="1" /></layoutData><macros:Field id="allocationCostWorkingField" contextPath="/FreetextReviewAccountAssignments" metaPath="CostCenter" /></VBox><Button icon="sap-icon://ai" type="Transparent" tooltip="{i18nFreetext>allocationCostAssistance}" press=".extension.tide.cockpit.ext.controller.RequisitionWorkspace.onAllocationAssistance"><customData><core:CustomData key="predictionField" value="CostCenter" /></customData></Button></HBox></assist:AssistedField></macros:fields></macros:FormElement>
+                        <macros:FormElement id="allocationSalesElement" contextPath="/FreetextReviewAccountAssignments" metaPath="SalesOrder" visible="{= %{workspace>/accountCategory} === 'E' }" />
+                        <macros:FormElement id="allocationSalesItemElement" contextPath="/FreetextReviewAccountAssignments" metaPath="SalesOrderItem" visible="{= %{workspace>/accountCategory} === 'E' }" />
+                        <macros:FormElement id="allocationAssetElement" contextPath="/FreetextReviewAccountAssignments" metaPath="MainAsset" visible="{= %{workspace>/accountCategory} === 'A' }" />
+                        <macros:FormElement id="allocationAssetSubElement" contextPath="/FreetextReviewAccountAssignments" metaPath="AssetSubnumber" visible="{= %{workspace>/accountCategory} === 'A' }" />
+                        <macros:FormElement id="allocationOrderElement" contextPath="/FreetextReviewAccountAssignments" metaPath="InternalOrder" visible="{= %{workspace>/accountCategory} === 'F' }" />
+                        <macros:FormElement id="allocationWbsElement" contextPath="/FreetextReviewAccountAssignments" metaPath="WBSElement" visible="{= %{workspace>/accountCategory} === 'P' }" />
+                    </f:formElements></f:FormContainer></f:formContainers>
+                </f:Form>
+            </VBox>
+            <Button id="splitAllocationButton" text="{i18nFreetext>splitAllocation}" type="Transparent" visible="{= %{workspace>/allocationCount} === 1 &amp;&amp; !%{workspace>/splitAllocation} &amp;&amp; %{ui>/isEditable} }" press=".extension.tide.cockpit.ext.controller.RequisitionWorkspace.onSplitAllocation" />
+            <VBox id="reviewAllocationTableRegion" visible="{= %{workspace>/allocationCount} !== 1 || !!%{workspace>/splitAllocation} }">
+                <macros:Table id="reviewAllocationTable" metaPath="reviewAccountAssignments/@com.sap.vocabularies.UI.v1.LineItem" readOnly="{= !%{ui>/isEditable} }" />
+            </VBox>
+        </VBox>
+    </VBox>
+</core:FragmentDefinition>

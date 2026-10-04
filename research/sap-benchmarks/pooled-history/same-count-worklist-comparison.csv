@@ -1,0 +1,2 @@
+flagger,mae_gain_days,tabpfn_mae_gain_days,rule
+ladder,31.038687181757805,24.9,"same key count, largest distance of the maintained value outside the ladder p10 to p90, among keys with 1 to 19 history rows"

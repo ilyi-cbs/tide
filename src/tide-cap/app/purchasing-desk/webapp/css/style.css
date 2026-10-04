@@ -1,0 +1,1617 @@
+.tideRequestWorkspace {
+    position: relative;
+    max-width: none;
+}
+
+.tideRequestColumns.sapMHBox {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem;
+    align-items: start;
+}
+
+.tideSuggestionCommands {
+    position: absolute;
+    right: 0;
+    top: 0;
+    max-width: 16rem;
+    z-index: 1;
+}
+
+.tideRequestWorkspace > .sapMFlexItem:has(.tideSuggestionCommands) {
+    z-index: 4;
+}
+
+.tideRequestWorkspace .sapMITBHead {
+    padding-right: 16rem;
+}
+
+@media (max-width: 900px) {
+    .tideRequestColumns.sapMHBox {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 1rem;
+    }
+    .tideSuggestionCommands {
+        position: static;
+        max-width: none;
+    }
+    .tideRequestWorkspace .sapMITBHead {
+        padding-right: 0;
+    }
+}
+
+.tideRequestWorkspace .sapMFlexItem {
+    min-width: 0;
+}
+
+.tideSimulationArrivalChart {
+    width: 100%;
+}
+
+.tideSimulationLoading {
+    padding: 1rem;
+    border-left: 4px solid var(--sapIndicationColor_7, #5d36ff);
+    background: var(--sapGroup_ContentBackground);
+}
+
+.tideSimulationLoading .sapMPIBar {
+    background: var(--sapIndicationColor_7, #5d36ff);
+    transition: width 250ms ease-out;
+}
+
+.tidePredictionLoading {
+    padding: 0.75rem 1rem;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.tidePredictionToolbar.sapMTB {
+    border-bottom: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tideSimulationLoading .sapMPIBar {
+        transition: none;
+    }
+}
+
+/* Criticality-coloured plain text (no ObjectStatus state announcement in the visible text). */
+.tideCrit[data-crit="1"] {
+    color: var(--sapNegativeTextColor);
+    font-weight: bold;
+}
+
+.tideCrit[data-crit="2"] {
+    color: var(--sapCriticalTextColor);
+    font-weight: bold;
+}
+
+.tideCrit[data-crit="3"] {
+    color: var(--sapPositiveTextColor);
+}
+
+.tideCrit[data-crit="5"] {
+    color: var(--sapInformativeTextColor);
+}
+
+.tideCritLarge {
+    display: block;
+    font-size: var(--sapObjectHeader_Title_FontSize);
+}
+
+/* Hero "what's wrong" status of the Findings object page (DiagnosisSection):
+   full-width, criticality-coloured background so the headline issue reads
+   as a story, not a form field. */
+.tideCritLarge[data-crit="1"] {
+    background-color: var(--sapErrorBackground);
+    border-left: 0.25rem solid var(--sapNegativeColor);
+    padding: 0.75rem 1rem;
+    border-radius: 0.25rem;
+}
+
+.tideCritLarge[data-crit="2"] {
+    background-color: var(--sapWarningBackground);
+    border-left: 0.25rem solid var(--sapCriticalColor);
+    padding: 0.75rem 1rem;
+    border-radius: 0.25rem;
+}
+
+.tideCritLarge[data-crit="3"] {
+    background-color: var(--sapSuccessBackground);
+    border-left: 0.25rem solid var(--sapPositiveColor);
+    padding: 0.75rem 1rem;
+    border-radius: 0.25rem;
+}
+
+.tideCritLarge[data-crit="0"],
+.tideCritLarge[data-crit="5"] {
+    background-color: var(--sapInformationBackground);
+    border-left: 0.25rem solid var(--sapInformativeColor);
+    padding: 0.75rem 1rem;
+    border-radius: 0.25rem;
+}
+
+/* AI/prediction accent ("Joule" violet): anything sourced from the
+   forecasting model (tabpfn) or its own-history estimate (empirical) — the
+   AtRisk range bar, LeadTime buffer simulator, Freetext confidence, and the
+   Activity Log's AI-attributed entries — gets this treatment so buyers can
+   tell "the model estimated this" from "this is a fixed rule or master
+   data" at a glance. */
+.tideAI {
+    position: relative;
+    padding-left: 0.75rem;
+    border-left: 0.1875rem solid #8875e0;
+    background: linear-gradient(90deg, rgba(136, 117, 224, 0.12), transparent 70%);
+}
+
+.tideAI .sapMTimelineItemIcon,
+.tideAI.sapMTimelineItem .sapMTimelineItemIcon {
+    color: #8875e0;
+}
+
+/* Delivery Simulation (feature planning): small note text under a field. */
+.tideFigureNote {
+    color: var(--sapContent_LabelColor);
+    font-size: var(--sapFontSmallSize);
+}
+
+/* Findings launcher: keep all destinations visible on desktop and let
+    the cards wrap to usable widths on smaller screens. */
+.tideHubLauncher {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.75rem;
+    width: 100%;
+}
+
+.tidePreventionHeader {
+    width: 100%;
+    padding: 0.5rem 0 0.75rem;
+}
+
+.tidePreventionTitle {
+    margin-bottom: 0.75rem;
+    font-size: var(--sapFontSize);
+    font-weight: var(--sapFontHeaderWeight);
+}
+
+.tidePreventionKpis {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    width: 100%;
+    max-width: 80rem;
+}
+
+.tidePreventionKpis > .sapMFlexItem {
+    min-width: 0;
+    margin: 0;
+}
+
+.tidePreventionMetric {
+    min-width: 0;
+    min-height: 5rem;
+    padding: 0 1.25rem;
+    box-sizing: border-box;
+    border-left: 1px solid var(--sapList_BorderColor);
+}
+
+.tidePreventionMetric:first-child {
+    padding-left: 0;
+    border-left: 0;
+}
+
+.tidePreventionMetric .sapMLabel {
+    display: block;
+    min-height: 2.5rem;
+    color: var(--sapContent_LabelColor);
+    line-height: 1.25rem;
+    white-space: normal;
+}
+
+.tidePreventionMetricValue {
+    min-height: 2rem;
+    margin-top: 0.25rem;
+    justify-content: center;
+}
+
+.tidePreventionMetricValue .sapMObjectNumber {
+    display: block;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    color: var(--sapTextColor);
+}
+
+.tidePreventionMetricValue .sapMObjectNumberText {
+    font-size: 1.75rem;
+    line-height: 2rem;
+    font-weight: var(--sapFontHeaderWeight);
+    font-variant-numeric: tabular-nums;
+}
+
+.tidePreventionMetricValue .sapMText {
+    color: var(--sapContent_LabelColor);
+}
+
+@media (max-width: 75rem) {
+    .tidePreventionKpis {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        row-gap: 0.75rem;
+    }
+
+    .tidePreventionMetric:nth-child(3n + 1) {
+        padding-left: 0;
+        border-left: 0;
+    }
+}
+
+@media (max-width: 42rem) {
+    .tidePreventionKpis {
+        grid-template-columns: minmax(0, 1fr);
+        row-gap: 0;
+    }
+
+    .tidePreventionMetric:nth-child(n) {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        min-height: 2.75rem;
+        padding: 0.25rem 0;
+        gap: 0.5rem;
+        border-left: 0;
+        border-bottom: 1px solid var(--sapList_BorderColor);
+    }
+
+    .tidePreventionMetric:last-child {
+        border-bottom: 0;
+    }
+
+    .tidePreventionMetric > .sapMFlexItem:first-child {
+        flex: 1 1 10rem;
+        min-width: 0;
+    }
+
+    .tidePreventionMetric .sapMLabel {
+        min-height: 0;
+    }
+
+    .tidePreventionMetricValue {
+        margin-top: 0;
+    }
+
+    .tidePreventionMetricValue .sapMObjectNumberText {
+        font-size: 1.25rem;
+    }
+}
+
+.tideHubCard {
+    min-width: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.tideHubBrief {
+    border-left: 0.25rem solid var(--sapCriticalColor);
+    background: var(--sapCriticalBackground);
+}
+
+.tideHubApproval {
+    border-top: 0.1875rem solid var(--sapCriticalColor);
+}
+
+.tideHubRequest {
+    border-top: 0.1875rem solid var(--sapInformativeColor);
+}
+
+.tideHubPrevention {
+    border-top: 0.1875rem solid var(--sapCriticalColor);
+}
+
+.tideHubSimulation {
+    border-top: 0.1875rem solid var(--sapNeutralColor);
+}
+
+/* Approvals: keep Fiori Elements workflow controls while giving the prepared
+   decision content a clear business-first hierarchy. */
+.tideApprovalListTitle {
+    display: block;
+    overflow: hidden;
+    color: var(--sapTextColor);
+    font-weight: var(--sapFontHeaderWeight);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tideApprovalFact {
+    min-height: 4.75rem;
+    box-sizing: border-box;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--sapList_BorderColor);
+    border-radius: 0.25rem;
+    background: var(--sapGroup_ContentBackground);
+}
+
+.tideApprovalFactValue {
+    margin-top: 0.25rem;
+    color: var(--sapTextColor);
+    font-weight: var(--sapFontHeaderWeight);
+}
+
+.tideApprovalHeader {
+    width: 100%;
+    padding: 0.25rem 0;
+}
+
+.tideApprovalHeaderTitle {
+    flex: 1 1 24rem;
+    min-width: 0;
+}
+
+.tideApprovalHeaderType {
+    margin-top: 0.25rem;
+    color: var(--sapContent_LabelColor);
+    font-weight: var(--sapFontHeaderWeight);
+}
+
+.tideApprovalHeaderObject {
+    color: var(--sapContent_LabelColor);
+}
+
+.tideApprovalHeaderAction,
+.tideApprovalHeaderPrepared {
+    color: var(--sapContent_LabelColor);
+    font-size: var(--sapFontSmallSize);
+}
+
+.tideApprovalHeaderRight {
+    align-items: flex-end;
+    margin-left: 1rem;
+}
+
+.tideApprovalHeaderStatus {
+    margin-bottom: 0.25rem;
+}
+
+.tideApprovalProcess {
+    color: var(--sapContent_LabelColor);
+    font-size: var(--sapFontSmallSize);
+    white-space: nowrap;
+}
+
+.tideApprovalTaskSurface {
+    box-sizing: border-box;
+    padding: 0.5rem 0;
+    background: var(--sapGroup_ContentBackground);
+}
+
+.tideApprovalDecisionColumns {
+    align-items: flex-start;
+    gap: 1.5rem;
+}
+
+.tideApprovalRequestColumn {
+    flex: 2 1 34rem;
+    min-width: 0;
+}
+
+.tideApprovalEvidenceColumn {
+    flex: 1 1 18rem;
+    min-width: 16rem;
+    box-sizing: border-box;
+    padding: 0 0 0 1.5rem;
+    border-left: 1px solid var(--sapList_BorderColor);
+    background: var(--sapGroup_ContentBackground);
+}
+
+.tideApprovalDecisionSummary {
+    margin-top: 0.5rem;
+    max-width: 60rem;
+    color: var(--sapTextColor);
+    font-size: var(--sapFontHeader5Size);
+    line-height: 1.4;
+}
+
+.tideApprovalDefinitionGrid {
+    max-width: 60rem;
+}
+
+.tideApprovalDefinitionGrid>.sapUiRespGridSpanXL3,
+.tideApprovalDefinitionGrid>.sapUiRespGridSpanXL4 {
+    padding: 0.25rem 0.75rem 0.25rem 0;
+}
+
+.tideApprovalExecutionNote {
+    max-width: 32rem;
+    color: var(--sapContent_LabelColor);
+    font-size: var(--sapFontSmallSize);
+}
+
+.tideApprovalContextCallout {
+    max-width: 60rem;
+    padding: 0.75rem 1rem;
+    border-left: 0.25rem solid var(--sapCriticalColor);
+    border-radius: 0.25rem;
+    background: var(--sapWarningBackground);
+}
+
+.tideApprovalStickyActions.sapMTB {
+    position: sticky;
+    bottom: 0.75rem;
+    z-index: 1;
+    padding: 0.75rem 0;
+    border-top: 1px solid var(--sapList_BorderColor);
+    background: var(--sapGroup_ContentBackground);
+}
+
+.tideApprovalEmptyState {
+    display: block;
+    padding: 0.5rem 0;
+    color: var(--sapContent_LabelColor);
+    font-style: italic;
+}
+
+.tideApprovalContentCard,
+.tideApprovalCaseCard {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 0.25rem;
+    background: var(--sapGroup_ContentBackground);
+}
+
+.tideApprovalEvent {
+    gap: 0.5rem;
+    padding: 0.5rem 0;
+}
+
+/* Prevention keeps the decision and evidence comparison ahead of technical
+   lifecycle facts. Cards wrap instead of clipping on narrow object pages. */
+.tidePreventionSummary,
+.tidePreventionComparison {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 1rem 1.25rem;
+    border-left: 0.25rem solid var(--sapInformativeColor);
+    border-radius: 0.375rem;
+    background: var(--sapGroup_ContentBackground);
+}
+
+.tidePreventionMetric {
+    flex: 1 1 12rem;
+    min-width: 12rem;
+    margin-right: 1.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.tidePreventionSummary .sapMObjStatus,
+.tidePreventionComparison .sapMObjStatus {
+    margin-top: 0.25rem;
+}
+
+.tidePreventionNote {
+    color: var(--sapContent_LabelColor);
+}
+
+.tidePreventionChart {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+.tidePreventionFact {
+    gap: 0.5rem 1.5rem;
+    padding: 0.625rem 0;
+    border-bottom: 1px solid var(--sapList_BorderColor);
+}
+
+.tidePreventionFact .sapMLabel {
+    flex: 0 1 15rem;
+    white-space: normal;
+}
+
+.tidePreventionFact .sapMText {
+    flex: 1 1 20rem;
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.tidePreventionDecisionText {
+    flex: 1 1 28rem;
+    min-width: 0;
+    max-width: 52rem;
+    margin-right: 1rem;
+}
+
+.tidePreventionDialog {
+    box-sizing: border-box;
+    padding: 1.5rem;
+}
+
+.tidePreventionMetric .sapMObjectNumberText {
+    font-size: var(--sapFontHeader4Size);
+}
+
+.tidePreventionComparison {
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+}
+
+.tidePreventionCaseState {
+    margin-bottom: 0.75rem;
+}
+
+.tidePreventionMetric {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.tidePriceCurrentMetric {
+    border-left: 0.25rem solid var(--sapNegativeColor);
+    padding-left: 1rem;
+}
+
+.tidePriceHistory {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.tidePriceActions {
+    border-left-color: var(--sapCriticalColor);
+}
+
+.tidePriceActionCards {
+    gap: 0.75rem;
+}
+
+.tidePriceActionCard {
+    flex: 1 1 20rem;
+    min-height: 10rem;
+    box-sizing: border-box;
+    padding: 1rem;
+    border: 1px solid var(--sapList_BorderColor);
+    border-radius: 0.375rem;
+    background: var(--sapGroup_ContentBackground);
+}
+
+.tidePriceActionCard .sapMBtn {
+    align-self: flex-start;
+}
+
+.tidePriceAnomaly {
+    box-sizing: border-box;
+    padding: 1rem 1.25rem;
+    border-left: 0.25rem solid var(--sapNegativeColor);
+    border-radius: 0.375rem;
+    background: var(--sapErrorBackground);
+}
+
+.tidePriceAnomaly .sapUiIcon {
+    color: var(--sapNegativeColor);
+    font-size: 2rem;
+}
+
+.tidePriceAnomaly .sapMTitle {
+    color: var(--sapNegativeTextColor);
+    font-size: var(--sapFontHeader3Size);
+    line-height: 1.3;
+}
+
+.tidePriceAnomaly .sapMText {
+    color: var(--sapTextColor);
+}
+
+@media (max-width: 48rem) {
+    .tidePriceHistory {
+        overflow-x: auto;
+    }
+}
+
+@media (max-width: 48rem) {
+    .tideApprovalTaskSurface {
+        padding: 0.75rem;
+    }
+
+    .tideApprovalHeaderRight {
+        align-items: flex-start;
+        margin: 0.5rem 0 0;
+    }
+
+    .tidePreventionSummary,
+    .tidePreventionComparison {
+        padding: 0.75rem;
+    }
+
+    .tidePreventionMetric {
+        min-width: 9rem;
+        margin-right: 0.75rem;
+    }
+
+    .tideApprovalDecisionColumns {
+        gap: 1rem;
+    }
+
+    .tideApprovalEvidenceColumn {
+        flex-basis: 100%;
+        min-width: 0;
+        padding: 1rem 0 0;
+        border-left: 0;
+        border-top: 1px solid var(--sapList_BorderColor);
+    }
+
+    .tideApprovalStickyActions {
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 80rem) {
+    .tideHubLauncher {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 48rem) {
+    .tideHubLauncher {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Give the delivery story a calm warning affordance without disguising the
+   supplier-confirmed marker as a forecast or relying on colour alone. */
+.tideDeliveryStory {
+    padding: 1rem;
+    border: 1px solid var(--sapCriticalColor);
+    border-left: 0.25rem solid var(--sapCriticalColor);
+    border-radius: 0.25rem;
+    background: var(--sapWarningBackground);
+}
+
+/* Delivery finding: a first-screen summary with unmistakable hierarchy.
+   The chart remains a real date axis, while summary facts stay legible in the
+   FCL mid column and wrap into one column on a phone. */
+.tideDeliveryHero {
+    padding: 0.75rem 1rem;
+    border-left: 0.25rem solid var(--sapCriticalColor);
+    border-radius: 0.25rem;
+    background: var(--sapGroup_ContentBackground);
+    box-shadow: none;
+}
+
+.tideForecastCard {
+    min-height: 0;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--sapCriticalColor);
+    border-radius: 0.5rem;
+    background: var(--sapGroup_ContentBackground);
+    box-shadow: 0 0 1rem color-mix(in srgb, var(--sapCriticalColor) 18%, transparent);
+    box-sizing: border-box;
+    overflow: visible;
+}
+
+.tideForecastAiIcon {
+    color: var(--sapCriticalColor);
+    font-size: 2rem;
+    margin-left: 1rem;
+    flex-shrink: 0;
+}
+
+.tideForecastDelay .sapMObjStatusText {
+    color: var(--sapNegativeTextColor);
+    font-size: var(--sapFontHeader3Size);
+    font-weight: var(--sapFontHeaderWeight);
+}
+
+.tideForecastLikely {
+    color: var(--sapTextColor);
+    font-size: var(--sapFontHeader5Size);
+}
+
+.tideDeliveryHeroTop {
+    gap: 1rem;
+}
+
+.tideDeliveryHeroMain {
+    flex: 2 1 19rem;
+    min-width: 0;
+}
+
+.tideDeliveryRevenue {
+    flex: 1 1 12rem;
+    min-width: 0;
+    padding: 0.875rem 1rem;
+    border-radius: 0.5rem;
+    background: var(--sapGroup_ContentBackground);
+}
+
+.tideDeliveryRevenue .sapMObjectNumberText {
+    font-size: var(--sapFontHeader2Size);
+}
+
+.tideDeliveryEyebrow {
+    letter-spacing: 0.08em;
+    font-weight: bold;
+    color: var(--sapContent_LabelColor);
+}
+
+.tideDeliveryCountdown .sapMObjStatusText {
+    font-size: var(--sapFontHeader4Size);
+    font-weight: bold;
+}
+
+.tideDeliveryIssue {
+    font-size: var(--sapFontHeader5Size);
+    line-height: 1.35;
+    font-weight: 600;
+}
+
+.tideDeliveryDateRow {
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+}
+
+.tideDeliveryDateCell {
+    flex: 1 1 10rem;
+    min-width: 0;
+    padding: 0.75rem 1rem;
+    border-radius: 0.375rem;
+    background: var(--sapGroup_ContentBackground);
+}
+
+.tideDeliveryDateCell .sapMText {
+    font-weight: bold;
+}
+
+.tideDeliveryTimeline {
+    padding: 0;
+    overflow-x: auto;
+}
+
+.tideDeliveryCountdown .sapMObjStatusIcon {
+    font-size: var(--sapFontHeader4Size);
+}
+
+.tideRiskHeader {
+    width: 100%;
+    padding: 0.75rem 0;
+}
+
+.tideRiskHeaderBadges {
+    gap: 0.75rem;
+}
+
+.tideRiskMetric {
+    min-width: 0;
+    padding: 0.5rem 0.75rem;
+    border-left: 1px solid var(--sapList_BorderColor);
+}
+
+.tideRiskMetric:first-child {
+    border-left: 0;
+}
+
+.tideRiskMetricValue {
+    display: block;
+    font-size: var(--sapFontHeader4Size);
+    font-weight: var(--sapFontHeaderWeight);
+}
+
+.tideRiskRevenueValue .sapMObjectNumberText,
+.tideRiskRevenueValue .sapMObjectNumberUnit {
+    font-size: var(--sapFontHeader4Size);
+    font-weight: var(--sapFontHeaderWeight);
+}
+
+.tideImpactNarrative {
+    padding: 0.75rem 1rem;
+    border-left: 0.25rem solid var(--sapInformativeColor);
+    border-radius: 0.25rem;
+    background: var(--sapInformationBackground);
+}
+
+.tideImpactMetrics {
+    gap: 1rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--sapList_BorderColor);
+}
+
+.tideImpactMetric {
+    flex: 1 1 10rem;
+    min-width: 0;
+}
+
+.tideImpactMetric .sapMObjectNumberText {
+    font-size: var(--sapFontHeader4Size);
+}
+
+.tideImpactProcessFlow {
+    width: 100%;
+    min-width: 50%;
+}
+
+.tideImpactProcessFlow .sapSuiteUiCommonsPF {
+    width: max(60%, 48rem);
+    margin-inline: auto;
+}
+
+.tideImpactProcessFlow .sapSuiteUiCommonsProcessFlowNode0 {
+    float: none;
+    margin-inline: auto;
+}
+
+@media (max-width: 600px) {
+    .tideImpactProcessFlow .sapSuiteUiCommonsPF {
+        width: auto;
+    }
+}
+
+.tideImpactContext {
+    border: 1px solid var(--sapList_BorderColor);
+    border-radius: 0.25rem;
+}
+
+.tideImpactOrderPair.sapMFlexBox {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    gap: 1.5rem;
+}
+
+.tideImpactOrderPair > * {
+    min-width: 0;
+}
+
+.tideImpactOrderGraph {
+    height: 20rem;
+    gap: 0.5rem;
+}
+
+.tideImpactOrderTable.sapMPanel {
+    display: flex;
+    flex-direction: column;
+    max-height: 20rem;
+}
+
+.tideImpactOrderTable > .sapMPanelHeadingDiv {
+    flex: 0 0 auto;
+}
+
+.tideImpactOrderTable > .sapMPanelContent {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: auto;
+}
+
+.tideImpactOrderTable.sapMPanel:not(.sapMPanelExpanded) {
+    height: auto !important;
+}
+
+.tideImpactForecastVisual {
+    width: 50%;
+    align-self: center;
+}
+
+@media (max-width: 900px) {
+    .tideImpactOrderPair.sapMFlexBox {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .tideImpactForecastVisual {
+        width: 100%;
+    }
+}
+
+.tideImpactFlow {
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--sapList_BorderColor);
+}
+
+.tideImpactFlowNode {
+    flex: 1 1 12rem;
+    min-width: 0;
+    gap: 0.375rem;
+    padding: 0.75rem 1rem;
+    border-top: 3px solid var(--sapInformativeColor);
+    background: var(--sapList_Background);
+}
+
+.tideImpactFlowNode:nth-child(3) {
+    border-top-color: var(--sapCriticalColor);
+}
+
+.tideImpactFlowNode:nth-child(5) {
+    border-top-color: var(--sapNegativeColor);
+}
+
+.tideImpactFlowArrow {
+    color: var(--sapContent_LabelColor);
+}
+
+.tideImpactDelayVisual {
+    width: 100%;
+    max-width: 48rem;
+    padding: 1rem 0;
+}
+
+.tideImpactDetails .sapMPanelContent {
+    padding: 0;
+}
+
+@media (max-width: 600px) {
+    .tideImpactFlowNode {
+        flex-basis: 100%;
+    }
+
+    .tideImpactFlowArrow {
+        transform: rotate(90deg);
+        margin-left: 0.25rem;
+    }
+}
+
+.tidePriceEvidenceSources {
+    gap: 1.5rem;
+    align-items: stretch;
+    margin: 1rem 0;
+}
+
+.tidePriceEvidenceSource {
+    flex: 1 1 22rem;
+    min-width: 0;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--sapList_BorderColor);
+}
+
+.tidePriceQuantiles {
+    margin-top: 0.75rem;
+}
+
+.tidePriceSummary {
+    margin: 0.75rem 0 1.5rem;
+    align-items: stretch;
+}
+
+.tidePriceSummary > .sapMFlexItem {
+    flex: 1 1 25%;
+    min-width: 0;
+}
+
+.tidePriceSummary .tidePreventionMetric {
+    width: auto;
+    min-width: 0;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.tidePriceSummary .sapMLabel {
+    min-height: 0;
+    margin-bottom: 0.5rem;
+    font-size: var(--sapFontSize);
+}
+
+.tidePriceSummary .sapMObjectNumberText,
+.tidePriceSummary .tidePreventionMetric > .sapMFlexItem > .sapMText {
+    font-size: var(--sapFontHeader4Size);
+}
+
+.tidePriceSummary .tideAIStatus {
+    margin-top: 0.375rem;
+}
+
+.tidePriceCharts {
+    gap: 1.5rem;
+    align-items: stretch;
+    padding-top: 1rem;
+    border-top: 1px solid var(--sapList_BorderColor);
+}
+
+.tideCandidateCharts {
+    gap: 1.5rem;
+    align-items: stretch;
+}
+
+.tideModelAttribution {
+    font-size: var(--sapFontSmallSize);
+    color: var(--sapContent_LabelColor);
+}
+
+.tideRareComparisonColumns {
+    gap: 1.5rem;
+    align-items: flex-start;
+}
+
+.tideRareComparisonColumns > .sapMFlexItem {
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+@media (max-width: 900px) {
+    .tideRareComparisonColumns > .sapMFlexItem {
+        flex: 1 1 100%;
+    }
+}
+
+.tideCandidateCharts > .sapMFlexItem {
+    flex: 1 1 20rem;
+    min-width: 0;
+}
+
+.tideCandidateCharts .sapMTitle {
+    font-size: var(--sapFontHeader5Size);
+}
+
+.tidePlanningMatrix .sapMText,
+.tidePlanningMatrix .sapMObjStatusText {
+    font-size: var(--sapFontSize);
+}
+
+.tidePlanningMatrix .tideAIStatus {
+    margin-top: 0.375rem;
+}
+
+.tidePriceCharts > .sapMFlexItem {
+    flex: 2 1 0;
+    min-width: 0;
+}
+
+.tidePriceCharts > .sapMFlexItem:last-child {
+    flex-grow: 3;
+}
+
+.tidePriceCharts .sapMTitle {
+    font-size: var(--sapFontHeader5Size);
+    font-weight: var(--sapFontHeaderWeight);
+    margin-bottom: 0.75rem;
+}
+
+.tidePriceRangePane,
+.tidePriceHistoryPane {
+    min-width: 0;
+    width: 100%;
+}
+
+.tideComparisonSummary > .sapMFlexItem {
+    flex: 1 1 12rem;
+}
+
+.tideComparisonWorkspace .sapMTitle {
+    font-size: var(--sapFontHeader5Size);
+    font-weight: var(--sapFontHeaderWeight);
+    margin-bottom: 0.75rem;
+}
+
+.tideDeliveryEvidenceColumns > .sapMFlexItem {
+    flex: 3 1 0;
+}
+
+.tideDeliveryEvidenceColumns > .sapMFlexItem:last-child {
+    flex-grow: 2;
+}
+
+.tideDeliveryEvidenceTable,
+.tideDeliveryEvidenceRanges {
+    min-width: 0;
+}
+
+@media (max-width: 900px) {
+    .tidePriceCharts > .sapMFlexItem {
+        flex: 1 1 100%;
+    }
+
+    .tidePriceSummary > .sapMFlexItem {
+        flex-basis: 50%;
+    }
+}
+
+.tideReferenceCard {
+    min-width: 0;
+    min-height: 5.5rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--sapList_BorderColor);
+    border-radius: 0.375rem;
+    background: var(--sapGroup_ContentBackground);
+    box-sizing: border-box;
+}
+
+.tideReferenceValue {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: var(--sapFontHeader4Size);
+    font-weight: var(--sapFontHeaderWeight);
+}
+
+.tideHistoryVisual {
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--sapList_BorderColor);
+    border-radius: 0.375rem;
+    background: var(--sapGroup_ContentBackground);
+}
+
+.tideSupplierHistoryContent {
+    gap: 1rem;
+    align-items: stretch;
+}
+
+.tideSupplierHistoryChartColumn {
+    flex: 1 1 32rem;
+    min-width: 0;
+}
+
+.tideSupplierHistoryForecastColumn {
+    flex: 1 1 24rem;
+    min-width: 22rem;
+    padding-left: 1rem;
+    border-left: 1px solid var(--sapList_BorderColor);
+}
+
+/* Keep the current AI forecast visually distinct from its historical evidence. */
+.tideCurrentForecast {
+    padding: 1rem 1.125rem;
+    border: 1px solid #8875e0;
+    border-left: 0.3125rem solid #5b3fc4;
+    border-radius: 0.5rem;
+    background: linear-gradient(135deg, rgba(136, 117, 224, 0.14), var(--sapGroup_ContentBackground) 65%);
+    box-shadow: 0 0.25rem 0.75rem rgba(91, 63, 196, 0.12);
+}
+
+.tideCurrentForecastMedian {
+    line-height: calc(var(--sapFontHeader1Size) + 0.5rem);
+}
+
+.tideCurrentForecastMedian .sapMObjectNumberInner {
+    line-height: inherit;
+}
+
+.tideCurrentForecastMedian .sapMObjectNumberText,
+.tideCurrentForecastMedian .sapMObjectNumberUnit {
+    color: #5b3fc4;
+}
+
+.tideCurrentForecastMedian .sapMObjectNumberText {
+    font-size: var(--sapFontHeader1Size);
+    line-height: inherit;
+    height: auto;
+}
+
+.tideCurrentForecast .sapMListTblHeaderCell {
+    background: rgba(136, 117, 224, 0.08);
+}
+
+.tideForecastAttribution {
+    color: var(--sapContent_LabelColor);
+    font-size: var(--sapFontSmallSize);
+}
+
+@media (max-width: 48rem) {
+    .tideSupplierHistoryForecastColumn {
+        padding-top: 1rem;
+        padding-left: 0;
+        border-top: 1px solid var(--sapList_BorderColor);
+        border-left: 0;
+    }
+
+    .tideCurrentForecast {
+        padding: 0.875rem;
+        border-top: 0.1875rem solid #5b3fc4;
+    }
+}
+
+.tidePredictionScenarios {
+    padding: 0.75rem 1rem;
+    border: 1px solid #8875e0;
+    border-radius: 0.375rem;
+    background: linear-gradient(90deg, rgba(136, 117, 224, 0.10), transparent 80%);
+}
+
+.tidePredictionScenarios .sapMListUl {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.tidePredictionScenarios .sapMLIB {
+    flex: 1 1 12rem;
+    border: 0;
+    background: transparent;
+}
+
+.tidePredictionScenario {
+    min-height: 5.5rem;
+    padding: 0.5rem 0.75rem;
+    border-left: 1px solid var(--sapList_BorderColor);
+}
+
+.tidePredictionScenarios .sapMLIB:first-child .tidePredictionScenario {
+    border-left: 0;
+}
+
+@media (max-width: 48rem) {
+    .tidePredictionScenarios .sapMListUl {
+        display: block;
+    }
+
+    .tidePredictionScenario {
+        border-left: 0;
+        border-top: 1px solid var(--sapList_BorderColor);
+    }
+
+    .tidePredictionScenarios .sapMLIB:first-child .tidePredictionScenario {
+        border-top: 0;
+    }
+}
+
+.tideActionRow {
+    width: 100%;
+    gap: 0.75rem 1.5rem;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--sapList_BorderColor);
+    box-sizing: border-box;
+}
+
+.tideActionRow:last-child {
+    border-bottom: 0;
+}
+
+.tideActionRow>.sapMFlexItem:first-child {
+    flex: 1 1 20rem;
+    min-width: 0;
+}
+
+.tideActionRow>.sapMFlexItem:last-child {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.tideActionRow .sapMBtn {
+    max-width: 100%;
+    height: auto;
+    min-height: 2.5rem;
+    padding: 0;
+    margin: 0;
+    display: inline-flex;
+    align-items: stretch;
+}
+
+.tideActionRow .sapMBtnInner {
+    height: auto;
+    min-height: 2.5rem;
+    padding: 0.5rem 0.875rem;
+    border-radius: 0.375rem;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.tideActionRow .sapMBtnContent {
+    height: auto;
+    line-height: 1.25rem;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+.tideActionRow .sapMBtnIcon {
+    line-height: 1.25rem;
+    margin: 0;
+}
+
+.tideRecommendedAction,
+.tideActionRow[data-recommended="true"] {
+    margin: 0.25rem 0 0.75rem;
+    padding: 1.25rem;
+    border: 1px solid #8875e0;
+    border-left: 0.25rem solid #8875e0;
+    border-radius: 0.5rem;
+    background: var(--sapGroup_ContentBackground);
+    box-shadow: 0 0.125rem 0.5rem rgba(103, 80, 164, 0.12), 0 0 0.875rem rgba(136, 117, 224, 0.16);
+}
+
+.tideRecommendedActionBadge {
+    margin-bottom: 0.5rem;
+}
+
+.tideRecommendedActionIcon {
+    color: #6750a4;
+    font-size: 1rem;
+    margin-right: 0.375rem;
+}
+
+.tideRecommendedActionLabel {
+    color: #6750a4;
+    margin-right: 0.625rem;
+}
+
+.tideCompactForm .sapUiFormResGridCont {
+    padding-bottom: 0;
+}
+
+.tideCompactForm .sapUiFormElement {
+    margin-bottom: 0.25rem;
+}
+
+.tideSalesOrderImpact .sapMListTblHeaderCell {
+    font-weight: 600;
+}
+
+.tideSalesOrderImpact .sapMListTblRowInformation>td {
+    font-weight: 700;
+}
+
+@media (max-width: 48rem) {
+    .tideDeliveryHero {
+        padding: 0.75rem;
+    }
+
+    .tideForecastCard {
+        min-height: 0;
+        padding: 0.75rem;
+    }
+
+    .tideDeliveryDateCell {
+        flex-basis: 100%;
+    }
+
+    .tideRiskMetric {
+        border-left: 0;
+    }
+
+    .tideRecommendedActionLabel {
+        margin-right: 0.375rem;
+    }
+}
+
+/* Timeline legend's AI-sourced row (the estimate band), same violet as the
+   Timeline.js bars and .tideAI elsewhere: one accent for "model estimate"
+   everywhere on the page, kept off the neutral own-history row. */
+.tideAIStatus .sapMObjStatusText,
+.tideAIStatus .sapMObjStatusIcon {
+    color: #8875e0 !important;
+}
+
+.tideDeliveryStory .sapUiHtm {
+    display: block;
+    width: 100%;
+}
+
+.tideForecastFacts {
+    gap: 1rem;
+}
+
+.tideForecastFact {
+    min-width: 12rem;
+    flex: 1 1 14rem;
+    padding: 0.25rem 0.75rem 0.25rem 0;
+}
+
+.tideForecastFactValue {
+    font-size: var(--sapFontLargeSize);
+}
+
+.tideDeliveryTimeline {
+    min-width: 0;
+    width: 100%;
+    overflow-x: visible;
+}
+
+.tideForecastChart .sapUiHtm,
+.tideForecastChartHost,
+.tideRangeChart {
+    display: block;
+    width: 100%;
+    min-width: 0;
+}
+
+.tideForecastChartHost .highcharts-container,
+.tideRangeChart .highcharts-container {
+    width: 100% !important;
+}
+
+.tidePlanningGantt { width: 100%; min-width: 0; }
+
+.tideAIResultSurface {
+    border-left: 0.25rem solid #8875e0;
+    background: linear-gradient(90deg, rgba(136, 117, 224, 0.08), transparent 45%);
+}
+
+.tideAIResultSurface > .sapMPanelWrappingDivTb .sapMTB {
+    background: rgba(136, 117, 224, 0.08);
+}
+
+.tideAIResultRow > td:first-child {
+    border-left: 0.1875rem solid #8875e0;
+}
+
+.tidePlanDecisionRecommended,
+.tidePlanDecisionMetric {
+    min-height: 6rem;
+    padding: 0.875rem 1rem;
+    border-radius: 0.25rem;
+    background: var(--sapGroup_ContentBackground);
+}
+
+.tidePlanDecisionRecommended {
+    border-left: 0.25rem solid #8875e0;
+    background: linear-gradient(90deg, rgba(136, 117, 224, 0.12), transparent 85%);
+}
+
+.tidePlanDecisionRecommended .sapMTitle {
+    font-size: var(--sapFontHeader3Size);
+}
+
+.tidePlanDecisionMetric {
+    border-left: 1px solid var(--sapList_BorderColor);
+}
+
+.tideSupplierLane {
+    padding: 0.75rem;
+    border-bottom: 1px solid var(--sapList_BorderColor);
+}
+
+@media (max-width: 48rem) {
+    .tidePlanningGantt { display: none !important; }
+    .tidePlanDecisionMetric {
+        border-left: 0;
+    }
+
+}
+
+/* Morning Brief: make the action KPIs share available space instead of
+   shrinking to their content, then collapse gracefully on narrow screens. */
+.tideKpiGrid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(9rem, 1fr));
+    gap: 0.75rem;
+    width: 100%;
+}
+
+.tideKpiGrid .sapMGT {
+    width: 100% !important;
+}
+
+.tideChangeSummary>.sapMFlexItem {
+    min-width: 8rem;
+}
+
+.tidePriorityViz {
+    height: 22rem;
+    width: 100%;
+}
+
+.tidePriorityViz .sapVizFrame {
+    width: 100% !important;
+}
+
+.tidePriorityTable {
+    width: 52rem;
+}
+
+/* Requests object page: decisions lead, source facts support them. The cards
+   deliberately remain readable in the FCL mid column and collapse on phones. */
+.tideRequestHero {
+    box-sizing: border-box;
+    max-width: 76rem;
+}
+
+.tideEvidencePanel {
+    min-width: 20rem;
+    border-inline-start: 0.0625rem solid var(--sapGroup_ContentBorderColor);
+    background: var(--sapGroup_ContentBackground);
+}
+
+.tideEvidencePopover {
+    max-width: 28rem;
+}
+
+.tideEvidenceAlternative {
+    gap: 0.5rem;
+    padding: 0.5rem 0;
+    border-bottom: 0.0625rem solid var(--sapList_BorderColor);
+}
+
+.tideRequestSummary {
+    max-width: 76rem;
+    padding: 0.5rem 0;
+}
+
+.tideFieldOrigin {
+    color: var(--sapContent_LabelColor);
+    font-size: var(--sapFontSmallSize);
+    margin-top: 0.25rem;
+}
+
+.tideFieldActions {
+    gap: 0.25rem;
+}
+
+.tideRequestHero {
+    padding: 1rem 1.25rem;
+    border-left: 0.25rem solid var(--sapInformativeColor);
+    border-radius: 0.5rem;
+    background: var(--sapGroup_ContentBackground);
+}
+
+.tideRequestHeroTitle {
+    flex: 1 1 30rem;
+    min-width: 0;
+}
+
+.tideRequestHeroStatus {
+    min-width: 10rem;
+}
+
+.tideRequestEyebrow {
+    letter-spacing: 0.08em;
+    font-weight: bold;
+    color: var(--sapContent_LabelColor);
+}
+
+.tideRequestFact,
+.tideRequestDecisionCard,
+.tideRequestContextCard {
+    box-sizing: border-box;
+    min-height: 6.5rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--sapList_BorderColor);
+    border-radius: 0.375rem;
+    background: var(--sapGroup_ContentBackground);
+}
+
+.tideRequestFactValue {
+    display: block;
+    font-size: var(--sapFontHeader4Size);
+    font-weight: var(--sapFontHeaderWeight);
+}
+
+.tideRequestNextStep {
+    padding: 0.75rem 1rem;
+    border-left: 0.25rem solid var(--sapInformativeColor);
+    border-radius: 0.25rem;
+    background: var(--sapInformationBackground);
+}
+
+.tideRequestNextStep .sapUiIcon {
+    color: var(--sapInformativeColor);
+    font-size: 1.125rem;
+}
+
+.tideRequestDecisionCard {
+    border-top: 0.1875rem solid var(--sapInformativeColor);
+}
+
+.tideRequestDecisionCard .sapMObjStatus {
+    color: var(--sapContent_LabelColor);
+}
+
+.tideRequestEvidenceMain {
+    flex: 1 1 22rem;
+    min-width: 0;
+}
+
+@media (max-width: 48rem) {
+    .tideRequestHero {
+        padding: 0.75rem;
+    }
+
+    .tideRequestHeroStatus {
+        align-items: flex-start;
+        margin-top: 0.75rem;
+    }
+}
+
+@media (max-width: 80rem) {
+    .tideKpiGrid {
+        grid-template-columns: repeat(3, minmax(9rem, 1fr));
+    }
+}
+
+@media (max-width: 48rem) {
+    .tideKpiGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .tidePriorityViz {
+        height: 18rem;
+    }
+}

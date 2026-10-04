@@ -1,0 +1,14 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+    <HBox width="100%" justifyContent="SpaceBetween" alignItems="Center" wrap="Wrap" class="tideApprovalHeader">
+        <VBox class="tideApprovalHeaderTitle">
+            <Text core:require="{Approval: 'tide/cockpit/ext/approvals/ApprovalFormatters'}"
+                text="{parts: [{path: 'operationKey'}, {path: 'objectKey'}], formatter: 'Approval.headerLabel'}" wrapping="true" class="tideApprovalHeaderAction" />
+        </VBox>
+        <VBox class="tideApprovalHeaderRight">
+            <ObjectStatus core:require="{Approval: 'tide/cockpit/ext/approvals/ApprovalFormatters'}"
+                text="{parts: [{path: 'status'}, {path: 'overdue'}], formatter: 'Approval.statusLabel'}"
+                state="{parts: [{path: 'status'}, {path: 'overdue'}], formatter: 'Approval.statusState'}"
+                class="tideApprovalHeaderStatus" />
+        </VBox>
+    </HBox>
+</core:FragmentDefinition>

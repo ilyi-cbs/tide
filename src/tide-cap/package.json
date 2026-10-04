@@ -1,0 +1,384 @@
+{
+  "name": "tide-cap",
+  "version": "0.1.0",
+  "private": true,
+  "description": "CAP boundary for TIDE source data and material prediction workflow",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "cds-tsx serve",
+    "watch": "cds-tsx watch",
+    "compile": "cds compile db srv --to csn",
+    "build": "cds build --production",
+    "test": "CDS_ENV=test CDS_TYPESCRIPT=true node --import tsx --test --test-force-exit --test-concurrency=1 test/*.test.ts",
+    "lint": "cds lint",
+    "deploy": "cds deploy",
+    "watch-cockpit": "cds-tsx watch --open tide.cockpit/index.html?sap-ui-xx-viewCache=false --livereload false",
+    "build:assistant:purchasing-desk": "npm run build -w @tide/assistant -- --outdir=../purchasing-desk/webapp/assistant"
+  },
+  "dependencies": {
+    "@cap-js/mcp": "^1.5.0",
+    "@cap-js/sqlite": "^3.1.1",
+    "@sap/cds": "^10.1.1",
+    "express": "^5.1.0",
+    "fuse.js": "^7.5.0"
+  },
+  "devDependencies": {
+    "@cap-js/cds-test": "^1.0.2",
+    "@cap-js/cds-typer": ">=0.1",
+    "@cap-js/cds-types": "^0.16.0",
+    "@sap/cds-dk": "^9.9.0",
+    "@sap/eslint-plugin-cds": "^4.2.5",
+    "@types/node": "^24.0.0",
+    "cds-plugin-ui5": "^0.17.4",
+    "eslint": "^10.11.0",
+    "playwright": "1.63.0",
+    "tsx": "^4",
+    "typescript": "^6.0.0"
+  },
+  "cds": {
+    "mcp": {
+      "per_action_tool": true
+    },
+    "requires": {
+      "db": {
+        "kind": "sqlite",
+        "impl": "@cap-js/sqlite",
+        "credentials": {
+          "url": "../../.data/retained/cap.sqlite"
+        },
+        "client": {
+          "timeout": 5000
+        }
+      },
+      "tabular": {
+        "credentials": {
+          "url": "http://127.0.0.1:8080"
+        },
+        "maxContextRows": 10000,
+        "maxClasses": 160,
+        "sampleSeed": "tide"
+      },
+      "queue": {
+        "timeout": "10m",
+        "maxAttempts": 8
+      },
+      "[development]": {
+        "auth": {
+          "kind": "mocked",
+          "users": {
+            "priorlabs": {
+              "password": "priorlabs",
+              "roles": [
+                "user",
+                "admin"
+              ]
+            },
+            "ilyesse.hettenbach@cbs-consulting.de": {
+              "password": "alice",
+              "roles": [
+                "user",
+                "admin"
+              ]
+            },
+            "bob": {
+              "password": "bob",
+              "roles": []
+            },
+            "buyerA01": {
+              "password": "buyerA01",
+              "roles": [
+                "user"
+              ],
+              "attr": {
+                "PurchasingGroup": "A01",
+                "Plant": "AT21"
+              }
+            },
+            "buyerA02": {
+              "password": "buyerA02",
+              "roles": [
+                "user"
+              ],
+              "attr": {
+                "PurchasingGroup": "A02",
+                "Plant": "AT21"
+              }
+            },
+            "buyerA03": {
+              "password": "buyerA03",
+              "roles": [
+                "user"
+              ],
+              "attr": {
+                "PurchasingGroup": "A03",
+                "Plant": "AT21"
+              }
+            },
+            "buyerD01": {
+              "password": "buyerD01",
+              "roles": [
+                "user"
+              ],
+              "attr": {
+                "PurchasingGroup": "D01",
+                "Plant": "DE11"
+              }
+            },
+            "buyerD02": {
+              "password": "buyerD02",
+              "roles": [
+                "user"
+              ],
+              "attr": {
+                "PurchasingGroup": "D02",
+                "Plant": "DE11"
+              }
+            },
+            "buyerD03": {
+              "password": "buyerD03",
+              "roles": [
+                "user"
+              ],
+              "attr": {
+                "PurchasingGroup": "D03",
+                "Plant": "DE11"
+              }
+            },
+            "buyerD04": {
+              "password": "buyerD04",
+              "roles": [
+                "user"
+              ],
+              "attr": {
+                "PurchasingGroup": "D04",
+                "Plant": "DE11"
+              }
+            },
+            "buyerD05": {
+              "password": "buyerD05",
+              "roles": [
+                "user"
+              ],
+              "attr": {
+                "PurchasingGroup": "D05",
+                "Plant": "DE11"
+              }
+            },
+            "buyerD06": {
+              "password": "buyerD06",
+              "roles": [
+                "user"
+              ],
+              "attr": {
+                "PurchasingGroup": "D06",
+                "Plant": "DE11"
+              }
+            },
+            "buyerD07": {
+              "password": "buyerD07",
+              "roles": [
+                "user"
+              ],
+              "attr": {
+                "PurchasingGroup": "D07",
+                "Plant": "DE31"
+              }
+            },
+            "buyerD08": {
+              "password": "buyerD08",
+              "roles": [
+                "user"
+              ],
+              "attr": {
+                "PurchasingGroup": "D08",
+                "Plant": "DE31"
+              }
+            },
+            "buyerD09": {
+              "password": "buyerD09",
+              "roles": [
+                "user"
+              ],
+              "attr": {
+                "PurchasingGroup": "D09",
+                "Plant": "DE31"
+              }
+            }
+          }
+        }
+      },
+      "[test]": {
+        "db": {
+          "credentials": {
+            "url": ":memory:"
+          }
+        },
+        "auth": {
+          "kind": "mocked",
+          "users": {
+            "ilyesse.hettenbach@cbs-consulting.de": {
+              "password": "alice",
+              "roles": [
+                "user",
+                "admin"
+              ]
+            },
+            "bob": {
+              "password": "bob",
+              "roles": []
+            },
+            "carol": {
+              "password": "carol",
+              "roles": [
+                "user"
+              ]
+            },
+            "buyerA01": {
+              "password": "buyerA01",
+              "roles": [
+                "user"
+              ],
+              "attr": {
+                "PurchasingGroup": "A01",
+                "Plant": "AT21"
+              }
+            },
+            "buyerA02": {
+              "password": "buyerA02",
+              "roles": [
+                "user"
+              ],
+              "attr": {
+                "PurchasingGroup": "A02",
+                "Plant": "AT21"
+              }
+            },
+            "buyerA03": {
+              "password": "buyerA03",
+              "roles": [
+                "user"
+              ],
+              "attr": {
+                "PurchasingGroup": "A03",
+                "Plant": "AT21"
+              }
+            },
+            "buyerD01": {
+              "password": "buyerD01",
+              "roles": [
+                "user"
+              ],
+              "attr": {
+                "PurchasingGroup": "D01",
+                "Plant": "DE11"
+              }
+            },
+            "buyerD02": {
+              "password": "buyerD02",
+              "roles": [
+                "user"
+              ],
+              "attr": {
+                "PurchasingGroup": "D02",
+                "Plant": "DE11"
+              }
+            },
+            "buyerD03": {
+              "password": "buyerD03",
+              "roles": [
+                "user"
+              ],
+              "attr": {
+                "PurchasingGroup": "D03",
+                "Plant": "DE11"
+              }
+            },
+            "buyerD04": {
+              "password": "buyerD04",
+              "roles": [
+                "user"
+              ],
+              "attr": {
+                "PurchasingGroup": "D04",
+                "Plant": "DE11"
+              }
+            },
+            "buyerD05": {
+              "password": "buyerD05",
+              "roles": [
+                "user"
+              ],
+              "attr": {
+                "PurchasingGroup": "D05",
+                "Plant": "DE11"
+              }
+            },
+            "buyerD06": {
+              "password": "buyerD06",
+              "roles": [
+                "user"
+              ],
+              "attr": {
+                "PurchasingGroup": "D06",
+                "Plant": "DE11"
+              }
+            },
+            "buyerD07": {
+              "password": "buyerD07",
+              "roles": [
+                "user"
+              ],
+              "attr": {
+                "PurchasingGroup": "D07",
+                "Plant": "DE31"
+              }
+            },
+            "buyerD08": {
+              "password": "buyerD08",
+              "roles": [
+                "user"
+              ],
+              "attr": {
+                "PurchasingGroup": "D08",
+                "Plant": "DE31"
+              }
+            },
+            "buyerD09": {
+              "password": "buyerD09",
+              "roles": [
+                "user"
+              ],
+              "attr": {
+                "PurchasingGroup": "D09",
+                "Plant": "DE31"
+              }
+            }
+          }
+        },
+        "queue": {
+          "maxAttempts": 2
+        },
+        "tabular": {
+          "maxContextRows": 50
+        }
+      }
+    },
+    "tide": {
+      "dataset": {
+        "name": "raw",
+        "containsCustomerData": true
+      }
+    }
+  },
+  "workspaces": [
+    "app/*"
+  ],
+  "sapux": [
+    "app/purchasing-desk"
+  ],
+  "imports": {
+    "#cds-models/*": "./@cds-models/*/index.js"
+  }
+}

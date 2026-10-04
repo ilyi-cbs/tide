@@ -1,0 +1,61 @@
+{
+  "backendKey": "fake",
+  "columns": [
+    {
+      "kind": "categorical",
+      "name": "Plant"
+    },
+    {
+      "kind": "numeric",
+      "name": "OrderQuantity"
+    },
+    {
+      "kind": "categorical",
+      "name": "PurchaseOrderType"
+    }
+  ],
+  "keys": [
+    "PO1-10"
+  ],
+  "modelKey": "default",
+  "output": {
+    "statistic": "mean",
+    "type": "point"
+  },
+  "task": "regression",
+  "x_test": [
+    [
+      "P1",
+      15,
+      "NB"
+    ]
+  ],
+  "x_train": [
+    [
+      "P1",
+      10,
+      "NB"
+    ],
+    [
+      "P1",
+      20,
+      "NB"
+    ],
+    [
+      "P2",
+      5,
+      "NB"
+    ],
+    [
+      "P2",
+      50,
+      "NB"
+    ]
+  ],
+  "y_train": [
+    12,
+    20,
+    7,
+    30
+  ]
+}

@@ -1,0 +1,36 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:r="tide.cockpit.ext.rangeBar">
+    <VBox width="100%" class="tideComparisonWorkspace sapUiMediumMarginTop" visible="{prevention>/hasDeliveryEvidence}">
+        <Title text="Predicted and Observed Delivery Time" level="H3" />
+        <HBox width="100%" wrap="Wrap" class="tidePriceCharts tideDeliveryEvidenceColumns">
+        <VBox width="100%" class="tideDeliveryEvidenceTable">
+        <Table items="{prevention>/deliveryEvidence}" autoPopinMode="true" fixedLayout="true">
+            <columns>
+                <Column importance="High" width="10rem"><Text text="Supplier / Source" /></Column>
+                <Column importance="High" hAlign="End"><Text text="Typical Time (P50)" /></Column>
+                <Column importance="Medium" hAlign="End"><Text text="P10" /></Column>
+                <Column importance="Medium" hAlign="End"><Text text="P80" /></Column>
+                <Column importance="High" hAlign="End"><Text text="P90" /></Column>
+                <Column importance="Low" hAlign="End"><Text text="Context Records" /></Column>
+            </columns>
+            <items><ColumnListItem highlight="{= %{prevention>ai} ? 'Information' : 'None' }"><cells>
+                <VBox><Text text="{prevention>Supplier}" /><ObjectStatus text="{= %{prevention>ai} ? 'AI' : %{prevention>source} }" icon="{= %{prevention>ai} ? 'sap-icon://ai' : 'sap-icon://information' }" class="tideAIStatus" /></VBox>
+                <ObjectStatus text="{= %{prevention>p50} + ' days' }" state="{= %{prevention>ai} ? 'Information' : 'None' }" />
+                <Text text="{prevention>p10}" /><Text text="{prevention>p80}" /><Text text="{prevention>p90}" /><Text text="{prevention>count}" />
+            </cells></ColumnListItem></items>
+        </Table>
+        </VBox>
+        <VBox width="100%" class="tideDeliveryEvidenceRanges">
+            <Title text="Delivery-Time Ranges" level="H3" />
+            <VBox items="{prevention>/deliveryRanges}">
+                <VBox class="sapUiSmallMarginBottom">
+                    <ObjectStatus text="{= %{prevention>ai} ? 'AI' : %{prevention>source} }" icon="{= %{prevention>ai} ? 'sap-icon://ai' : 'sap-icon://information' }" class="tideAIStatus" />
+                    <r:RangeChart chartTitle="{= %{prevention>Supplier} + ' - ' + (%{prevention>ai} ? 'AI' : %{prevention>source}) }" p10="{prevention>p10}" p50="{prevention>p50}" p90="{prevention>p90}" planned="{prevention>currentDays}" plannedLabel="SAP current" unit="days" rangeTitle="Delivery-time P10-P90" visible="{prevention>supported}" />
+                    <Text text="{prevention>detailText}" wrapping="true" />
+                    <Text text="{= 'Prediction run: ' + %{prevention>run} }" visible="{= !!%{prevention>run} }" class="tidePreventionNote" />
+                </VBox>
+            </VBox>
+        </VBox>
+        </HBox>
+        <Text text="Source: TabPFN by PriorLabs" visible="{prevention>/hasTabPFNDelivery}" class="tideModelAttribution sapUiTinyMarginTop" />
+    </VBox>
+</core:FragmentDefinition>

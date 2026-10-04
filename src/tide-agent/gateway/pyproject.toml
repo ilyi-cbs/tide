@@ -1,0 +1,8 @@
+[project]
+name = "tide-llm-gateway"
+version = "0.1.0"
+requires-python = ">=3.12,<3.14"
+dependencies = ["litellm[proxy]==1.102.1"]
+
+[tool.uv]
+package = false

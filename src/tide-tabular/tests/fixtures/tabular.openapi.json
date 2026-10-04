@@ -1,0 +1,2368 @@
+{
+  "components": {
+    "schemas": {
+      "CapabilitiesDTO": {
+        "properties": {
+          "backend": {
+            "title": "Backend",
+            "type": "string"
+          },
+          "catalogue_version": {
+            "const": 2,
+            "default": 2,
+            "title": "Catalogue Version",
+            "type": "integer"
+          },
+          "catalogues": {
+            "items": {
+              "$ref": "#/components/schemas/CapabilityCatalogueDTO"
+            },
+            "title": "Catalogues",
+            "type": "array"
+          },
+          "configured_limits": {
+            "$ref": "#/components/schemas/ConfiguredCapabilityLimitsDTO"
+          },
+          "extensions": {
+            "items": {
+              "$ref": "#/components/schemas/CapabilityExtensionDTO"
+            },
+            "title": "Extensions",
+            "type": "array"
+          },
+          "identity": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Identity"
+          },
+          "live_verified": {
+            "const": false,
+            "default": false,
+            "title": "Live Verified",
+            "type": "boolean"
+          },
+          "local_limits": {
+            "$ref": "#/components/schemas/LocalLimitsDTO"
+          },
+          "outputs": {
+            "$ref": "#/components/schemas/SupportedOutputsDTO"
+          },
+          "prediction_contract_versions": {
+            "items": {
+              "enum": [
+                2,
+                3
+              ],
+              "type": "integer"
+            },
+            "title": "Prediction Contract Versions",
+            "type": "array"
+          },
+          "sdk_options": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Sdk Options",
+            "type": "object"
+          },
+          "sdk_utilities": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Sdk Utilities",
+            "type": "object"
+          },
+          "verification": {
+            "enum": [
+              "synthetic",
+              "offline-adapter-tests"
+            ],
+            "title": "Verification",
+            "type": "string"
+          }
+        },
+        "required": [
+          "backend",
+          "identity",
+          "prediction_contract_versions",
+          "verification",
+          "configured_limits",
+          "local_limits",
+          "outputs",
+          "extensions",
+          "catalogues",
+          "sdk_options",
+          "sdk_utilities"
+        ],
+        "title": "CapabilitiesDTO",
+        "type": "object"
+      },
+      "CapabilityCatalogueDTO": {
+        "properties": {
+          "backend_key": {
+            "enum": [
+              "fake",
+              "priorlabs",
+              "aicore"
+            ],
+            "title": "Backend Key",
+            "type": "string"
+          },
+          "digest": {
+            "title": "Digest",
+            "type": "string"
+          },
+          "features": {
+            "items": {
+              "$ref": "#/components/schemas/FeatureCapabilityDTO"
+            },
+            "title": "Features",
+            "type": "array"
+          },
+          "identity": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Identity"
+          },
+          "limits": {
+            "$ref": "#/components/schemas/ConfiguredCapabilityLimitsDTO"
+          },
+          "live_verified": {
+            "const": false,
+            "title": "Live Verified",
+            "type": "boolean"
+          },
+          "model_identity_kind": {
+            "enum": [
+              "synthetic",
+              "configured-mutable-alias"
+            ],
+            "title": "Model Identity Kind",
+            "type": "string"
+          },
+          "model_key": {
+            "title": "Model Key",
+            "type": "string"
+          },
+          "revision": {
+            "title": "Revision",
+            "type": "string"
+          },
+          "version": {
+            "const": 2,
+            "title": "Version",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "version",
+          "backend_key",
+          "model_key",
+          "revision",
+          "identity",
+          "model_identity_kind",
+          "limits",
+          "features",
+          "live_verified",
+          "digest"
+        ],
+        "title": "CapabilityCatalogueDTO",
+        "type": "object"
+      },
+      "CapabilityExtensionDTO": {
+        "properties": {
+          "name": {
+            "enum": [
+              "labels",
+              "median",
+              "mode",
+              "summary",
+              "distribution",
+              "model_options",
+              "thinking",
+              "group_time",
+              "fit_reuse",
+              "kv_cache",
+              "remote_jobs",
+              "remote_cancel"
+            ],
+            "title": "Name",
+            "type": "string"
+          },
+          "provider_status": {
+            "default": "unverified",
+            "enum": [
+              "unverified",
+              "synthetic"
+            ],
+            "title": "Provider Status",
+            "type": "string"
+          },
+          "status": {
+            "default": "unsupported",
+            "enum": [
+              "supported",
+              "unsupported",
+              "unverified"
+            ],
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "title": "CapabilityExtensionDTO",
+        "type": "object"
+      },
+      "ColumnDTO": {
+        "additionalProperties": false,
+        "properties": {
+          "kind": {
+            "enum": [
+              "numeric",
+              "categorical",
+              "text"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "name": {
+            "minLength": 1,
+            "title": "Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "kind"
+        ],
+        "title": "ColumnDTO",
+        "type": "object"
+      },
+      "ConfiguredCapabilityLimitsDTO": {
+        "properties": {
+          "max_classes": {
+            "exclusiveMinimum": 0.0,
+            "title": "Max Classes",
+            "type": "integer"
+          },
+          "max_test_batch": {
+            "exclusiveMinimum": 0.0,
+            "title": "Max Test Batch",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "max_test_batch",
+          "max_classes"
+        ],
+        "title": "ConfiguredCapabilityLimitsDTO",
+        "type": "object"
+      },
+      "DistributionChunkDTO": {
+        "properties": {
+          "bucket_borders": {
+            "items": {
+              "type": "number"
+            },
+            "title": "Bucket Borders",
+            "type": "array"
+          },
+          "coordinates": {
+            "const": "target",
+            "title": "Coordinates",
+            "type": "string"
+          },
+          "keys": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Keys",
+            "type": "array"
+          },
+          "logits": {
+            "items": {
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "type": "array"
+            },
+            "title": "Logits",
+            "type": "array"
+          },
+          "masked_logits": {
+            "items": {
+              "items": {
+                "type": "boolean"
+              },
+              "type": "array"
+            },
+            "title": "Masked Logits",
+            "type": "array"
+          },
+          "tails": {
+            "enum": [
+              "full_support",
+              "bounded_synthetic"
+            ],
+            "title": "Tails",
+            "type": "string"
+          }
+        },
+        "required": [
+          "keys",
+          "bucket_borders",
+          "logits",
+          "masked_logits",
+          "coordinates",
+          "tails"
+        ],
+        "title": "DistributionChunkDTO",
+        "type": "object"
+      },
+      "DistributionPayloadDTO": {
+        "properties": {
+          "chunks": {
+            "items": {
+              "$ref": "#/components/schemas/DistributionChunkDTO"
+            },
+            "title": "Chunks",
+            "type": "array"
+          },
+          "keys": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Keys",
+            "type": "array"
+          },
+          "summary": {
+            "$ref": "#/components/schemas/SummaryPayloadDTO"
+          },
+          "type": {
+            "const": "distribution",
+            "default": "distribution",
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "keys",
+          "summary",
+          "chunks"
+        ],
+        "title": "DistributionPayloadDTO",
+        "type": "object"
+      },
+      "ExecutionDTO": {
+        "additionalProperties": false,
+        "properties": {
+          "deadline_ms": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deadline Ms"
+          },
+          "policy": {
+            "const": "no_replay",
+            "default": "no_replay",
+            "title": "Policy",
+            "type": "string"
+          }
+        },
+        "title": "ExecutionDTO",
+        "type": "object"
+      },
+      "FeatureCapabilityDTO": {
+        "properties": {
+          "constraints": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Constraints",
+            "type": "array"
+          },
+          "evidence": {
+            "title": "Evidence",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "parameters": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Parameters",
+            "type": "array"
+          },
+          "source": {
+            "title": "Source",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "supported",
+              "unsupported",
+              "unverified"
+            ],
+            "title": "Status",
+            "type": "string"
+          },
+          "verified_at": {
+            "title": "Verified At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "status",
+          "source",
+          "verified_at",
+          "parameters",
+          "constraints",
+          "evidence"
+        ],
+        "title": "FeatureCapabilityDTO",
+        "type": "object"
+      },
+      "FitOptionsDTO": {
+        "additionalProperties": false,
+        "properties": {
+          "fit_mode": {
+            "anyOf": [
+              {
+                "enum": [
+                  "fit_preprocessors",
+                  "fit_with_cache"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fit Mode"
+          },
+          "fit_timeout": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fit Timeout"
+          },
+          "group_columns": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Group Columns"
+          },
+          "grouped_time_column": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Grouped Time Column"
+          },
+          "thinking_effort": {
+            "anyOf": [
+              {
+                "enum": [
+                  "medium",
+                  "high"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Thinking Effort"
+          },
+          "thinking_metric": {
+            "anyOf": [
+              {
+                "maxLength": 128,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Thinking Metric"
+          },
+          "thinking_mode": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Thinking Mode"
+          },
+          "time_column": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Time Column"
+          }
+        },
+        "title": "FitOptionsDTO",
+        "type": "object"
+      },
+      "FitRequestV3DTO": {
+        "additionalProperties": false,
+        "properties": {
+          "backendKey": {
+            "enum": [
+              "fake",
+              "priorlabs",
+              "aicore"
+            ],
+            "title": "Backendkey",
+            "type": "string"
+          },
+          "columns": {
+            "items": {
+              "$ref": "#/components/schemas/ColumnDTO"
+            },
+            "minItems": 1,
+            "title": "Columns",
+            "type": "array"
+          },
+          "execution": {
+            "$ref": "#/components/schemas/ExecutionDTO"
+          },
+          "fitOptions": {
+            "$ref": "#/components/schemas/FitOptionsDTO"
+          },
+          "modelKey": {
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Modelkey",
+            "type": "string"
+          },
+          "modelOptions": {
+            "$ref": "#/components/schemas/ModelOptionsDTO"
+          },
+          "task": {
+            "enum": [
+              "classification",
+              "regression"
+            ],
+            "title": "Task",
+            "type": "string"
+          },
+          "x_train": {
+            "items": {
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "type": "array"
+            },
+            "minItems": 1,
+            "title": "X Train",
+            "type": "array"
+          },
+          "y_train": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "minItems": 1,
+            "title": "Y Train",
+            "type": "array"
+          }
+        },
+        "required": [
+          "task",
+          "backendKey",
+          "modelKey",
+          "columns",
+          "x_train",
+          "y_train"
+        ],
+        "title": "FitRequestV3DTO",
+        "type": "object"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "title": "Detail",
+            "type": "array"
+          }
+        },
+        "title": "HTTPValidationError",
+        "type": "object"
+      },
+      "HealthDTO": {
+        "properties": {
+          "backend": {
+            "title": "Backend",
+            "type": "string"
+          },
+          "identity": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Identity"
+          },
+          "status": {
+            "const": "ok",
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "backend"
+        ],
+        "title": "HealthDTO",
+        "type": "object"
+      },
+      "InferenceConfigDTO": {
+        "additionalProperties": false,
+        "properties": {
+          "SUBSAMPLE_SAMPLES": {
+            "anyOf": [
+              {
+                "minimum": 1.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Subsample Samples"
+          }
+        },
+        "title": "InferenceConfigDTO",
+        "type": "object"
+      },
+      "LabelsPayloadDTO": {
+        "properties": {
+          "classes": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Classes",
+            "type": "array"
+          },
+          "keys": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Keys",
+            "type": "array"
+          },
+          "type": {
+            "const": "labels",
+            "default": "labels",
+            "title": "Type",
+            "type": "string"
+          },
+          "values": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Values",
+            "type": "array"
+          }
+        },
+        "required": [
+          "keys",
+          "classes",
+          "values"
+        ],
+        "title": "LabelsPayloadDTO",
+        "type": "object"
+      },
+      "LocalLimitsDTO": {
+        "properties": {
+          "max_cells": {
+            "title": "Max Cells",
+            "type": "integer"
+          },
+          "max_columns": {
+            "title": "Max Columns",
+            "type": "integer"
+          },
+          "max_concurrent_calls": {
+            "title": "Max Concurrent Calls",
+            "type": "integer"
+          },
+          "max_context_rows": {
+            "title": "Max Context Rows",
+            "type": "integer"
+          },
+          "max_execution_cells": {
+            "title": "Max Execution Cells",
+            "type": "integer"
+          },
+          "max_levels": {
+            "title": "Max Levels",
+            "type": "integer"
+          },
+          "max_test_rows": {
+            "title": "Max Test Rows",
+            "type": "integer"
+          },
+          "min_call_budget_s": {
+            "title": "Min Call Budget S",
+            "type": "number"
+          },
+          "test_chunk_rows": {
+            "title": "Test Chunk Rows",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "max_context_rows",
+          "max_test_rows",
+          "test_chunk_rows",
+          "max_concurrent_calls",
+          "max_columns",
+          "max_cells",
+          "max_levels",
+          "max_execution_cells",
+          "min_call_budget_s"
+        ],
+        "title": "LocalLimitsDTO",
+        "type": "object"
+      },
+      "ModelOptionsDTO": {
+        "additionalProperties": false,
+        "properties": {
+          "average_before_softmax": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Average Before Softmax"
+          },
+          "balance_probabilities": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Balance Probabilities"
+          },
+          "ignore_pretraining_limits": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ignore Pretraining Limits"
+          },
+          "inference_config": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/InferenceConfigDTO"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "inference_precision": {
+            "anyOf": [
+              {
+                "enum": [
+                  "auto",
+                  "autocast"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Inference Precision"
+          },
+          "n_estimators": {
+            "anyOf": [
+              {
+                "minimum": 1.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "N Estimators"
+          },
+          "paper_version": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Paper Version"
+          },
+          "random_state": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Random State"
+          },
+          "softmax_temperature": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Softmax Temperature"
+          }
+        },
+        "title": "ModelOptionsDTO",
+        "type": "object"
+      },
+      "ModelReferenceDTO": {
+        "additionalProperties": false,
+        "properties": {
+          "backendKey": {
+            "title": "Backendkey",
+            "type": "string"
+          },
+          "configuration_identity": {
+            "title": "Configuration Identity",
+            "type": "string"
+          },
+          "expires_at": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expires At"
+          },
+          "modelKey": {
+            "title": "Modelkey",
+            "type": "string"
+          },
+          "token": {
+            "maxLength": 131072,
+            "minLength": 1,
+            "title": "Token",
+            "type": "string"
+          },
+          "version": {
+            "const": 1,
+            "default": 1,
+            "title": "Version",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "backendKey",
+          "modelKey",
+          "configuration_identity",
+          "token"
+        ],
+        "title": "ModelReferenceDTO",
+        "type": "object"
+      },
+      "OutputDTO": {
+        "additionalProperties": false,
+        "properties": {
+          "levels": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Levels"
+          },
+          "type": {
+            "enum": [
+              "probas",
+              "point",
+              "quantiles"
+            ],
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "type"
+        ],
+        "title": "OutputDTO",
+        "type": "object"
+      },
+      "OutputV3DTO": {
+        "additionalProperties": false,
+        "properties": {
+          "levels": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Levels"
+          },
+          "statistic": {
+            "default": "mean",
+            "enum": [
+              "mean",
+              "median",
+              "mode"
+            ],
+            "title": "Statistic",
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "labels",
+              "probas",
+              "point",
+              "quantiles",
+              "summary",
+              "distribution"
+            ],
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "type"
+        ],
+        "title": "OutputV3DTO",
+        "type": "object"
+      },
+      "PointPayloadDTO": {
+        "properties": {
+          "keys": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Keys",
+            "type": "array"
+          },
+          "statistic": {
+            "enum": [
+              "mean",
+              "median",
+              "mode"
+            ],
+            "title": "Statistic",
+            "type": "string"
+          },
+          "type": {
+            "const": "point",
+            "default": "point",
+            "title": "Type",
+            "type": "string"
+          },
+          "values": {
+            "items": {
+              "type": "number"
+            },
+            "title": "Values",
+            "type": "array"
+          }
+        },
+        "required": [
+          "keys",
+          "statistic",
+          "values"
+        ],
+        "title": "PointPayloadDTO",
+        "type": "object"
+      },
+      "PredictRequestDTO": {
+        "additionalProperties": false,
+        "properties": {
+          "columns": {
+            "items": {
+              "$ref": "#/components/schemas/ColumnDTO"
+            },
+            "minItems": 1,
+            "title": "Columns",
+            "type": "array"
+          },
+          "keys": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Keys",
+            "type": "array"
+          },
+          "mode": {
+            "default": "predict",
+            "enum": [
+              "predict",
+              "dry_run"
+            ],
+            "title": "Mode",
+            "type": "string"
+          },
+          "output": {
+            "$ref": "#/components/schemas/OutputDTO"
+          },
+          "task": {
+            "enum": [
+              "classification",
+              "regression"
+            ],
+            "title": "Task",
+            "type": "string"
+          },
+          "x_test": {
+            "items": {
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "type": "array"
+            },
+            "title": "X Test",
+            "type": "array"
+          },
+          "x_train": {
+            "items": {
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "type": "array"
+            },
+            "title": "X Train",
+            "type": "array"
+          },
+          "y_train": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "title": "Y Train",
+            "type": "array"
+          }
+        },
+        "required": [
+          "task",
+          "columns",
+          "x_train",
+          "y_train",
+          "keys",
+          "x_test",
+          "output"
+        ],
+        "title": "PredictRequestDTO",
+        "type": "object"
+      },
+      "PredictRequestV3DTO": {
+        "additionalProperties": false,
+        "properties": {
+          "backendKey": {
+            "enum": [
+              "fake",
+              "priorlabs",
+              "aicore"
+            ],
+            "title": "Backendkey",
+            "type": "string"
+          },
+          "columns": {
+            "items": {
+              "$ref": "#/components/schemas/ColumnDTO"
+            },
+            "minItems": 1,
+            "title": "Columns",
+            "type": "array"
+          },
+          "execution": {
+            "$ref": "#/components/schemas/ExecutionDTO"
+          },
+          "fitOptions": {
+            "$ref": "#/components/schemas/FitOptionsDTO"
+          },
+          "keys": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Keys",
+            "type": "array"
+          },
+          "mode": {
+            "default": "predict",
+            "enum": [
+              "predict",
+              "dry_run"
+            ],
+            "title": "Mode",
+            "type": "string"
+          },
+          "modelKey": {
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Modelkey",
+            "type": "string"
+          },
+          "modelOptions": {
+            "$ref": "#/components/schemas/ModelOptionsDTO"
+          },
+          "modelRef": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ModelReferenceDTO"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "output": {
+            "$ref": "#/components/schemas/OutputV3DTO"
+          },
+          "task": {
+            "enum": [
+              "classification",
+              "regression"
+            ],
+            "title": "Task",
+            "type": "string"
+          },
+          "x_test": {
+            "items": {
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "type": "array"
+            },
+            "title": "X Test",
+            "type": "array"
+          },
+          "x_train": {
+            "items": {
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "type": "array"
+            },
+            "title": "X Train",
+            "type": "array"
+          },
+          "y_train": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "title": "Y Train",
+            "type": "array"
+          }
+        },
+        "required": [
+          "task",
+          "backendKey",
+          "modelKey",
+          "columns",
+          "keys",
+          "x_test",
+          "output"
+        ],
+        "title": "PredictRequestV3DTO",
+        "type": "object"
+      },
+      "PredictionDTO": {
+        "properties": {
+          "probabilities": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Probabilities"
+          },
+          "quantiles": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Quantiles"
+          },
+          "row_key": {
+            "title": "Row Key",
+            "type": "string"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "title": "Value"
+          }
+        },
+        "required": [
+          "row_key",
+          "value"
+        ],
+        "title": "PredictionDTO",
+        "type": "object"
+      },
+      "ProbasPayloadDTO": {
+        "properties": {
+          "classes": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Classes",
+            "type": "array"
+          },
+          "keys": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Keys",
+            "type": "array"
+          },
+          "type": {
+            "const": "probas",
+            "default": "probas",
+            "title": "Type",
+            "type": "string"
+          },
+          "values": {
+            "items": {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            "title": "Values",
+            "type": "array"
+          }
+        },
+        "required": [
+          "keys",
+          "classes",
+          "values"
+        ],
+        "title": "ProbasPayloadDTO",
+        "type": "object"
+      },
+      "QuantilesPayloadDTO": {
+        "properties": {
+          "keys": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Keys",
+            "type": "array"
+          },
+          "levels": {
+            "items": {
+              "type": "number"
+            },
+            "title": "Levels",
+            "type": "array"
+          },
+          "type": {
+            "const": "quantiles",
+            "default": "quantiles",
+            "title": "Type",
+            "type": "string"
+          },
+          "values": {
+            "items": {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            "title": "Values",
+            "type": "array"
+          }
+        },
+        "required": [
+          "keys",
+          "levels",
+          "values"
+        ],
+        "title": "QuantilesPayloadDTO",
+        "type": "object"
+      },
+      "ReleaseRequestDTO": {
+        "additionalProperties": false,
+        "properties": {
+          "modelRef": {
+            "$ref": "#/components/schemas/ModelReferenceDTO"
+          }
+        },
+        "required": [
+          "modelRef"
+        ],
+        "title": "ReleaseRequestDTO",
+        "type": "object"
+      },
+      "ReleaseResultDTO": {
+        "properties": {
+          "released": {
+            "const": false,
+            "default": false,
+            "title": "Released",
+            "type": "boolean"
+          },
+          "status": {
+            "const": "unsupported",
+            "default": "unsupported",
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "title": "ReleaseResultDTO",
+        "type": "object"
+      },
+      "SummaryPayloadDTO": {
+        "properties": {
+          "keys": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Keys",
+            "type": "array"
+          },
+          "levels": {
+            "items": {
+              "type": "number"
+            },
+            "title": "Levels",
+            "type": "array"
+          },
+          "means": {
+            "items": {
+              "type": "number"
+            },
+            "title": "Means",
+            "type": "array"
+          },
+          "medians": {
+            "items": {
+              "type": "number"
+            },
+            "title": "Medians",
+            "type": "array"
+          },
+          "modes": {
+            "items": {
+              "type": "number"
+            },
+            "title": "Modes",
+            "type": "array"
+          },
+          "quantiles": {
+            "items": {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            "title": "Quantiles",
+            "type": "array"
+          },
+          "type": {
+            "const": "summary",
+            "default": "summary",
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "keys",
+          "means",
+          "medians",
+          "modes",
+          "levels",
+          "quantiles"
+        ],
+        "title": "SummaryPayloadDTO",
+        "type": "object"
+      },
+      "SupportedOutputsDTO": {
+        "properties": {
+          "classification": {
+            "items": {
+              "enum": [
+                "labels",
+                "probas"
+              ],
+              "type": "string"
+            },
+            "title": "Classification",
+            "type": "array"
+          },
+          "regression": {
+            "items": {
+              "enum": [
+                "mean",
+                "median",
+                "mode",
+                "quantiles",
+                "summary",
+                "distribution"
+              ],
+              "type": "string"
+            },
+            "title": "Regression",
+            "type": "array"
+          }
+        },
+        "required": [
+          "classification",
+          "regression"
+        ],
+        "title": "SupportedOutputsDTO",
+        "type": "object"
+      },
+      "TabularResultDTO": {
+        "properties": {
+          "classes": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Classes"
+          },
+          "dropped_columns": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Dropped Columns",
+            "type": "array"
+          },
+          "elapsed_ms": {
+            "title": "Elapsed Ms",
+            "type": "number"
+          },
+          "fallback": {
+            "anyOf": [
+              {
+                "enum": [
+                  "context_distribution",
+                  "context_quantiles"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fallback"
+          },
+          "levels": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Levels"
+          },
+          "output_type": {
+            "enum": [
+              "probas",
+              "point",
+              "quantiles"
+            ],
+            "title": "Output Type",
+            "type": "string"
+          },
+          "placeholder": {
+            "title": "Placeholder",
+            "type": "boolean"
+          },
+          "predictions": {
+            "items": {
+              "$ref": "#/components/schemas/PredictionDTO"
+            },
+            "title": "Predictions",
+            "type": "array"
+          },
+          "task": {
+            "enum": [
+              "classification",
+              "regression"
+            ],
+            "title": "Task",
+            "type": "string"
+          },
+          "train_rows": {
+            "title": "Train Rows",
+            "type": "integer"
+          },
+          "usage": {
+            "$ref": "#/components/schemas/UsageDTO"
+          }
+        },
+        "required": [
+          "task",
+          "output_type",
+          "predictions",
+          "dropped_columns",
+          "placeholder",
+          "usage",
+          "train_rows",
+          "elapsed_ms"
+        ],
+        "title": "TabularResultDTO",
+        "type": "object"
+      },
+      "TabularResultV3DTO": {
+        "properties": {
+          "backendKey": {
+            "title": "Backendkey",
+            "type": "string"
+          },
+          "capability_digest": {
+            "title": "Capability Digest",
+            "type": "string"
+          },
+          "configuration_identity": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Configuration Identity"
+          },
+          "contract_version": {
+            "const": 3,
+            "default": 3,
+            "title": "Contract Version",
+            "type": "integer"
+          },
+          "diagnostics": {
+            "additionalProperties": true,
+            "title": "Diagnostics",
+            "type": "object"
+          },
+          "dropped_columns": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Dropped Columns",
+            "type": "array"
+          },
+          "elapsed_ms": {
+            "title": "Elapsed Ms",
+            "type": "number"
+          },
+          "fallback": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fallback"
+          },
+          "modelKey": {
+            "title": "Modelkey",
+            "type": "string"
+          },
+          "payload": {
+            "discriminator": {
+              "mapping": {
+                "distribution": "#/components/schemas/DistributionPayloadDTO",
+                "labels": "#/components/schemas/LabelsPayloadDTO",
+                "point": "#/components/schemas/PointPayloadDTO",
+                "probas": "#/components/schemas/ProbasPayloadDTO",
+                "quantiles": "#/components/schemas/QuantilesPayloadDTO",
+                "summary": "#/components/schemas/SummaryPayloadDTO"
+              },
+              "propertyName": "type"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/LabelsPayloadDTO"
+              },
+              {
+                "$ref": "#/components/schemas/ProbasPayloadDTO"
+              },
+              {
+                "$ref": "#/components/schemas/PointPayloadDTO"
+              },
+              {
+                "$ref": "#/components/schemas/QuantilesPayloadDTO"
+              },
+              {
+                "$ref": "#/components/schemas/SummaryPayloadDTO"
+              },
+              {
+                "$ref": "#/components/schemas/DistributionPayloadDTO"
+              }
+            ],
+            "title": "Payload"
+          },
+          "placeholder": {
+            "title": "Placeholder",
+            "type": "boolean"
+          },
+          "plan_fingerprint": {
+            "title": "Plan Fingerprint",
+            "type": "string"
+          },
+          "train_rows": {
+            "title": "Train Rows",
+            "type": "integer"
+          },
+          "usage": {
+            "$ref": "#/components/schemas/UsageDTO"
+          }
+        },
+        "required": [
+          "backendKey",
+          "modelKey",
+          "configuration_identity",
+          "capability_digest",
+          "plan_fingerprint",
+          "diagnostics",
+          "payload",
+          "fallback",
+          "dropped_columns",
+          "placeholder",
+          "usage",
+          "train_rows",
+          "elapsed_ms"
+        ],
+        "title": "TabularResultV3DTO",
+        "type": "object"
+      },
+      "UsageDTO": {
+        "properties": {
+          "backend": {
+            "title": "Backend",
+            "type": "string"
+          },
+          "calls": {
+            "title": "Calls",
+            "type": "integer"
+          },
+          "context_cells": {
+            "title": "Context Cells",
+            "type": "integer"
+          },
+          "cost_units": {
+            "title": "Cost Units",
+            "type": "number"
+          },
+          "effective_feature_count": {
+            "title": "Effective Feature Count",
+            "type": "integer"
+          },
+          "model_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model Version"
+          },
+          "num_cells": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Num Cells"
+          },
+          "num_predictions": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Num Predictions"
+          },
+          "predicted_cells": {
+            "title": "Predicted Cells",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "backend",
+          "calls",
+          "context_cells",
+          "predicted_cells",
+          "cost_units",
+          "effective_feature_count"
+        ],
+        "title": "UsageDTO",
+        "type": "object"
+      },
+      "ValidationError": {
+        "properties": {
+          "ctx": {
+            "title": "Context",
+            "type": "object"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location",
+            "type": "array"
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError",
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "title": "tabular",
+    "version": "0.2.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/health": {
+      "get": {
+        "description": "Liveness, model backend and non-secret configuration identity.",
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthDTO"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Health"
+      }
+    },
+    "/v1/tabular": {
+      "post": {
+        "description": "`X-Deadline-Ms` bounds worker waiting, relative (no clock sync needed).\nProvider work may outlive it; parsing and preprocessing are not a hard SLA.",
+        "operationId": "predict_v1_tabular_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "x-deadline-ms",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "exclusiveMinimum": 0,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Deadline-Ms"
+            }
+          },
+          {
+            "in": "header",
+            "name": "x-backend-identity",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Backend-Identity"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PredictRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TabularResultDTO"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Predict"
+      }
+    },
+    "/v3/capabilities": {
+      "get": {
+        "description": "Versioned adapter support; offline evidence is not live-provider conformance.",
+        "operationId": "capabilities_v3_capabilities_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CapabilitiesDTO"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Capabilities"
+      }
+    },
+    "/v3/models/fit": {
+      "post": {
+        "operationId": "fit_model_v3_v3_models_fit_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "in": "header",
+            "name": "x-backend-identity",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Backend-Identity"
+            }
+          },
+          {
+            "in": "header",
+            "name": "x-deadline-ms",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "exclusiveMinimum": 0,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Deadline-Ms"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FitRequestV3DTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModelReferenceDTO"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Fit Model V3"
+      }
+    },
+    "/v3/models/release": {
+      "post": {
+        "operationId": "release_model_v3_v3_models_release_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReleaseRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReleaseResultDTO"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Release Model V3"
+      }
+    },
+    "/v3/tabular": {
+      "post": {
+        "operationId": "predict_v3_v3_tabular_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "x-deadline-ms",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "exclusiveMinimum": 0,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Deadline-Ms"
+            }
+          },
+          {
+            "in": "header",
+            "name": "x-backend-identity",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Backend-Identity"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PredictRequestV3DTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TabularResultV3DTO"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Predict V3"
+      }
+    }
+  }
+}

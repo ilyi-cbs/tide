@@ -1,0 +1,13 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:macros="sap.fe.macros">
+    <f:Form id="itemDeliveryForm" editable="{ui>/isEditable}">
+        <f:layout><f:ColumnLayout columnsM="1" columnsL="2" columnsXL="2" labelCellsLarge="12" /></f:layout>
+        <f:formContainers><f:FormContainer><f:formElements>
+            <macros:FormElement id="descriptionElement" metaPath="reviewedShortText" />
+            <macros:FormElement id="quantityElement" metaPath="reviewedQuantity" />
+            <macros:FormElement id="unitElement" metaPath="reviewedUnit" />
+            <macros:FormElement id="dateElement" metaPath="reviewedDeliveryDate" />
+            <macros:FormElement id="plantElement" metaPath="reviewedPlant" />
+            <macros:FormElement id="storageElement" metaPath="reviewedStorageLocation" />
+        </f:formElements></f:FormContainer></f:formContainers>
+    </f:Form>
+</core:FragmentDefinition>

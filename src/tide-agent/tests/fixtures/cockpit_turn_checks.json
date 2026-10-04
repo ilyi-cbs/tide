@@ -1,0 +1,24 @@
+{
+  "noAction": "No action was prepared.",
+  "actionClaim": "\\b(draft|reminder|change list|code list|worklist|export|action)s?\\b[^.\\n]*\\b(created|prepared|drafted|added|ready|waits|waiting|queued|submitted)\\b|\\b(created|prepared|drafted|added|ready|waits|waiting|queued|submitted)\\b[^.\\n]*\\b(draft|reminder|change list|code list|worklist|export|action)s?\\b",
+  "negation": "\\b(no|not|never|cannot|can't|didn't|won't|without)\\b",
+  "expertWarning": "tabpfn|\\bmodel\\b|quantile|\\bp\\d0\\b|context|\\bauc\\b|confidence|calls?\\b",
+  "quote": [
+    {
+      "field": "error"
+    },
+    {
+      "field": "warnings"
+    },
+    {
+      "field": "realityCheck"
+    },
+    {
+      "field": "answer",
+      "whenVerdict": [
+        "fail",
+        "too little"
+      ]
+    }
+  ]
+}

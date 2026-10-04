@@ -1,0 +1,6 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+    <VBox class="sapUiTinyMarginVertical">
+        <ObjectIdentifier title="{requestText}" text="{= 'PR ' + ${PurchaseRequisition} + ' / ' + ${PurchaseRequisitionItem} }" />
+        <ObjectStatus text="Saved draft" state="Information" visible="{HasDraftEntity}" />
+    </VBox>
+</core:FragmentDefinition>

@@ -1,0 +1,9 @@
+code;text
+PD;MRP
+VB;Reorder point planning (manual)
+VM;Reorder point planning (automatic)
+VV;Forecast-based planning
+ND;No planning
+X0;Without MRP, with BOM explosion
+M0;MPS, fixed zone
+P1;MRP, fixed type -1-

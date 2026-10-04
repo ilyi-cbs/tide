@@ -1,0 +1,118 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout" xmlns:form="sap.ui.layout.form">
+    <VBox id="approvalWorkspace" width="100%"
+        core:require="{ApprovalWorkspace: 'tide/cockpit/ext/approvals/ApprovalWorkspace'}"
+        modelContextChange="ApprovalWorkspace.onContextChange">
+        <VBox visible="{= ${approval>/state} === 'loading' }"><BusyIndicator visible="true" text="Loading approval details" /></VBox>
+        <VBox visible="{= ${approval>/state} === 'error' }">
+            <MessageStrip text="{i18nApprovals>loadFailed}" type="Error" showIcon="true" />
+            <Button text="{i18nApprovals>retry}" icon="sap-icon://refresh" press="ApprovalWorkspace.onRetry" />
+        </VBox>
+        <VBox visible="{= ${approval>/state} === 'loaded' }">
+            <MessageStrip text="{approval>/blockReason}" type="Warning" showIcon="true" visible="{approval>/incomplete}" class="sapUiSmallMarginBottom" />
+            <VBox class="tideApprovalTaskSurface">
+                <HBox width="100%" wrap="Wrap" class="tideApprovalDecisionColumns">
+                    <VBox class="tideApprovalRequestColumn">
+                        <Title text="{approval>/contentTitle}" level="H2" />
+                        <form:Form id="approvalRequestFacts" editable="false" class="sapUiSmallMarginTop">
+                            <form:layout><form:ColumnLayout columnsM="2" columnsL="3" columnsXL="4" /></form:layout>
+                            <form:formContainers><form:FormContainer><form:formElements>
+                                <form:FormElement label="{i18nApprovals>requestType}"><form:fields><Text text="{approval>/requestType}" /></form:fields></form:FormElement>
+                                <form:FormElement label="{i18nApprovals>affectedObject}"><form:fields><Text text="{approval>/objectText}" /></form:fields></form:FormElement>
+                                <form:FormElement label="{i18nApprovals>expectedBy}" visible="{approval>/showExpectedBy}"><form:fields><Text text="{approval>/expectedBy}" /></form:fields></form:FormElement>
+                                <form:FormElement label="{i18nApprovals>recipient}" visible="{approval>/hasRecipient}"><form:fields><Text text="{approval>/recipient}" /></form:fields></form:FormElement>
+                            </form:formElements></form:FormContainer></form:formContainers>
+                        </form:Form>
+                        <List items="{approval>/items}" showSeparators="Inner" visible="{approval>/hasPreparedContent}" class="tideApprovalContentList">
+                            <CustomListItem>
+                                <VBox class="tideApprovalContentCard">
+                                    <Label text="{i18nApprovals>supplierFacingText}" visible="{approval>hasText}" />
+                                    <Text text="{approval>text}" wrapping="true" visible="{approval>hasText}" />
+                                    <VBox visible="{approval>/showField}" class="sapUiSmallMarginTop"><Label text="{approval>/fieldLabel}" /><Text text="{approval>field}" /></VBox>
+                                    <l:Grid defaultSpan="XL6 L6 M6 S12" hSpacing="0.5" vSpacing="0.5" visible="{approval>hasChange}" class="sapUiSmallMarginTop tideApprovalDefinitionGrid">
+                                        <VBox><Label text="{approval>/oldValueLabel}" /><Text text="{approval>oldValue}" /></VBox>
+                                        <VBox><Label text="{approval>/newValueLabel}" /><Text text="{approval>newValue}" /></VBox>
+                                    </l:Grid>
+                                </VBox>
+                            </CustomListItem>
+                        </List>
+                        <MessageStrip text="{i18nApprovals>missingProposal}" type="Warning" showIcon="true" visible="{= !${approval>/hasPreparedContent} }" class="sapUiSmallMarginTop" />
+                        <Text text="{i18nApprovals>approvalDoesNotExecute}" wrapping="true" class="sapUiSmallMarginTop tideApprovalExecutionNote" />
+                    </VBox>
+                    <VBox class="tideApprovalEvidenceColumn">
+                        <Title text="{i18nApprovals>whyFollowUp}" level="H3" />
+                        <Label text="{i18nApprovals>businessSummary}" class="sapUiTinyMarginTop" />
+                        <Text text="{approval>/summary}" wrapping="true" visible="{approval>/hasSummary}" />
+                        <Text text="{i18nApprovals>noBusinessSummary}" visible="{approval>/missingBusinessSummary}" class="tideApprovalEmptyState" />
+                        <VBox visible="{approval>/hasCases}" class="sapUiSmallMarginTop">
+                            <Title text="{i18nApprovals>affectedCase}" level="H4" />
+                            <List items="{approval>/cases}" showSeparators="Inner">
+                                <CustomListItem>
+                                    <HBox justifyContent="SpaceBetween" alignItems="Center" wrap="Wrap" class="tideApprovalCaseCard">
+                                        <VBox><Title text="{approval>title}" level="H5" /><Text text="{approval>subtitle}" /><ObjectStatus
+                                            core:require="{Attention: 'tide/cockpit/ext/shared/Attention'}"
+                                            text="{parts: [{path: 'approval>attentionBucket'}, {path: 'i18nApprovals>attentionActionRequired'}, {path: 'i18nApprovals>attentionInProgress'}, {path: 'i18nApprovals>attentionWaiting'}, {path: 'i18nApprovals>attentionDone'}], formatter: 'Attention.textForBucket'}"
+                                            state="{approval>attentionState}"
+                                            icon="{approval>attentionIcon}" /></VBox>
+                                        <Button text="{i18nApprovals>openCase}" type="Transparent" press="ApprovalWorkspace.onOpenCase" visible="{approval>navigable}" />
+                                    </HBox>
+                                </CustomListItem>
+                            </List>
+                        </VBox>
+                    </VBox>
+                </HBox>
+            </VBox>
+
+            <VBox visible="{approval>/hasDecision}" class="sapUiMediumMarginTop">
+                <Title text="{i18nApprovals>decision}" level="H2" />
+                <form:Form id="approvalDecisionFacts" editable="false">
+                    <form:layout><form:ColumnLayout columnsM="2" columnsL="3" columnsXL="4" /></form:layout>
+                    <form:formContainers><form:FormContainer><form:formElements>
+                        <form:FormElement label="{i18nApprovals>decidedBy}"><form:fields><Text text="{approval>/decidedBy}" /></form:fields></form:FormElement>
+                        <form:FormElement label="{i18nApprovals>decidedAt}"><form:fields><Text text="{approval>/decidedAt}" /></form:fields></form:FormElement>
+                        <form:FormElement label="{i18nApprovals>decisionNote}" visible="{approval>/hasDecisionNote}"><form:fields><Text text="{approval>/decisionNote}" wrapping="true" /></form:fields></form:FormElement>
+                    </form:formElements></form:FormContainer></form:formContainers>
+                </form:Form>
+            </VBox>
+            <VBox visible="{approval>/hasOutcome}" class="sapUiMediumMarginTop">
+                <Title text="{i18nApprovals>outcome}" level="H2" />
+                <form:Form id="approvalOutcomeFacts" editable="false">
+                    <form:layout><form:ColumnLayout columnsM="2" columnsL="3" columnsXL="4" /></form:layout>
+                    <form:formContainers><form:FormContainer><form:formElements>
+                        <form:FormElement label="{i18nApprovals>outcome}"><form:fields><Text text="{approval>/outcome}" /></form:fields></form:FormElement>
+                        <form:FormElement label="{i18nApprovals>recordedBy}"><form:fields><Text text="{approval>/resolvedBy}" /></form:fields></form:FormElement>
+                        <form:FormElement label="{i18nApprovals>recordedAt}"><form:fields><Text text="{approval>/resolvedAt}" /></form:fields></form:FormElement>
+                    </form:formElements></form:FormContainer></form:formContainers>
+                </form:Form>
+            </VBox>
+
+            <VBox class="sapUiMediumMarginTop" visible="{approval>/hasEvents}">
+                <Title text="{i18nApprovals>approvalActivity}" level="H2" />
+                <List items="{approval>/events}" showSeparators="Inner">
+                    <CustomListItem>
+                        <HBox alignItems="Start" class="tideApprovalEvent">
+                            <ObjectStatus text="{approval>eventText}" state="{approval>state}" icon="{approval>icon}" class="sapUiSmallMarginEnd" />
+                            <VBox><Text text="{approval>when}" class="tideFigureNote" /><Text text="{approval>actor}" visible="{approval>hasActor}" /><Text text="{approval>note}" wrapping="true" visible="{approval>hasNote}" /></VBox>
+                        </HBox>
+                    </CustomListItem>
+                </List>
+            </VBox>
+
+            <Panel headerText="{i18nApprovals>technicalDetails}" expandable="true" expanded="false" class="sapUiMediumMarginTop">
+            <VBox visible="{approval>/hasProvenance}">
+                <Title text="{i18nApprovals>requestMetadata}" level="H2" />
+                <l:Grid defaultSpan="XL4 L4 M6 S12" hSpacing="0.5" vSpacing="0.5">
+                    <VBox class="tideApprovalFact"><Label text="{i18nApprovals>prepared}" /><Text text="{approval>/preparedAt}" /></VBox>
+                    <VBox class="tideApprovalFact"><Label text="{i18nApprovals>preparedBy}" /><Text text="{approval>/preparedBy}" /></VBox>
+                    <VBox class="tideApprovalFact"><Label text="{i18nApprovals>preparedFrom}" /><Text text="{approval>/preparedVia}" /></VBox>
+                </l:Grid>
+            </VBox>
+                <l:Grid defaultSpan="XL6 L6 M12 S12" hSpacing="0.5" vSpacing="0.5">
+                    <VBox><Label text="{i18nApprovals>approvalId}" /><Text text="{approval>/id}" /></VBox>
+                    <VBox><Label text="{i18nApprovals>businessProblem}" /><Text text="{approval>/problemKey}" /></VBox>
+                    <VBox><Label text="{i18nApprovals>operationKey}" /><Text text="{approval>/operationKey}" /></VBox>
+                    <VBox><Label text="{i18nApprovals>exportFormat}" /><Text text="{approval>/exportFormat}" /></VBox>
+                </l:Grid>
+            </Panel>
+        </VBox>
+    </VBox>
+</core:FragmentDefinition>

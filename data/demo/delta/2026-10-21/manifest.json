@@ -1,0 +1,122 @@
+{
+  "date": "2026-10-21",
+  "cut_before": "2026-10-21",
+  "cut_after": "2026-10-22",
+  "rows": {
+    "API_INBOUND_DELIVERY_SRV_0002/A_InbDeliveryDocFlow": 64,
+    "API_INBOUND_DELIVERY_SRV_0002/A_InbDeliveryHeader": 26,
+    "API_INBOUND_DELIVERY_SRV_0002/A_InbDeliveryItem": 112,
+    "API_INFORECORD_PROCESS_SRV/A_PurgInfoRecdOrgPlantData": 1,
+    "API_MATERIAL_DOCUMENT_SRV/A_MaterialDocumentHeader": 53,
+    "API_MATERIAL_DOCUMENT_SRV/A_MaterialDocumentItem": 136,
+    "API_MATERIAL_STOCK_SRV/A_MatlStkInAcctMod": 2608,
+    "API_PLND_INDEP_RQMT_SRV/A_PlannedIndepRqmtItem": 5,
+    "API_PRODUCTION_ORDER_2_SRV/A_ProductionOrderComponent_2": 24,
+    "API_PRODUCTION_ORDER_2_SRV/A_ProductionOrder_2": 7,
+    "API_PURCHASEORDER_2/PurchaseOrder": 20,
+    "API_PURCHASEORDER_2/PurchaseOrderAccountAssignment": 81,
+    "API_PURCHASEORDER_2/PurchaseOrderItem": 146,
+    "API_PURCHASEORDER_2/PurchaseOrderScheduleLine": 151,
+    "API_PURCHASEREQUISITION_2/PurchaseReqn": 10,
+    "API_PURCHASEREQUISITION_2/PurchaseReqnAcctAssgmt": 29,
+    "API_PURCHASEREQUISITION_2/PurchaseReqnItem": 139,
+    "API_SALESORDER/SalesOrder": 8,
+    "API_SALESORDER/SalesOrderItem": 42,
+    "CE_SUPPLIERCONFIRMATION_0001/Confirmation": 3,
+    "CE_SUPPLIERCONFIRMATION_0001/ConfirmationItem": 6,
+    "CE_SUPPLIERCONFIRMATION_0001/ConfirmationLine": 7,
+    "OP_PLANNEDORDER_0001/PlannedOrderComponent": 65,
+    "OP_PLANNEDORDER_0001/PlannedOrderHeader": 60,
+    "truth/confirmations": 10,
+    "truth/freetext_codes": 1,
+    "truth/injected_slips": 4,
+    "truth/lead_times": 100,
+    "truth/mto_e_items": 11
+  },
+  "replace": [
+    "API_MATERIAL_STOCK_SRV/A_MatlStkInAcctMod",
+    "OP_PLANNEDORDER_0001/PlannedOrderComponent",
+    "OP_PLANNEDORDER_0001/PlannedOrderHeader"
+  ],
+  "truth_keys": {
+    "truth/confirmations": [
+      "PurchaseOrder",
+      "PurchaseOrderItem"
+    ],
+    "truth/injected_slips": [
+      "PurchaseOrder",
+      "PurchaseOrderItem"
+    ],
+    "truth/lead_times": [
+      "PurchaseOrder",
+      "PurchaseOrderItem"
+    ]
+  },
+  "changed_columns": {
+    "API_INBOUND_DELIVERY_SRV_0002/A_InbDeliveryHeader": [
+      "ActualGoodsMovementDate",
+      "OverallGoodsMovementStatus",
+      "OverallSDProcessStatus"
+    ],
+    "API_INBOUND_DELIVERY_SRV_0002/A_InbDeliveryItem": [
+      "GoodsMovementStatus"
+    ],
+    "API_PLND_INDEP_RQMT_SRV/A_PlannedIndepRqmtItem": [
+      "WithdrawalQuantity"
+    ],
+    "API_PRODUCTION_ORDER_2_SRV/A_ProductionOrderComponent_2": [
+      "WithdrawnQuantity"
+    ],
+    "API_PURCHASEORDER_2/PurchaseOrderItem": [
+      "IsCompletelyDelivered"
+    ],
+    "API_PURCHASEORDER_2/PurchaseOrderScheduleLine": [
+      "OpenPurchaseOrderQuantity"
+    ],
+    "API_PURCHASEREQUISITION_2/PurchaseReqnItem": [
+      "PurchasingDocument",
+      "PurchasingDocumentItem",
+      "OrderedQuantity",
+      "ProcessingStatus",
+      "Supplier"
+    ],
+    "API_SALESORDER/SalesOrderItem": [
+      "DeliveryStatus"
+    ],
+    "truth/confirmations": [
+      "LatestConfirmedDateAtCut"
+    ]
+  },
+  "lost_keys": {},
+  "file_sha256": {
+    "API_INBOUND_DELIVERY_SRV_0002/A_InbDeliveryDocFlow": "6f650d36721b9b937a179635ef89a170143a274c4ce3ae6870de0429270eada2",
+    "API_INBOUND_DELIVERY_SRV_0002/A_InbDeliveryHeader": "12dbe8f891b5798bf15474429604e7b41cc1b7fef7b6935f69a0377dd9d34833",
+    "API_INBOUND_DELIVERY_SRV_0002/A_InbDeliveryItem": "5cd9e105dcd27aa7e65a9a7d7e7878d565a164e1c43ef87cf94445841037f92e",
+    "API_INFORECORD_PROCESS_SRV/A_PurgInfoRecdOrgPlantData": "5b3f80cf14b148ef041dd8cd619b9b105500665432106a6dae1c4dc6b82ef5af",
+    "API_MATERIAL_DOCUMENT_SRV/A_MaterialDocumentHeader": "5d9d4a6d9c99910ccef2762a87ebaefed64f4edd2d7b7abaa7bc5ed7e30bc8b2",
+    "API_MATERIAL_DOCUMENT_SRV/A_MaterialDocumentItem": "44db8082f1cf9d81a8c02a5346b6b0ccba1d7fa1e12c1b23d6315be2c1bfd3da",
+    "API_MATERIAL_STOCK_SRV/A_MatlStkInAcctMod": "26496eec7fc64f7ef41542b4aa158ba32544de3ae9ab3edf30e7286406d35cbc",
+    "API_PLND_INDEP_RQMT_SRV/A_PlannedIndepRqmtItem": "201b91c19e251845bb4dd441be1ccfb49b3529d3b27c11ad7b83301902eeaa24",
+    "API_PRODUCTION_ORDER_2_SRV/A_ProductionOrderComponent_2": "d864f7ef9ded530563630df1ccdb714a624d72ca24f3245137936113bce82399",
+    "API_PRODUCTION_ORDER_2_SRV/A_ProductionOrder_2": "78112f534af39e0f20dbf4dd4eab2d9a82b117a1adf34d47d0dbb70d0d1c0891",
+    "API_PURCHASEORDER_2/PurchaseOrder": "25e1a7c8caf4531269d361e5d55d92b81d4eb56199c684567c409331416c9573",
+    "API_PURCHASEORDER_2/PurchaseOrderAccountAssignment": "eb76dcbfcf3ba9f56c0fbc63c373f8164153fa5789ad1690cbc23f6ea9ba713f",
+    "API_PURCHASEORDER_2/PurchaseOrderItem": "6f9856c63f970a0feb10cc0c0cb20815206244511bd58ffd285cd7b1425a09e1",
+    "API_PURCHASEORDER_2/PurchaseOrderScheduleLine": "1e984bf0bdef2bceff7df02ac424297ca715a6176b49f43e7994ad385b104e2a",
+    "API_PURCHASEREQUISITION_2/PurchaseReqn": "b2c5821af8e0cb86abc51aff06f4bb4821edbad0e1ffa2005ba5dd51d95d3875",
+    "API_PURCHASEREQUISITION_2/PurchaseReqnAcctAssgmt": "69a87dfc9d9e3c80677042c65ab06e95d490196ea604e01635486fb205268713",
+    "API_PURCHASEREQUISITION_2/PurchaseReqnItem": "f5fd794f6b0724ee87bd0829e1f7035e00885ccedc80eb66d44854b2430140ab",
+    "API_SALESORDER/SalesOrder": "bbd6d6d00f8ec4a7174ef11ad7dd3656e0a9b590411e93c35491f6ea046a6a10",
+    "API_SALESORDER/SalesOrderItem": "4f358b84b270c968776f49454e944088218d45600c27feeed9d74e71b2033618",
+    "CE_SUPPLIERCONFIRMATION_0001/Confirmation": "cb0cbf3ebb7a4e2cbcc02d313752a97d5b060284aa102e083a4bbaed82048d04",
+    "CE_SUPPLIERCONFIRMATION_0001/ConfirmationItem": "4b17e2438ebd0f5d5d42786fdde9bae99bb52c1dd9a2f0f69745a5e15e3d7854",
+    "CE_SUPPLIERCONFIRMATION_0001/ConfirmationLine": "447dd3d09d014b5d69d1bf2ec48303cf114581c9b4d253c76388db6e777cabd5",
+    "OP_PLANNEDORDER_0001/PlannedOrderComponent": "e42e0b61aeedc3f34037586feb3e8b84af5d00ddc0eeee24a0d681c1cd06b29a",
+    "OP_PLANNEDORDER_0001/PlannedOrderHeader": "3c1d2b9d27803e9a017711da376d158790c72bbd65ad5c28e14fbca76829d8e8",
+    "truth/confirmations": "3302710fcd14e7cdb1beed0c0f55bff3b3ba083666727bff4484c3a029151da6",
+    "truth/freetext_codes": "6837de09051eef097f3df4a3465785bf5e8aed5588e6ffba0aa9095a755088f8",
+    "truth/injected_slips": "f7bdf22b2ec37deb04ca7c32b2c0db80f066435b528f9127538733ff7b9bc142",
+    "truth/lead_times": "9916fe1e0e8a00a2e31cb7851ba83371034a5a1307d208b8238ae7db2704997a",
+    "truth/mto_e_items": "4acf7f24d59c4bb44b3fa445a78afe745638b478259800e6fb5e6a8fa9094ab2"
+  }
+}

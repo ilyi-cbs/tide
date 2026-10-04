@@ -1,0 +1,128 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:form="sap.ui.layout.form" xmlns:flow="sap.suite.ui.commons" xmlns:charts="tide.cockpit.ext.prevention">
+    <VBox id="businessImpactBox" width="100%"
+        core:require="{BusinessImpact: 'tide/cockpit/ext/finding/BusinessImpactSection', Decimal: 'sap/ui/model/odata/type/Decimal'}"
+        modelContextChange="BusinessImpact.onContextChange">
+        <BusyIndicator id="businessImpactLoading" visible="{= ${impact>/state} === 'loading' }" text="Loading business impact" class="sapUiSmallMarginBottom" />
+        <MessageStrip id="businessImpactError" text="{impact>/errorText}" type="Error" showIcon="true" visible="{= ${impact>/state} === 'error' }" class="sapUiSmallMarginBottom">
+            <link><Link text="Retry" press="BusinessImpact.onRetry" /></link>
+        </MessageStrip>
+        <VBox id="businessImpactNarrative" visible="{= ${impact>/state} === 'loaded' }" class="tideImpactNarrative sapUiSmallMarginBottom">
+            <ObjectStatus id="businessImpactOutcome" text="{impact>/outcome}" state="{impact>/status}" icon="sap-icon://business-objects-experience" />
+            <Text id="businessImpactTiming" text="{impact>/timing}" wrapping="true" class="sapUiTinyMarginTop" />
+            <Text id="businessImpactStock" text="{impact>/stockSummary}" visible="{= !!${impact>/stockSummary} }" wrapping="true" class="sapUiTinyMarginTop" />
+            <Text id="businessImpactEvidence" text="{impact>/evidence}" wrapping="true" class="sapUiTinyMarginTop tideFigureNote" />
+        </VBox>
+        <HBox id="businessImpactMetrics" wrap="Wrap" visible="{= ${impact>/state} === 'loaded' }" class="tideImpactMetrics">
+            <VBox class="tideImpactMetric"><Label text="Revenue at risk" /><ObjectNumber number="{path: 'impact>/revenueAtRisk', type: 'sap.ui.model.odata.type.Decimal', formatOptions: {maxFractionDigits: 2, groupingEnabled: true}}" unit="EUR" state="Error" visible="{= %{impact>/revenueAtRisk} !== null }" /><Text text="Not available" visible="{= %{impact>/revenueAtRisk} === null }" /></VBox>
+            <VBox class="tideImpactMetric"><Label text="Sales orders" /><ObjectNumber number="{impact>/salesCount}" /></VBox>
+            <VBox class="tideImpactMetric"><Label text="Production orders" /><ObjectNumber number="{impact>/productionCount}" /></VBox>
+            <VBox class="tideImpactMetric"><Label text="Shortage duration" /><ObjectNumber number="{impact>/shortageDays}" unit="working days" state="Warning" visible="{= %{impact>/shortageDays} !== null }" /><Text text="Not available" visible="{= %{impact>/shortageDays} === null }" /></VBox>
+        </HBox>
+        <flow:ProcessFlow id="businessImpactFlow" visible="{= ${impact>/state} === 'loaded' }" scrollable="true" wheelZoomable="false" nodes="{impact>/flowNodes}" class="tideImpactProcessFlow sapUiSmallMarginTop sapUiSmallMarginBottom">
+            <flow:lanes>
+                <flow:ProcessFlowLaneHeader laneId="supply" position="0" text="Purchase order supply" iconSrc="sap-icon://shipping-status" />
+                <flow:ProcessFlowLaneHeader laneId="production" position="1" text="Production demand" iconSrc="sap-icon://factory" />
+                <flow:ProcessFlowLaneHeader laneId="customer" position="2" text="Customer demand" iconSrc="sap-icon://customer" />
+            </flow:lanes>
+            <flow:nodes><flow:ProcessFlowNode nodeId="{impact>nodeId}" laneId="{impact>laneId}" title="{impact>title}" state="{impact>state}" stateText="{impact>stateText}" texts="{impact>texts}" children="{impact>children}" /></flow:nodes>
+        </flow:ProcessFlow>
+        <Panel id="businessImpactContext" headerText="Supply and forecast context" visible="{= ${impact>/state} === 'loaded' }" backgroundDesign="Transparent" class="tideImpactContext sapUiSmallMarginBottom">
+        <form:Form id="businessImpactFacts" visible="{= ${impact>/state} === 'loaded' }" editable="false" class="tideImpactFacts">
+            <form:layout><form:ColumnLayout columnsM="2" columnsL="3" columnsXL="4" /></form:layout>
+            <form:formContainers><form:FormContainer><form:formElements>
+                <form:FormElement label="Demand type"><form:fields><Text text="{impact>/demandType}" /></form:fields></form:FormElement>
+                <form:FormElement label="Earliest requirement"><form:fields><Text text="{impact>/needDate}" /></form:fields></form:FormElement>
+                <form:FormElement label="Expected arrival"><form:fields><Text text="{impact>/expectedDate}" /></form:fields></form:FormElement>
+                <form:FormElement label="Cautious arrival"><form:fields><Text text="{impact>/cautiousDate}" /></form:fields></form:FormElement>
+                <form:FormElement label="Supplier-confirmed arrival"><form:fields><Text text="{impact>/confirmedDate}" /></form:fields></form:FormElement>
+                <form:FormElement label="Arrival basis"><form:fields><Text text="{impact>/arrivalSource}" /></form:fields></form:FormElement>
+                <form:FormElement label="On-hand stock"><form:fields><Text text="{impact>/stockLabel}" /></form:fields></form:FormElement>
+                <form:FormElement label="Stock coverage"><form:fields><ObjectNumber number="{impact>/coverageDays}" unit="days" visible="{= %{impact>/coverageDays} !== null }" /><Text text="Not available" visible="{= %{impact>/coverageDays} === null }" /></form:fields></form:FormElement>
+                <form:FormElement label="Cautious revenue exposure"><form:fields><ObjectNumber number="{path: 'impact>/revenueCautious', type: 'sap.ui.model.odata.type.Decimal', formatOptions: {maxFractionDigits: 2, groupingEnabled: true}}" unit="EUR" visible="{= %{impact>/revenueCautious} !== null }" /><Text text="Not available" visible="{= %{impact>/revenueCautious} === null }" /></form:fields></form:FormElement>
+            </form:formElements></form:FormContainer></form:formContainers>
+        </form:Form>
+        </Panel>
+        <HBox id="businessImpactSalesPair" renderType="Bare" visible="{= ${impact>/state} === 'loaded' }" class="tideImpactOrderPair sapUiMediumMarginTop">
+        <VBox id="businessImpactSalesRanking" visible="{impact>/hasSalesDelayChart}" class="tideImpactOrderGraph">
+            <Title text="Largest customer delays" level="H3" />
+            <charts:EvidenceChart id="businessImpactSalesDelayChart" data="{impact>/salesDelayChart}" height="18rem" />
+        </VBox>
+        <Panel id="businessImpactSalesPanel" headerText="{impact>/salesTitle}" expandable="true" expanded="true" height="20rem" visible="{= ${impact>/state} === 'loaded' }" backgroundDesign="Transparent" class="tideImpactDetails tideImpactOrderTable">
+        <core:InvisibleText id="businessImpactSalesTitle" text="{impact>/salesTitle}" />
+        <Table id="businessImpactSales" items="{impact>/salesOrders}" visible="{= ${impact>/state} === 'loaded' }" ariaLabelledBy="businessImpactSalesTitle" autoPopinMode="true" growing="true" growingThreshold="10" noDataText="No sales orders are affected by this forecast.">
+            <columns>
+                <Column importance="High"><header><Text text="Sales order" /></header></Column>
+                <Column importance="High"><header><Text text="Customer" /></header></Column>
+                <Column importance="Medium"><header><Text text="Customer requirement" /></header></Column>
+                <Column hAlign="End" importance="Medium"><header><Text text="Delay (calendar days)" /></header></Column>
+                <Column hAlign="End" importance="High"><header><Text text="Revenue risk" /></header></Column>
+            </columns>
+            <items><ColumnListItem id="businessImpactSalesRow"><cells>
+                <Text text="{impact>salesOrderLabel}" wrapping="true" />
+                <Text text="{impact>customer}" wrapping="true" />
+                <Text text="{impact>requiredDate}" wrapping="true" />
+                <VBox><ObjectNumber number="{impact>delayDays}" unit="days" visible="{= %{impact>delayDays} !== null }" /><Text text="Not available" visible="{= %{impact>delayDays} === null }" /></VBox>
+                <VBox><ObjectNumber number="{path: 'impact>revenue', type: 'sap.ui.model.odata.type.Decimal', formatOptions: {maxFractionDigits: 2, groupingEnabled: true}}" unit="{impact>currency}" visible="{= %{impact>revenue} !== null }" /><Text text="Not available" visible="{= %{impact>revenue} === null }" /></VBox>
+            </cells></ColumnListItem></items>
+        </Table>
+        </Panel>
+        </HBox>
+        <HBox id="businessImpactProductionPair" renderType="Bare" visible="{= ${impact>/state} === 'loaded' }" class="tideImpactOrderPair sapUiMediumMarginTop">
+        <VBox id="businessImpactProductionRanking" visible="{impact>/hasProductionShortageChart}" class="tideImpactOrderGraph">
+            <Title text="Largest production shortages" level="H3" />
+            <charts:EvidenceChart id="businessImpactProductionShortageChart" data="{impact>/productionShortageChart}" height="18rem" />
+        </VBox>
+        <Panel id="businessImpactProductionPanel" headerText="{impact>/productionTitle}" expandable="true" expanded="true" height="20rem" visible="{= ${impact>/state} === 'loaded' }" backgroundDesign="Transparent" class="tideImpactDetails tideImpactOrderTable">
+        <core:InvisibleText id="businessImpactProductionTitle" text="{impact>/productionTitle}" />
+        <Table id="businessImpactProduction" items="{impact>/productionOrders}" visible="{= ${impact>/state} === 'loaded' }" ariaLabelledBy="businessImpactProductionTitle" autoPopinMode="true" growing="true" growingThreshold="10" noDataText="No production orders are affected by this forecast.">
+            <columns>
+                <Column importance="High"><header><Text text="Production order" /></header></Column>
+                <Column importance="High"><header><Text text="Finished product" /></header></Column>
+                <Column importance="High"><header><Text text="Component requirement" /></header></Column>
+                <Column hAlign="End" importance="Medium"><header><Text text="Shortage (working days)" /></header></Column>
+                <Column hAlign="End" importance="Low"><header><Text text="Component quantity" /></header></Column>
+            </columns>
+            <items><ColumnListItem id="businessImpactProductionRow"><cells>
+                <Text text="{impact>productionOrder}" />
+                <Text text="{= ${impact>finishedProduct} || 'Not available' }" />
+                <Text text="{impact>requiredDate}" />
+                <VBox><ObjectNumber number="{impact>shortageDays}" unit="working days" visible="{= %{impact>shortageDays} !== null }" /><Text text="Not available" visible="{= %{impact>shortageDays} === null }" /></VBox>
+                <VBox><ObjectNumber number="{impact>affectedQuantity}" unit="{impact>unit}" visible="{= %{impact>affectedQuantity} !== null }" /><Text text="Not available" visible="{= %{impact>affectedQuantity} === null }" /></VBox>
+            </cells></ColumnListItem></items>
+        </Table>
+        </Panel>
+        </HBox>
+        <VBox id="businessImpactForecastVisual" visible="{impact>/hasForecastChart}" class="tideImpactForecastVisual sapUiMediumMarginTop">
+            <Title text="Customer delay by forecast arrival" level="H3" class="sapUiSmallMarginBottom" />
+            <charts:EvidenceChart id="businessImpactForecastChart" data="{impact>/forecastChart}" height="19rem" />
+        </VBox>
+        <Panel id="businessImpactPlanning" headerText="{impact>/planningTitle}" expandable="true" expanded="false" backgroundDesign="Transparent" visible="{impact>/hasPlanningRows}" class="tideImpactDetails sapUiMediumMarginTop">
+            <Table items="{impact>/planningRows}" autoPopinMode="true" growing="true" growingThreshold="10">
+                <columns>
+                    <Column importance="High"><header><Text text="Date" /></header></Column>
+                    <Column importance="High"><header><Text text="Planning element" /></header></Column>
+                    <Column importance="Medium"><header><Text text="Reference" /></header></Column>
+                    <Column hAlign="End" importance="Medium"><header><Text text="Receipt / requirement" /></header></Column>
+                    <Column hAlign="End" importance="Low"><header><Text text="Projected balance" /></header></Column>
+                    <Column importance="High"><header><Text text="Impact" /></header></Column>
+                </columns>
+                <items><ColumnListItem><cells><Text text="{impact>date}" /><Text text="{impact>element}" /><Text text="{impact>reference}" /><ObjectNumber number="{impact>quantity}" /><ObjectNumber number="{impact>balance}" /><ObjectStatus text="{impact>status}" state="{impact>state}" /></cells></ColumnListItem></items>
+            </Table>
+        </Panel>
+        <Panel id="businessImpactScenarios" headerText="Forecast scenarios" expandable="true" expanded="false" backgroundDesign="Transparent" visible="{impact>/hasScenarios}" class="tideImpactDetails">
+            <Table items="{impact>/scenarios}" autoPopinMode="true">
+                <columns>
+                    <Column importance="High"><header><Text text="Arrival quantile" /></header></Column>
+                    <Column importance="High"><header><Text text="Arrival date" /></header></Column>
+                    <Column hAlign="End" importance="Medium"><header><Text text="Customer delay (days)" /></header></Column>
+                    <Column hAlign="End" importance="High"><header><Text text="Revenue exposure" /></header></Column>
+                </columns>
+                <items><ColumnListItem><cells><Text text="{impact>quantile}" /><Text text="{impact>arrival}" /><ObjectNumber number="{impact>delayDays}" unit="days" /><ObjectNumber number="{path: 'impact>revenue', type: 'sap.ui.model.odata.type.Decimal', formatOptions: {maxFractionDigits: 2, groupingEnabled: true}}" unit="EUR" /></cells></ColumnListItem></items>
+            </Table>
+        </Panel>
+        <VBox visible="{= ${impact>/state} === 'loaded' }" class="sapUiSmallMarginTop">
+            <Text text="{impact>/kindNote}" visible="{= !!${impact>/kindNote} }" wrapping="true" class="tideFigureNote" />
+            <Text text="{impact>/note}" visible="{= !!${impact>/note} }" wrapping="true" class="tideFigureNote sapUiTinyMarginTop" />
+        </VBox>
+    </VBox>
+</core:FragmentDefinition>

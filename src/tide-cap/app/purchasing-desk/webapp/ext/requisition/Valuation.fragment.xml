@@ -1,0 +1,13 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:macros="sap.fe.macros">
+    <f:Form id="valuationWorkingForm" editable="{ui>/isEditable}">
+        <f:layout><f:ColumnLayout columnsM="1" columnsL="2" columnsXL="2" labelCellsLarge="12" /></f:layout>
+        <f:formContainers><f:FormContainer><f:formElements>
+            <macros:FormElement id="priceElement" metaPath="/PurchaseRequisitionReviews/reviewedValuationPrice"><macros:fields><macros:Field metaPath="/PurchaseRequisitionReviews/reviewedValuationPrice" /></macros:fields></macros:FormElement>
+            <macros:FormElement id="priceQuantityElement" metaPath="/PurchaseRequisitionReviews/reviewedPriceQuantity"><macros:fields><macros:Field metaPath="/PurchaseRequisitionReviews/reviewedPriceQuantity" /></macros:fields></macros:FormElement>
+            <macros:FormElement id="currencyElement" metaPath="/PurchaseRequisitionReviews/reviewedCurrency"><macros:fields><macros:Field metaPath="/PurchaseRequisitionReviews/reviewedCurrency" /></macros:fields></macros:FormElement>
+            <macros:FormElement id="taxElement" metaPath="/PurchaseRequisitionReviews/reviewedTaxCode"><macros:fields><macros:Field metaPath="/PurchaseRequisitionReviews/reviewedTaxCode" /></macros:fields></macros:FormElement>
+            <macros:FormElement id="receiptElement" metaPath="/PurchaseRequisitionReviews/reviewedReceiptExpected"><macros:fields><macros:Field metaPath="/PurchaseRequisitionReviews/reviewedReceiptExpected" /></macros:fields></macros:FormElement>
+            <macros:FormElement id="invoiceReceiptElement" metaPath="/PurchaseRequisitionReviews/reviewedInvoiceBasedOnReceipt"><macros:fields><macros:Field metaPath="/PurchaseRequisitionReviews/reviewedInvoiceBasedOnReceipt" /></macros:fields></macros:FormElement>
+        </f:formElements></f:FormContainer></f:formContainers>
+    </f:Form>
+</core:FragmentDefinition>

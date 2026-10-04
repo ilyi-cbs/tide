@@ -1,0 +1,12 @@
+{
+  "files": {
+    "PredictionRun.parquet": {
+      "sha256": "415c154728de481b52e24d1d6c0dfb8f7c06b0ce8d956b7a6cb6235a220c1169",
+      "rows": 149
+    },
+    "PredictionResult.parquet": {
+      "sha256": "a21eaeb21f0caa6a8cbc4577e73c10f69d3c7bec5a8ac38040b433b95468a0a0",
+      "rows": 11054
+    }
+  }
+}

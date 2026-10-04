@@ -1,0 +1,31 @@
+target,metric,value,trials,seconds,matched_published,majority,ci_low,ci_high,note,model
+lead_time,mae,6.318508252118669,50.0,422.3,True,,,,,
+account_assignment,accuracy,0.802,50.0,1126.5,True,0.4495,,,,
+material_group,accuracy,0.625,50.0,6249.3,,0.3315,,,,
+account_assignment,aurc_effect,0.015908803722031815,,,,,0.008979566170710364,0.024929729012672805,"tuned minus tabpfn, lower aurc is better so positive means tabpfn better",
+account_assignment,aurc,0.03418818309785167,,,,,,,,tabpfn
+account_assignment,coverage_at_0.90,0.8605,,,,,,,equal realised test accuracy,tabpfn
+account_assignment,coverage_at_0.95,0.7265,,,,,,,equal realised test accuracy,tabpfn
+account_assignment,aurc,0.050096986819883484,,,,,,,,lightgbm_tuned
+account_assignment,coverage_at_0.90,0.7755,,,,,,,equal realised test accuracy,lightgbm_tuned
+account_assignment,coverage_at_0.95,0.662,,,,,,,equal realised test accuracy,lightgbm_tuned
+material_group,aurc_effect,0.030662011889247068,,,,,0.02269657608108233,0.03875675795915335,"tuned minus tabpfn, lower aurc is better so positive means tabpfn better",
+material_group,aurc,0.09971819164297126,,,,,,,,tabpfn
+material_group,coverage_at_0.90,0.6105,,,,,,,equal realised test accuracy,tabpfn
+material_group,coverage_at_0.95,0.5,,,,,,,equal realised test accuracy,tabpfn
+material_group,aurc,0.13038020353221833,,,,,,,,lightgbm_tuned
+material_group,coverage_at_0.90,0.505,,,,,,,equal realised test accuracy,lightgbm_tuned
+material_group,coverage_at_0.95,0.4055,,,,,,,equal realised test accuracy,lightgbm_tuned
+lead_time,within_3_days,0.0265,,,,,0.010069232119828781,0.04311359673607507,"clustered by material supplier plant, positive means tabpfn better",
+lead_time,range_coverage,-0.006,,,,,-0.01858503062268875,0.006003302403081238,"clustered by material supplier plant, positive means tabpfn better",
+lead_time,mae,0.5572540613160947,,,,,0.35276067420943863,0.7675631117230984,"clustered by material supplier plant, positive means tabpfn better",
+lead_time,mae_level_tabpfn,5.761254190802574,,,,,,,,
+lead_time,mae_level_tuned,6.318508252118669,,,,,,,,
+lead_time,mae_relative,0.08819392791474809,,,,,,,,
+account_assignment,automation_share,0.745,,,,,,,"threshold chosen on validation slice, realised accuracy differs",lightgbm_tuned
+account_assignment,automation_accuracy,0.9187919463087248,,,,,,,,lightgbm_tuned
+material_group,automation_share,0.415,,,,,,,"threshold chosen on validation slice, realised accuracy differs",lightgbm_tuned
+material_group,automation_accuracy,0.944578313253012,,,,,,,,lightgbm_tuned
+material_group,accuracy_effect,0.05400000000000005,,,,,0.040000000000000036,0.06851249999999993,tabpfn minus tuned,
+material_group,automation_share_effect,0.14999999999999997,,,,,0.1315,0.16899999999999993,"tabpfn minus tuned, validation rule",
+material_group,automation_share,0.565,,,,,,,,tabpfn

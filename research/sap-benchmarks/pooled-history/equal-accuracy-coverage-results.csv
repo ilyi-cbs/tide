@@ -1,0 +1,9 @@
+target,metric,value,ci_low,ci_high,note,model
+account_assignment,coverage_diff_0.90,0.08500000000000008,0.04598749999999994,0.10550000000000004,"tabpfn minus tuned, oracle threshold on the test ranking",
+account_assignment,coverage_diff_0.95,0.0645,0.024987500000000024,0.11051249999999997,"tabpfn minus tuned, oracle threshold on the test ranking",
+account_assignment,threshold_transfer_gap,0.05191082802547764,,,validation target 0.95 minus realised accuracy of accepted test rows,tabpfn
+account_assignment,threshold_transfer_gap,0.031208053691275106,,,validation target 0.95 minus realised accuracy of accepted test rows,lightgbm_tuned
+material_group,coverage_diff_0.90,0.10550000000000004,0.07898749999999996,0.14101249999999996,"tabpfn minus tuned, oracle threshold on the test ranking",
+material_group,coverage_diff_0.95,0.09449999999999997,-0.01251250000000001,0.1370124999999999,"tabpfn minus tuned, oracle threshold on the test ranking",
+material_group,threshold_transfer_gap,0.027876106194690276,,,validation target 0.95 minus realised accuracy of accepted test rows,tabpfn
+material_group,threshold_transfer_gap,0.005421686746987953,,,validation target 0.95 minus realised accuracy of accepted test rows,lightgbm_tuned

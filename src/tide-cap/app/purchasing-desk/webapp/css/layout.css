@@ -1,0 +1,47 @@
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+#shellbar {
+    flex: 0 0 auto;
+}
+
+.tideShellBar .sapFShellBarPrimaryTitle.sapMTitle {
+    color: #000;
+    font-size: var(--sapFontHeader3Size);
+    font-weight: var(--sapFontHeaderWeight);
+    line-height: var(--sapFontHeader3LineHeight);
+    transform: translateY(5px);
+}
+
+#app-content,
+#app-content > div,
+#container,
+#container-uiarea {
+    min-height: 0;
+}
+
+#app-content {
+    flex: 1 1 auto;
+    height: 0;
+}
+
+/*
+ * ComponentSupport keeps the original `data-sap-ui-component` div in place but
+ * assigns it a generated UIArea id (it stops being `#container`); the actual
+ * `#container` (ComponentContainer output) is rendered *inside* it. Without
+ * sizing this intermediate div, `#container`'s `height: 100%` resolves
+ * against an auto-height ancestor and the whole app collapses to 0px.
+ */
+#app-content > div,
+#container,
+#container-uiarea {
+    height: 100%;
+}

@@ -1,0 +1,17 @@
+model_list:
+  - model_name: agent-reasoning
+    litellm_params:
+      model: os.environ/GATEWAY_UPSTREAM_MODEL
+      api_key: os.environ/GATEWAY_UPSTREAM_API_KEY
+      api_base: os.environ/GATEWAY_UPSTREAM_API_BASE
+      api_version: os.environ/GATEWAY_UPSTREAM_API_VERSION
+router_settings:
+  num_retries: 0
+  timeout: 60
+litellm_settings:
+  num_retries: 0
+  set_verbose: false
+  turn_off_message_logging: true
+general_settings:
+  custom_auth: auth.authenticate
+  disable_spend_logs: true

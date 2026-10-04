@@ -1,0 +1,79 @@
+<!-- Expanded List Report header; persistent side navigation requires a Fiori Launchpad shell.
+    FindingsHubCollapsed.fragment.xml provides the compact header state. -->
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.f"
+    xmlns:fc="sap.f.cards"
+    xmlns:micro="sap.suite.ui.microchart">
+    <VBox id="findingsHubHeader" width="100%" class="sapUiSmallMarginBottom">
+        <HBox id="findingsHubTiles" wrap="Wrap" class="tideHubLauncher">
+            <f:Card id="hubOverview" semanticRole="ListItem" class="tideHubCard tideHubBrief sapUiTinyMarginBottom" press=".extension.tide.cockpit.ext.finding.FindingsHub.onOpenOverview">
+                <f:header>
+                    <fc:NumericHeader id="hubOverviewHeader"
+                        title="{i18n>overview}"
+                        subtitle="{i18n>overviewSub}"
+                        number="{hub>/revenueAtRiskValue}"
+                        scale="{hub>/revenueAtRiskScale}"
+                        unitOfMeasurement="{i18n>hubRevenueAtRiskUnit}"
+                        state="{= ${hub>/atRisk} &gt; 0 ? 'Critical' : 'Neutral' }"
+                        iconSrc="sap-icon://newspaper">
+                        <fc:microChart>
+                            <micro:LineMicroChart id="hubOverviewChart" size="M" showPoints="true" color="Critical"
+                            hideOnNoData="true"
+                            visible="{hub>/trendHasData}"
+                            width="9rem" height="3rem"
+                            points="{path: 'hub>/trendPoints', templateShareable: false}">
+                                <micro:LineMicroChartPoint id="hubOverviewChartPoint" x="{hub>x}" y="{hub>y}" />
+                            </micro:LineMicroChart>
+                        </fc:microChart>
+                    </fc:NumericHeader>
+                </f:header>
+            </f:Card>
+            <f:Card id="hubApprovals" semanticRole="ListItem" class="tideHubCard tideHubApproval sapUiTinyMarginBottom" press=".extension.tide.cockpit.ext.finding.FindingsHub.onOpenApprovals">
+                <f:header>
+                    <fc:NumericHeader id="hubApprovalsHeader"
+                        title="{i18n>approvals}"
+                        subtitle="{i18n>approvalsSub}"
+                        number="{hub>/pendingApprovals}"
+                        state="{= ${hub>/pendingApprovals} &gt; 0 ? 'Critical' : 'Neutral' }"
+                        iconSrc="sap-icon://approvals" />
+                </f:header>
+            </f:Card>
+            <f:Card id="hubRequests" semanticRole="ListItem" class="tideHubCard tideHubRequest sapUiTinyMarginBottom" press=".extension.tide.cockpit.ext.finding.FindingsHub.onOpenRequests">
+                <f:header>
+                    <fc:NumericHeader id="hubRequestsHeader"
+                        title="{i18n>requests}"
+                        subtitle="{i18n>requestsSub}"
+                        number="{hub>/requestsToReview}"
+                        state="{= ${hub>/requestsToReview} &gt; 0 ? 'Information' : 'Neutral' }"
+                        iconSrc="sap-icon://request">
+                        <fc:microChart>
+                            <micro:RadialMicroChart id="hubRequestsChart" size="XS" percentage="{hub>/requestReviewPercent}"
+                                valueColor="Neutral" />
+                        </fc:microChart>
+                    </fc:NumericHeader>
+                </f:header>
+            </f:Card>
+            <f:Card id="hubPrevention" semanticRole="ListItem" class="tideHubCard tideHubPrevention sapUiTinyMarginBottom" press=".extension.tide.cockpit.ext.finding.FindingsHub.onOpenPrevention">
+                <f:header>
+                    <fc:NumericHeader id="hubPreventionHeader"
+                        title="{i18n>prevention}"
+                        subtitle="{i18n>preventionSub}"
+                        number="{hub>/preventionFindings}"
+                        state="{= ${hub>/preventionFindings} &gt; 0 ? 'Warning' : 'Neutral' }"
+                        iconSrc="sap-icon://quality-issue" />
+                </f:header>
+            </f:Card>
+            <f:Card id="hubSimulation" semanticRole="ListItem" class="tideHubCard tideHubSimulation sapUiTinyMarginBottom" press=".extension.tide.cockpit.ext.finding.FindingsHub.onOpenSimulation">
+                <f:header>
+                    <fc:NumericHeader id="hubSimulationHeader"
+                        title="{i18n>simulation}"
+                        subtitle="{i18n>simulationSub}"
+                        state="Neutral"
+                        iconSrc="sap-icon://simulate" />
+                </f:header>
+            </f:Card>
+        </HBox>
+    </VBox>
+</core:FragmentDefinition>

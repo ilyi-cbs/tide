@@ -1,0 +1,11 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+    <VBox id="preventionSummary" width="100%" class="tidePreventionCaseState">
+        <HBox id="preventionSummaryHeader" justifyContent="SpaceBetween" alignItems="Start" wrap="Wrap">
+            <ObjectStatus id="preventionSummaryAttention"
+                core:require="{Attention: 'tide/cockpit/ext/shared/Attention'}"
+                text="{parts: [{path: 'caseAttention'}, {path: 'i18n>attentionActionRequired'}, {path: 'i18n>attentionInProgress'}, {path: 'i18n>attentionWaiting'}, {path: 'i18n>attentionDone'}], formatter: 'Attention.text'}"
+                state="{path: 'caseAttention', formatter: 'Attention.state'}"
+                icon="{path: 'caseAttention', formatter: 'Attention.icon'}" />
+        </HBox>
+    </VBox>
+</core:FragmentDefinition>

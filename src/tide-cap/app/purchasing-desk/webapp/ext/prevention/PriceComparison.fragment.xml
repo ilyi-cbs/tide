@@ -1,0 +1,63 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:p="tide.cockpit.ext.prevention" xmlns:r="tide.cockpit.ext.rangeBar">
+    <VBox id="priceComparison" width="100%" class="tidePreventionComparison tidePriceWorkspace" core:require="{Workspace: 'tide/cockpit/ext/prevention/Workspace'}" modelContextChange="Workspace.onContextChange" busy="{prevention>/loading}">
+        <core:Fragment fragmentName="tide.cockpit.ext.prevention.CaseSummary" type="XML" />
+        <core:Fragment fragmentName="tide.cockpit.ext.prevention.LoadState" type="XML" />
+        <MessageStrip id="priceAnomaly" text="{prevention>/banner}" type="Warning" showIcon="true" visible="{prevention>/loaded}" />
+        <core:Fragment fragmentName="tide.cockpit.ext.prevention.PredictionControls" type="XML" />
+        <Text text="Normalized unit prices" class="tidePreventionNote" />
+        <HBox id="priceComparisonValues" width="100%" wrap="Wrap" class="tidePriceSummary">
+            <VBox id="priceCurrentValue" class="tidePreventionMetric">
+                <Label id="priceCurrentLabel" text="Current unit price" />
+                <ObjectNumber id="priceCurrentNumber" number="{path: 'prevention>/row/unitPrice', formatter: 'Workspace.formatPrice'}" unit="{prevention>/row/currency}" />
+            </VBox>
+            <VBox id="priceMedianValue" class="tidePreventionMetric">
+                <Label text="Estimated unit price" />
+                <ObjectNumber id="priceMedianNumber" number="{path: 'prevention>/priceModel/expectedP50', formatter: 'Workspace.formatPrice'}" unit="{prevention>/row/currency}" visible="{prevention>/hasModel}" />
+                <ObjectStatus id="priceMedianLabel" text="{= %{prevention>/modelAI} ? 'AI estimate · TabPFN' : %{prevention>/modelSource} }" icon="{= %{prevention>/modelAI} ? 'sap-icon://ai' : 'sap-icon://information' }" class="tideAIStatus" />
+                <Text text="Not available" visible="{= !%{prevention>/hasModel} }" />
+            </VBox>
+            <VBox id="priceFactorValue" class="tidePreventionMetric">
+                <Label id="priceFactorLabel" text="Difference from estimate" />
+                <Text id="priceFactorNumber" text="{prevention>/modelDeviation}" wrapping="true" />
+            </VBox>
+            <VBox id="priceObservations" class="tidePreventionMetric">
+                <Label id="priceObservationsLabel" text="Comparable records" />
+                <ObjectNumber id="priceObservationsNumber" number="{prevention>/row/priorCount}" />
+            </VBox>
+        </HBox>
+        <HBox width="100%" wrap="Wrap" class="tidePriceCharts">
+        <VBox visible="{prevention>/hasModel}" class="tidePriceRangePane">
+            <Title text="Estimated Price Range" level="H3" />
+            <ObjectStatus text="AI estimate · TabPFN · P10–P90" icon="sap-icon://ai" class="tideAIStatus" visible="{prevention>/modelAI}" />
+            <ObjectStatus text="Fallback estimated range (not TabPFN)" visible="{= !%{prevention>/modelAI} }" />
+            <Text text="{prevention>/modelValidation}" wrapping="true" class="tidePreventionNote" />
+            <r:RangeChart p10="{prevention>/priceModel/expectedP10}" p50="{prevention>/priceModel/expectedP50}" p90="{prevention>/priceModel/expectedP90}" planned="{prevention>/row/unitPrice}" plannedLabel="Current unit price" requested="{prevention>/row/priorMedian}" requestedLabel="Historical median" unit="{prevention>/row/currency}" valueDecimals="2" includeZero="false" minimumPadding="0.01" chartTitle="Estimated Comparable Price" rangeTitle="Estimated P10-P90" visible="{prevention>/hasModelRange}" />
+            <Text text="{= 'Relative to historical median: ' + %{prevention>/deviation} }" wrapping="true" class="tidePreventionNote" />
+        </VBox>
+        <VBox id="priceHistoryVisual" visible="{prevention>/hasPriceHistory}" class="tidePriceHistoryPane">
+            <Title id="priceHistoryChartTitle" text="Comparable Price History" level="H3" />
+            <p:EvidenceChart id="priceHistoryChart" data="{prevention>/chart}" />
+        </VBox>
+        </HBox>
+        <MessageStrip text="No supported expected-price estimate is available." type="Information" showIcon="true" visible="{= %{prevention>/loaded} &amp;&amp; !%{prevention>/hasModel} }" />
+        <Text text="No retained price observations are available for this case." wrapping="true" visible="{= %{prevention>/loaded} &amp;&amp; !%{prevention>/hasPriceHistory} }" class="tidePreventionNote" />
+        <Panel id="priceHistory" headerText="Price History Records" expandable="true" expanded="false" accessibleRole="Region" class="sapUiSmallMarginTop tidePriceHistory" visible="{prevention>/hasPriceHistory}">
+            <Table id="priceHistoryTable" width="100%" items="{prevention>/priceLines}" autoPopinMode="true" growing="true">
+                <columns>
+                    <Column id="priceHistoryDate"><Text id="priceHistoryDateLabel" text="Ordered on" /></Column>
+                    <Column id="priceHistoryReference"><Text id="priceHistoryReferenceLabel" text="PO / Item" /></Column>
+                    <Column id="priceHistoryPrice" hAlign="End"><Text id="priceHistoryPriceLabel" text="Normalized unit price" /></Column>
+                    <Column id="priceHistoryMarker"><Text id="priceHistoryMarkerLabel" text="Observation" /></Column>
+                </columns>
+                <items><ColumnListItem id="priceHistoryRow" highlight="{= %{prevention>isCurrent} ? 'Information' : 'None' }">
+                    <cells>
+                        <Text id="priceHistoryDateValue" text="{prevention>date}" />
+                        <Text id="priceHistoryReferenceValue" text="{prevention>label}" />
+                        <ObjectNumber id="priceHistoryPriceValue" number="{path: 'prevention>amount', formatter: 'Workspace.formatPrice'}" unit="{prevention>/row/currency}" emphasized="false" />
+                        <ObjectStatus id="priceHistoryMarkerValue" text="{= %{prevention>isCurrent} ? 'Current item' : 'Earlier observation' }" state="{= %{prevention>isCurrent} ? 'Information' : 'None' }" />
+                    </cells>
+                </ColumnListItem></items>
+            </Table>
+        </Panel>
+    </VBox>
+</core:FragmentDefinition>

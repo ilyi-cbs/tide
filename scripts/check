@@ -1,0 +1,92 @@
+#!/usr/bin/env bash
+# One command for every local check of the src projects. Runs each project's own
+# lint, type and test commands; exits non-zero if any of them fails.
+#
+#   scripts/check          # all
+#   scripts/check cap      # one or more of: cap assistant agent tabular loader
+#
+# Everything runs offline: CAP tests use in-memory SQLite and a fake tabular
+# server, the Python tests use fake backends / fake LLM.
+set -uo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+CAP="$ROOT/src/tide-cap"
+failed=()
+
+step() { # name dir command...
+  local name="$1" dir="$2"
+  shift 2
+  printf '\n\033[1m== %s\033[0m (%s)\n' "$name" "${dir#"$ROOT"/}"
+  if (cd "$dir" && "$@"); then
+    printf '\033[32mok\033[0m %s\n' "$name"
+  else
+    printf '\033[31mFAIL\033[0m %s\n' "$name"
+    failed+=("$name")
+  fi
+}
+
+cap() {
+  step "cap: cds lint" "$CAP" npx eslint --max-warnings 0 .
+  step "cap: tsc" "$CAP" npx tsc --noEmit
+  step "cap: tests" "$CAP" npm test --silent
+}
+
+assistant() {
+  step "assistant: typecheck" "$CAP" npm run typecheck --silent -w @tide/assistant
+  step "assistant: tests" "$CAP" npm run test --silent -w @tide/assistant
+}
+
+python_project() { # name
+  local dir="$ROOT/src/tide-$1"
+  step "$1: ruff check" "$dir" uv run --frozen ruff check .
+  step "$1: ruff format" "$dir" uv run --frozen ruff format --check .
+  if [[ "$1" == "tabular" ]]; then
+    step "tabular: mypy" "$dir" uv run --frozen mypy --config-file pyproject.toml src/tabular
+  fi
+  if [[ "$1" == "agent" ]]; then
+    step "agent: pyright" "$dir" uv run --frozen pyright
+  fi
+  step "$1: pytest" "$dir" uv run --frozen python -m pytest -q
+}
+
+agent() { python_project agent; }
+tabular() { python_project tabular; }
+loader() { python_project loader; }
+
+tabular_build() {
+  local dir="$ROOT/src/tide-tabular"
+  step "tabular: compile" "$dir" uv run --frozen python -m compileall -q src/tabular
+  step "tabular: mypy" "$dir" uv run --frozen mypy --config-file pyproject.toml src/tabular
+}
+
+build() {
+  # Build gate without tests: CDS model compiles, TypeScript types, Python lint.
+  step "build: cds compile" "$CAP" sh -c 'npx cds compile srv app --to csn >/dev/null'
+  step "build: tsc" "$CAP" npx tsc --noEmit
+  step "build: assistant typecheck" "$CAP" npm run typecheck --silent -w @tide/assistant
+  step "build: agent ruff" "$ROOT/src/tide-agent" uv run --frozen ruff check .
+  step "build: agent pyright" "$ROOT/src/tide-agent" uv run --frozen pyright
+  step "build: loader ruff" "$ROOT/src/tide-loader" uv run --frozen ruff check .
+  tabular_build
+}
+
+targets=("$@")
+[ ${#targets[@]} -eq 0 ] && targets=(cap assistant agent tabular loader)
+for target in "${targets[@]}"; do
+  case "$target" in
+    cap | assistant | agent | tabular | loader | build) "$target" ;;
+    tabular-build) tabular_build ;;
+    *)
+      echo "unknown target: $target (cap assistant agent tabular loader build tabular-build)" >&2
+      exit 2
+      ;;
+  esac
+done
+
+echo
+if [ ${#failed[@]} -gt 0 ]; then
+  printf '\033[31m%d check(s) failed:\033[0m\n' "${#failed[@]}"
+  printf '  - %s\n' "${failed[@]}"
+  exit 1
+fi
+printf '\033[32mall checks passed\033[0m\n'

@@ -1,0 +1,25 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+    <VBox id="requestReviewHero" width="100%" class="tideRequestSummary">
+        <Text text="{= 'PR ' + %{PurchaseRequisition} + ' / ' + %{PurchaseRequisitionItem} }" class="sapUiTinyMarginBottom" />
+        <HBox id="requestReviewIdentityRow" justifyContent="SpaceBetween" alignItems="Center" wrap="Wrap">
+            <VBox id="requestReviewRequesterFact" class="sapUiSmallMarginEnd">
+                <Label id="requestReviewRequesterLabel" text="{i18nFreetext>requestedBy}" labelFor="requestReviewIdentity" />
+                <Text id="requestReviewIdentity" text="{RequisitionerName}" wrapping="true" />
+            </VBox>
+            <HBox id="requestReviewBadges" wrap="Wrap">
+                <ObjectStatus id="requestReviewStatus" text="{reviewStatusText}" state="{= %{reviewStatusCriticality} === 3 ? 'Success' : 'Information' }" />
+                <ObjectStatus id="requestReviewDraft" text="{i18nFreetext>savedDraft}" state="Information" visible="{HasDraftEntity}" class="sapUiSmallMarginBegin" />
+                <ObjectStatus id="requestReviewDemo" text="{i18nFreetext>demoMode}" state="Information" visible="{workspace>/demo}" class="sapUiSmallMarginBegin" />
+            </HBox>
+        </HBox>
+        <HBox id="requestReviewSummaryFacts" alignItems="Center" wrap="Wrap" class="sapUiTinyMarginTop">
+            <Label id="requestReviewQuantityLabel" text="{i18nFreetext>quantity}" labelFor="requestReviewQuantity" class="sapUiTinyMarginEnd" />
+            <Text id="requestReviewQuantity" text="{= %{reviewedQuantity} + ' ' + %{reviewedUnit} }" class="sapUiSmallMarginEnd" />
+            <Label id="requestReviewNeededByLabel" text="{i18nFreetext>requiredDate}" labelFor="requestReviewNeededBy" class="sapUiTinyMarginEnd" />
+            <Text id="requestReviewNeededBy"
+                text="{path: 'reviewedDeliveryDate', type: 'sap.ui.model.odata.type.Date', formatOptions: {style: 'medium'}}" class="sapUiSmallMarginEnd" />
+            <Label id="requestReviewPlantLabel" text="{i18nFreetext>plant}" labelFor="requestReviewPlant" class="sapUiTinyMarginEnd" />
+            <Text id="requestReviewPlant" text="{reviewedPlant}" class="sapUiSmallMarginEnd" />
+        </HBox>
+    </VBox>
+</core:FragmentDefinition>

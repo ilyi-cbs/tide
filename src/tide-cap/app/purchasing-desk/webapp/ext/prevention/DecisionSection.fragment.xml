@@ -1,0 +1,31 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+    <VBox id="preventionDecisions" width="100%" core:require="{Workspace: 'tide/cockpit/ext/prevention/Workspace', Decisions: 'tide/cockpit/ext/prevention/Decisions'}" modelContextChange="Workspace.onContextChange" busy="{prevention>/loading}">
+        <MessageStrip text="{prevention>/error}" type="Error" showIcon="true" visible="{= !!%{prevention>/error} }" />
+        <MessageStrip text="Source evidence changed. Review the current comparison before deciding." type="Warning" showIcon="true" visible="{prevention>/sourceChanged}" />
+        <MessageStrip text="Decisions are unavailable while the retained comparison is incomplete." type="Warning" showIcon="true" visible="{= !!%{prevention>/incomplete} }" />
+        <VBox visible="{prevention>/activeAction}" class="sapUiSmallMarginBottom">
+            <ObjectStatus text="{prevention>/actionStatus}" state="Information" icon="sap-icon://pending" />
+            <Link text="Open Prepared Review" href="{prevention>/actionHref}" class="sapUiSmallMarginTop" />
+        </VBox>
+        <VBox visible="{prevention>/closed}" class="sapUiSmallMarginBottom">
+            <ObjectStatus text="Case closed" state="Success" icon="sap-icon://status-positive" />
+            <Text text="{prevention>/closureNote}" wrapping="true" class="sapUiSmallMarginTop" />
+        </VBox>
+        <HBox wrap="Wrap" justifyContent="SpaceBetween" alignItems="Center" visible="{prevention>/canPrepare}" class="tideActionRow">
+            <VBox>
+                <Title text="{prevention>/config/primary}" level="H4" wrapping="true" /><Text text="{prevention>/config/description}" wrapping="true" class="sapUiTinyMarginTop" />
+            </VBox>
+            <Button text="{prevention>/config/primary}" icon="sap-icon://create-entry-time" type="Emphasized" press="Decisions.prepare" enabled="{= %{prevention>/canPrepare} &amp;&amp; !%{prevention>/busy} }" />
+        </HBox>
+        <HBox wrap="Wrap" justifyContent="SpaceBetween" alignItems="Center" visible="{prevention>/canAccept}" class="tideActionRow">
+            <VBox><Title text="{prevention>/config/alternative}" level="H4" wrapping="true" /><Text text="{prevention>/config/acceptance}" wrapping="true" class="sapUiTinyMarginTop" /></VBox>
+            <Button text="{prevention>/config/alternative}" icon="sap-icon://accept" type="Default" press="Decisions.accept" enabled="{= %{prevention>/canAccept} &amp;&amp; !%{prevention>/busy} }" />
+        </HBox>
+        <core:Fragment fragmentName="tide.cockpit.ext.ActionSection" type="XML" />
+        <Panel headerText="Activity and Decision History" expandable="true" expanded="false" class="sapUiMediumMarginTop" visible="{prevention>/loaded}">
+            <List items="{prevention>/events}" noDataText="No decision history recorded.">
+                <CustomListItem><VBox class="sapUiSmallMargin"><Title text="{prevention>label}" level="H4" wrapping="true" /><Text text="{prevention>reason}" wrapping="true" /><Text text="{prevention>date}" class="tidePreventionNote" /></VBox></CustomListItem>
+            </List>
+        </Panel>
+    </VBox>
+</core:FragmentDefinition>

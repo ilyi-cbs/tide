@@ -1,0 +1,21 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+    <Dialog id="allocationChooser" title="{= %{workspace>/allocationStage} === 'targets' ? ${i18nFreetext>allocationPredictionTargets} : ${i18nFreetext>allocationPredictionResults} }" contentWidth="40rem" stretch="{device>/system/phone}" initialFocus="allocationFieldList">
+        <SegmentedButton selectedKey="{workspace>/allocationStage}" selectionChange=".extension.tide.cockpit.ext.controller.RequisitionWorkspace.onAllocationStageChanged"><items><SegmentedButtonItem key="targets" text="{i18nFreetext>allocationPredictionTargets}" /><SegmentedButtonItem key="results" text="{i18nFreetext>allocationPredictionResults}" /></items></SegmentedButton>
+        <List id="allocationFieldList" items="{workspace>/allocationChoices}" mode="None">
+            <CustomListItem type="Inactive">
+                <VBox class="sapUiSmallMarginBeginEnd sapUiTinyMarginTopBottom">
+                    <CheckBox text="{workspace>label}" selected="{workspace>selected}" enabled="{= !!%{workspace>enabled} &amp;&amp; !%{workspace>/actionBusy} }" select=".extension.tide.cockpit.ext.controller.RequisitionWorkspace.onAllocationChoiceChanged" />
+                    <Text text="{workspace>description}" wrapping="true" />
+                    <Text text="{workspace>currentText}" wrapping="true" />
+                    <Text text="{workspace>calculationText}" wrapping="true" visible="{= !!%{workspace>evidence/computedAt} }" />
+                    <Select width="100%" selectedKey="{workspace>candidateID}" visible="{= %{workspace>/allocationStage} === 'results' }" enabled="{= !!%{workspace>enabled} &amp;&amp; !%{workspace>/actionBusy} }" items="{path: 'workspace>evidence/candidates', templateShareable: false}" change=".extension.tide.cockpit.ext.controller.RequisitionWorkspace.onAllocationChoiceChanged">
+                        <core:Item key="{workspace>id}" text="{= %{workspace>value/displayName} + ' (' + %{workspace>modelScore} + ')' }" />
+                    </Select>
+                    <Button text="{i18nFreetext>confirmCurrentValue}" type="Transparent" visible="{= !!%{workspace>capabilities/canConfirm} &amp;&amp; !%{workspace>reviewed} }" enabled="{= !%{workspace>/actionBusy} }" press=".extension.tide.cockpit.ext.controller.RequisitionWorkspace.onConfirmAllocationValue" />
+                </VBox>
+            </CustomListItem>
+        </List>
+        <beginButton><Button text="{= %{workspace>/allocationStage} === 'targets' ? ${i18nFreetext>predictSelected} : ${i18nFreetext>applySelected} }" icon="{= %{workspace>/allocationStage} === 'targets' ? 'sap-icon://ai' : 'sap-icon://accept' }" type="Emphasized" enabled="{= !!%{workspace>/canRunAllocationCommand} &amp;&amp; !%{workspace>/actionBusy} }" press=".extension.tide.cockpit.ext.controller.RequisitionWorkspace.onAllocationPredictionCommand" /></beginButton>
+        <endButton><Button text="{i18nFreetext>close}" press=".extension.tide.cockpit.ext.controller.RequisitionWorkspace.onCloseAllocationChooser" /></endButton>
+    </Dialog>
+</core:FragmentDefinition>

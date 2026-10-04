@@ -1,0 +1,18 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+    <VBox id="requestDecisionWorkspace" width="100%" class="tideRequestWorkspace">
+        <MessageStrip id="requestSourceChangeNotice" text="{sourceChangeSummary}" type="Warning" showIcon="true" visible="{requiresSourceReconciliation}" />
+        <MessageStrip id="evidenceUnavailable" text="{i18nFreetext>evidenceLoadFailed}" type="Information" showIcon="true" visible="{workspace>/loadFailed}" />
+        <OverflowToolbar id="predictionRunControls" design="Transparent" class="tidePredictionToolbar">
+            <ToolbarSpacer />
+            <Button id="refreshDraftSuggestions" text="{i18nFreetext>predict}" icon="sap-icon://ai" type="Transparent" enabled="{= !%{workspace>/actionBusy} &amp;&amp; !%{workspace>/predictionRunning} }" press=".extension.tide.cockpit.ext.controller.RequisitionWorkspace.onRefreshSuggestions" />
+        </OverflowToolbar>
+        <HBox id="predictionLoadingRegion" width="100%" alignItems="Center" visible="{workspace>/predictionRunning}" class="tidePredictionLoading">
+            <BusyIndicator id="predictionRunBusy" size="1.25rem" class="sapUiSmallMarginEnd" />
+            <VBox>
+                <ObjectStatus id="predictionLoadingAi" icon="sap-icon://ai" text="{i18nFreetext>predict}" class="tideAIStatus" />
+                <Text id="predictionLoadingText" text="{i18nFreetext>predictionLoading}" textAlign="Center" class="sapUiTinyMarginTop" />
+            </VBox>
+        </HBox>
+        <OverflowToolbar id="requestCommands" design="Transparent" visible="{= !!%{actionID} || (!!%{IsActiveEntity} &amp;&amp; !!%{requiresSourceReconciliation}) }" core:require="{ActionSection: 'tide/cockpit/ext/ActionSection'}" modelContextChange="ActionSection.onToolbarContextChange" />
+    </VBox>
+</core:FragmentDefinition>

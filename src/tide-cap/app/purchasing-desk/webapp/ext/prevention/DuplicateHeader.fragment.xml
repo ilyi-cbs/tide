@@ -1,0 +1,8 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+    <HBox wrap="Wrap" alignItems="Start" class="sapUiSmallMarginBottom" core:require="{Workspace: 'tide/cockpit/ext/prevention/Workspace'}" modelContextChange="Workspace.onContextChange">
+        <VBox class="sapUiMediumMarginEnd"><Label text="Description similarity" /><ObjectNumber number="{prevention>/descriptionSimilarity}" unit="%" tooltip="Fuzzy description similarity to the reference material; not duplicate probability. Multiple candidates show the similarity range." /></VBox>
+        <VBox class="sapUiMediumMarginEnd"><Label text="Material type" /><Text text="{prevention>/row/materialType}" /></VBox>
+        <VBox class="sapUiMediumMarginEnd"><Label text="Comparison plant" /><Text text="{prevention>/row/Plant}" /></VBox>
+        <VBox><Label text="Candidates" /><ObjectNumber number="{prevention>/row/candidateCount}" emphasized="false" /></VBox>
+    </HBox>
+</core:FragmentDefinition>

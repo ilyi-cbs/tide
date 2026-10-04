@@ -1,0 +1,26 @@
+{
+  "name": "cbs-tide",
+  "version": "0.1.0",
+  "author": "cbs Corporate Business Solutions GmbH<ilyesse.hettenbach@cbs-consulting.de>",
+  "license": "Apache-2.0",
+  "private": true,
+  "type": "module",
+  "description": "Root commands for the cbs TIDE application and research",
+  "engines": {
+    "node": ">=22.15.0"
+  },
+  "scripts": {
+    "setup": "node scripts/tide.mjs setup",
+    "doctor": "node scripts/tide.mjs doctor",
+    "start": "node scripts/tide.mjs start",
+    "test": "node scripts/tide.mjs test",
+    "test:cli": "node --test scripts/tide.test.mjs",
+    "data:load": "node scripts/tide.mjs data:load",
+    "data:seed": "node scripts/tide.mjs data:seed",
+    "data:pack": "node scripts/tide.mjs data:pack"
+  },
+  "dependencies": {
+    "cross-spawn": "^7.0.6",
+    "tree-kill": "^1.2.2"
+  }
+}

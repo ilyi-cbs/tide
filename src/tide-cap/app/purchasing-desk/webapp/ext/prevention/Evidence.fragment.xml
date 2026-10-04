@@ -1,0 +1,59 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+    <VBox id="preventionEvidence" width="100%" core:require="{Workspace: 'tide/cockpit/ext/prevention/Workspace'}" modelContextChange="Workspace.onContextChange" busy="{prevention>/loading}" class="tidePreventionEvidence">
+        <MessageStrip text="{prevention>/error}" type="Error" showIcon="true" visible="{= !!%{prevention>/error} }" />
+        <Panel headerText="Prediction Sources and Limitations" expandable="true" expanded="false" visible="{= !!%{prevention>/assessment} &amp;&amp; !%{prevention>/duplicatePage} }">
+            <core:Fragment fragmentName="tide.cockpit.ext.prevention.Assessment" type="XML" />
+        </Panel>
+        <VBox visible="{prevention>/duplicatePage}" class="sapUiSmallMarginBottom">
+            <OverflowToolbar>
+                <Title text="Prediction Context" level="H4" />
+                <ToolbarSpacer />
+                <Button icon="sap-icon://refresh" tooltip="Refresh planning predictions" press="Workspace.assess" enabled="{= %{prevention>/canAssess} &amp;&amp; !%{prevention>/busy} }" />
+            </OverflowToolbar>
+            <MessageStrip text="{prevention>/assessmentError}" type="Error" showIcon="true" visible="{= !!%{prevention>/assessmentError} }" />
+            <Text text="{prevention>/assessment/generatedText}" class="sapUiTinyMarginTop" />
+            <Text text="{prevention>/assessment/summary}" wrapping="true" />
+            <Text text="Planning predictions have not been prepared for this case." visible="{= !%{prevention>/assessment} }" wrapping="true" />
+            <VBox items="{prevention>/lines}" busy="{prevention>/assessing}">
+                <Panel headerText="{= %{prevention>label} + ' - Prediction sources and limitations' }" expandable="true" expanded="false" visible="{prevention>hasPlanningFields}">
+                    <VBox items="{prevention>planningFields}">
+                        <VBox class="sapUiSmallMarginBottom">
+                            <ObjectStatus text="{= %{prevention>field} + ': ' + %{prevention>valueText} }" icon="{= %{prevention>ai} ? 'sap-icon://ai' : 'sap-icon://information' }" state="{prevention>predictionState}" />
+                            <ProgressIndicator percentValue="{prevention>confidence}" displayValue="{prevention>confidenceText}" visible="{prevention>hasConfidence}" state="Information" width="12rem" tooltip="TabPFN probability of this planning value, not duplicate probability" />
+                            <Text text="{prevention>sourceText}" /><Text text="{prevention>detailText}" wrapping="true" />
+                        </VBox>
+                    </VBox>
+                </Panel>
+            </VBox>
+        </VBox>
+        <HBox wrap="Wrap" visible="{prevention>/pricePage}" class="tidePriceEvidenceSources">
+            <VBox class="tidePriceEvidenceSource">
+                <Title text="Price Prediction Context" level="H4" />
+                <ObjectStatus text="TabPFN" icon="sap-icon://ai" class="tideAIStatus" visible="{prevention>/modelAI}" />
+                <Text text="{prevention>/modelValidation}" wrapping="true" visible="{prevention>/hasModel}" />
+                <Text text="No retained model estimate" visible="{= !%{prevention>/hasModel} }" />
+                <VBox items="{prevention>/priceModelFacts}"><HBox wrap="Wrap" class="tidePreventionFact"><Label text="{prevention>label}" /><Text text="{prevention>value}" wrapping="true" /></HBox></VBox>
+            </VBox>
+            <VBox class="tidePriceEvidenceSource">
+                <Title text="Empirical Price Evidence" level="H4" />
+                <ObjectNumber number="{prevention>/row/priorMedian}" unit="{prevention>/row/currency}" emphasized="false" />
+                <Text text="Historical median of comparable normalized unit prices" wrapping="true" />
+                <VBox items="{prevention>/priceEmpiricalFacts}"><HBox wrap="Wrap" class="tidePreventionFact"><Label text="{prevention>label}" /><Text text="{prevention>value}" wrapping="true" /></HBox></VBox>
+            </VBox>
+        </HBox>
+        <VBox visible="{prevention>/modelTrigger}" class="sapUiSmallMarginBottom">
+            <ObjectStatus text="Background TabPFN assessment" icon="sap-icon://ai" class="tideAIStatus" />
+            <Text text="Case trigger: entered unit price outside the model's expected comparable-price range. Historical observations are supporting evidence." wrapping="true" />
+        </VBox>
+        <VBox visible="{= %{prevention>/hasCandidatePredictions} &amp;&amp; !%{prevention>/duplicatePage} }" items="{prevention>/candidatePredictions}" class="sapUiSmallMarginBottom">
+            <VBox class="sapUiSmallMarginBottom">
+                <ObjectStatus text="{prevention>label}" icon="sap-icon://ai" class="tideAIStatus" />
+                <Text text="{prevention>valueText}" wrapping="true" />
+                <Text text="{prevention>detailText}" wrapping="true" class="tidePreventionNote" />
+            </VBox>
+        </VBox>
+        <VBox items="{prevention>/facts}" visible="{= %{prevention>/loaded} &amp;&amp; !%{prevention>/pricePage} }">
+            <HBox wrap="Wrap" class="tidePreventionFact"><Label text="{prevention>label}" /><Text text="{prevention>value}" wrapping="true" /></HBox>
+        </VBox>
+    </VBox>
+</core:FragmentDefinition>

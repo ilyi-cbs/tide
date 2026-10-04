@@ -1,0 +1,23 @@
+{
+  "name": "@tide/assistant",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Framework-independent UI5 chat assistant custom element",
+  "main": "./src/index.ts",
+  "scripts": {
+    "build": "esbuild src/index.ts --bundle --format=esm --target=es2022 --outdir=dist --loader:.css=css --minify",
+    "test": "tsx --test tests/*.test.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "peerDependencies": {
+    "@ui5/webcomponents": "^2.27.1",
+    "@ui5/webcomponents-icons": "^2.27.1"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "jsdom": "^30.1.1",
+    "tsx": "^4.23.15",
+    "typescript": "^6.0.3"
+  }
+}

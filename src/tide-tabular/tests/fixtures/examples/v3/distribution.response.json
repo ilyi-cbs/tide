@@ -1,0 +1,101 @@
+{
+  "backendKey": "fake",
+  "capability_digest": "5529ab2f60bd19738f9efbb88dc5ab03e43a38529e19a4e16e4fbe50b67afc36",
+  "configuration_identity": "synthetic-contract-v3",
+  "contract_version": 3,
+  "diagnostics": {
+    "effective_chunk_rows": 1000,
+    "fit_calls": 1,
+    "fit_strategy": "stateless_fit_predict",
+    "model_identity_kind": "synthetic",
+    "server_defaults": "unknown unless reported by the provider"
+  },
+  "dropped_columns": [],
+  "elapsed_ms": 0.0,
+  "fallback": null,
+  "modelKey": "default",
+  "payload": {
+    "chunks": [
+      {
+        "bucket_borders": [
+          7.0,
+          30.0
+        ],
+        "coordinates": "target",
+        "keys": [
+          "PO1-10",
+          "PO2-10"
+        ],
+        "logits": [
+          [
+            0.0
+          ],
+          [
+            0.0
+          ]
+        ],
+        "masked_logits": [
+          [
+            false
+          ],
+          [
+            false
+          ]
+        ],
+        "tails": "bounded_synthetic"
+      }
+    ],
+    "keys": [
+      "PO1-10",
+      "PO2-10"
+    ],
+    "summary": {
+      "keys": [
+        "PO1-10",
+        "PO2-10"
+      ],
+      "levels": [
+        0.1,
+        0.9
+      ],
+      "means": [
+        15.6,
+        15.6
+      ],
+      "medians": [
+        12.0,
+        12.0
+      ],
+      "modes": [
+        7.0,
+        7.0
+      ],
+      "quantiles": [
+        [
+          7.8,
+          26.0
+        ],
+        [
+          7.8,
+          26.0
+        ]
+      ],
+      "type": "summary"
+    },
+    "type": "distribution"
+  },
+  "placeholder": true,
+  "plan_fingerprint": "208c9c7287489eadfc275e11f72673749cb163353f49bd0444dcd37e94753ccb",
+  "train_rows": 5,
+  "usage": {
+    "backend": "fake",
+    "calls": 1,
+    "context_cells": 15,
+    "cost_units": 0.00059575,
+    "effective_feature_count": 2,
+    "model_version": null,
+    "num_cells": null,
+    "num_predictions": null,
+    "predicted_cells": 4
+  }
+}

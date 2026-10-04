@@ -1,0 +1,4 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+    <Text text="{parts: [{path: 'requestType'}, {path: 'operationKey'}], formatter: 'Approval.requestTypeLabel'}" wrapping="true"
+        core:require="{Approval: 'tide/cockpit/ext/approvals/ApprovalFormatters'}" />
+</core:FragmentDefinition>

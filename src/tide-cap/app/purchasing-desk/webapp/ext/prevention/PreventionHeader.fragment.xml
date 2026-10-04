@@ -1,0 +1,47 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+    <VBox id="preventionKpiHeader" class="tidePreventionHeader" core:require="{Integer: 'sap/ui/model/type/Integer'}">
+        <Title id="preventionKpiTitle" text="{i18n>preventionOverall}" level="H2" class="tidePreventionTitle" />
+        <HBox id="preventionKpis" wrap="Wrap" class="tidePreventionKpis">
+            <VBox id="preventionPriceKpi" class="tidePreventionMetric">
+                <Label id="preventionPriceLabel" text="{i18n>preventionPrice}" wrapping="true" />
+                <VBox class="tidePreventionMetricValue">
+                    <ObjectNumber id="preventionPriceValue" number="{path: 'prevention>/price/count', type: 'Integer', formatOptions: {groupingEnabled: true}}" emphasized="false" state="None" visible="{= %{prevention>/price/count} !== null }" ariaLabelledBy="preventionPriceLabel" />
+                    <Text text="{= %{prevention>/price/status} === 'loading' ? ${i18n>preventionLoading} : ${i18n>preventionUnavailable} }" visible="{= %{prevention>/price/count} === null }" />
+                </VBox>
+                <ObjectStatus text="{i18n>preventionStale}" state="Warning" visible="{= %{prevention>/price/status} === 'stale' }" />
+            </VBox>
+            <VBox id="preventionDuplicatesKpi" class="tidePreventionMetric">
+                <Label id="preventionDuplicatesLabel" text="{i18n>preventionDuplicates}" wrapping="true" />
+                <VBox class="tidePreventionMetricValue">
+                    <ObjectNumber id="preventionDuplicatesValue" number="{path: 'prevention>/duplicates/count', type: 'Integer', formatOptions: {groupingEnabled: true}}" emphasized="false" state="None" visible="{= %{prevention>/duplicates/count} !== null }" ariaLabelledBy="preventionDuplicatesLabel" />
+                    <Text text="{= %{prevention>/duplicates/status} === 'loading' ? ${i18n>preventionLoading} : ${i18n>preventionUnavailable} }" visible="{= %{prevention>/duplicates/count} === null }" />
+                </VBox>
+                <ObjectStatus text="{i18n>preventionStale}" state="Warning" visible="{= %{prevention>/duplicates/status} === 'stale' }" />
+            </VBox>
+            <VBox id="preventionUnusualKpi" class="tidePreventionMetric">
+                <Label id="preventionUnusualLabel" text="{i18n>preventionUnusual}" wrapping="true" />
+                <VBox class="tidePreventionMetricValue">
+                    <ObjectNumber id="preventionUnusualValue" number="{path: 'prevention>/unusual/count', type: 'Integer', formatOptions: {groupingEnabled: true}}" emphasized="false" state="None" visible="{= %{prevention>/unusual/count} !== null }" ariaLabelledBy="preventionUnusualLabel" />
+                    <Text text="{= %{prevention>/unusual/status} === 'loading' ? ${i18n>preventionLoading} : ${i18n>preventionUnavailable} }" visible="{= %{prevention>/unusual/count} === null }" />
+                </VBox>
+                <ObjectStatus text="{i18n>preventionStale}" state="Warning" visible="{= %{prevention>/unusual/status} === 'stale' }" />
+            </VBox>
+            <VBox id="preventionSupplierKpi" class="tidePreventionMetric">
+                <Label id="preventionSupplierLabel" text="{i18n>preventionSupplier}" wrapping="true" />
+                <VBox class="tidePreventionMetricValue">
+                    <ObjectNumber id="preventionSupplierValue" number="{path: 'prevention>/supplier/count', type: 'Integer', formatOptions: {groupingEnabled: true}}" emphasized="false" state="None" visible="{= %{prevention>/supplier/count} !== null }" ariaLabelledBy="preventionSupplierLabel" />
+                    <Text text="{= %{prevention>/supplier/status} === 'loading' ? ${i18n>preventionLoading} : ${i18n>preventionUnavailable} }" visible="{= %{prevention>/supplier/count} === null }" />
+                </VBox>
+                <ObjectStatus text="{i18n>preventionStale}" state="Warning" visible="{= %{prevention>/supplier/status} === 'stale' }" />
+            </VBox>
+            <VBox id="preventionMaterialKpi" class="tidePreventionMetric">
+                <Label id="preventionMaterialLabel" text="{i18n>preventionMaterial}" wrapping="true" />
+                <VBox class="tidePreventionMetricValue">
+                    <ObjectNumber id="preventionMaterialValue" number="{path: 'prevention>/material/count', type: 'Integer', formatOptions: {groupingEnabled: true}}" emphasized="false" state="None" visible="{= %{prevention>/material/count} !== null }" ariaLabelledBy="preventionMaterialLabel" />
+                    <Text text="{= %{prevention>/material/status} === 'loading' ? ${i18n>preventionLoading} : ${i18n>preventionUnavailable} }" visible="{= %{prevention>/material/count} === null }" />
+                </VBox>
+                <ObjectStatus text="{i18n>preventionStale}" state="Warning" visible="{= %{prevention>/material/status} === 'stale' }" />
+            </VBox>
+        </HBox>
+    </VBox>
+</core:FragmentDefinition>

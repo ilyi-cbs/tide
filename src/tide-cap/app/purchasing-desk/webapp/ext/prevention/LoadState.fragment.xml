@@ -1,0 +1,7 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+    <VBox visible="{= !!%{prevention>/error} }">
+        <MessageStrip text="{prevention>/error}" type="Error" showIcon="true" />
+        <Button text="Reload Evidence" icon="sap-icon://refresh" press="Workspace.retry" class="sapUiSmallMarginTop" />
+    </VBox>
+    <MessageStrip text="The retained comparison is incomplete. Decisions are unavailable until the complete evidence is loaded." type="Warning" showIcon="true" visible="{= !!%{prevention>/incomplete} }" class="sapUiSmallMarginBottom" />
+</core:FragmentDefinition>

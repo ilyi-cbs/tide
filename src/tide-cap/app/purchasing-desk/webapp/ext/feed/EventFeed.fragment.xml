@@ -1,0 +1,30 @@
+<!-- Shows the 50 newest stored events, marks new arrivals, and opens a finding on selection. -->
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+    <Panel
+        id="eventFeedPanel"
+        core:require="{Feed: 'tide/cockpit/ext/feed/EventFeed'}"
+        headerText="{eventFeed>/header}"
+        expandable="false"
+        modelContextChange="Feed.onModelContextChange"
+        width="auto"
+        class="sapUiNoContentPadding">
+        <List
+            id="eventFeedList"
+            items="{path: 'eventFeed>/events', key: 'seq'}"
+            noDataText="{eventFeed>/noData}"
+            itemPress="Feed.onItemPress"
+            showSeparators="Inner"
+            ariaLabelledBy="eventFeedPanel">
+            <StandardListItem
+                id="eventFeedItem"
+                title="{eventFeed>title}"
+                description="{eventFeed>meta}"
+                wrapping="true"
+                info="{= ${eventFeed>isNew} ? ${eventFeed>/newText} : '' }"
+                infoState="Information"
+                highlight="{= ${eventFeed>isNew} ? 'Information' : 'None' }"
+                highlightText="{= ${eventFeed>isNew} ? ${eventFeed>/newText} : '' }"
+                type="{= ${eventFeed>findingID} ? 'Navigation' : 'Inactive' }" />
+        </List>
+    </Panel>
+</core:FragmentDefinition>

@@ -1,0 +1,17 @@
+<!-- Compact header paired with FindingsHubTiles.fragment.xml. -->
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+    <HBox id="findingsHubCollapsed" alignItems="Center" wrap="Wrap">
+        <Title id="findingsHubCollapsedHeading" text="{i18n>deliveryRisks}" level="H2" class="sapUiTinyMarginEnd" />
+        <ObjectStatus id="findingsHubCollapsedApprovals" icon="sap-icon://approvals" text="{hub>/pendingApprovals}"
+            title="{i18n>approvals}" state="Information" class="sapUiTinyMarginEnd"
+            press=".extension.tide.cockpit.ext.finding.FindingsHub.onOpenApprovals" active="true" />
+        <ObjectStatus id="findingsHubCollapsedRequests" icon="sap-icon://request" text="{hub>/requestsToReview}"
+            title="{i18n>requests}" state="Information" class="sapUiTinyMarginEnd"
+            press=".extension.tide.cockpit.ext.finding.FindingsHub.onOpenRequests" active="true" />
+        <ObjectStatus id="findingsHubCollapsedPrevention" icon="sap-icon://quality-issue" text="{hub>/preventionFindings}"
+            title="{i18n>prevention}" state="Warning" class="sapUiTinyMarginEnd"
+            press=".extension.tide.cockpit.ext.finding.FindingsHub.onOpenPrevention" active="true" />
+    </HBox>
+</core:FragmentDefinition>

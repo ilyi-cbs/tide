@@ -1,0 +1,13 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:macros="sap.fe.macros">
+    <f:Form id="additionalWorkingForm" editable="{ui>/isEditable}">
+        <f:layout><f:ColumnLayout columnsM="1" columnsL="2" columnsXL="2" labelCellsLarge="12" /></f:layout>
+        <f:formContainers><f:FormContainer><f:formElements>
+            <macros:FormElement id="addressNameElement" metaPath="reviewedDeliveryAddressName" />
+            <macros:FormElement id="streetElement" metaPath="reviewedDeliveryAddressStreet" />
+            <macros:FormElement id="cityElement" metaPath="reviewedDeliveryAddressCity" />
+            <macros:FormElement id="postalElement" metaPath="reviewedDeliveryAddressPostalCode" />
+            <macros:FormElement id="countryElement" metaPath="reviewedDeliveryAddressCountry" />
+            <macros:FormElement id="unloadingElement" metaPath="reviewedUnloadingPoint" />
+        </f:formElements></f:FormContainer></f:formContainers>
+    </f:Form>
+</core:FragmentDefinition>

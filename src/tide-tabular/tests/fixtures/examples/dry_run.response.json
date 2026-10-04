@@ -1,0 +1,30 @@
+{
+  "classes": null,
+  "dropped_columns": [],
+  "elapsed_ms": 0.0,
+  "fallback": null,
+  "levels": null,
+  "output_type": "point",
+  "placeholder": true,
+  "predictions": [
+    {
+      "probabilities": null,
+      "quantiles": null,
+      "row_key": "PO1-10",
+      "value": 5.0
+    }
+  ],
+  "task": "regression",
+  "train_rows": 3,
+  "usage": {
+    "backend": "fake",
+    "calls": 1,
+    "context_cells": 6,
+    "cost_units": 0.0001513,
+    "effective_feature_count": 1,
+    "model_version": null,
+    "num_cells": null,
+    "num_predictions": null,
+    "predicted_cells": 1
+  }
+}

@@ -1,0 +1,40 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+    <!-- Resolution options for the delivery case, ranked by the outlook service. -->
+    <VBox
+        id="actBox"
+        core:require="{Outlook: 'tide/cockpit/ext/outlook/Outlook'}"
+        modelContextChange="Outlook.onContextChange"
+        width="100%">
+        <Title id="actAlternativesTitle" level="H3" visible="{out>/hasOptions}" />
+        <List id="actList" items="{out>/options}" ariaLabelledBy="actAlternativesTitle" noDataText="{i18nOutlook>actNone}" showSeparators="None">
+            <CustomListItem id="actItem">
+                <HBox id="actRow" justifyContent="SpaceBetween" alignItems="Center" wrap="Wrap"
+                    class="tideActionRow">
+                    <customData>
+                        <core:CustomData key="recommended" value="{= %{out>recommended} ? 'true' : 'false' }" writeToDom="true" />
+                    </customData>
+                    <VBox id="actText">
+                        <HBox id="actRecommendedBadge" alignItems="Center" wrap="Wrap"
+                            visible="{out>recommended}" class="tideRecommendedActionBadge">
+                            <core:Icon id="actRecommendedIcon" src="sap-icon://ai" decorative="false"
+                                alt="{i18nOutlook>recommendedTag}" tooltip="{i18nOutlook>recommendedTag}"
+                                class="tideRecommendedActionIcon" />
+                            <Label id="actRecommendedLabel" text="{i18nOutlook>recommendedTag}" design="Bold"
+                                class="tideRecommendedActionLabel" />
+                        </HBox>
+                        <Title id="actTitle" text="{out>title}" level="H4" wrapping="true" />
+                        <Text id="actReason" text="{out>reason}" class="sapUiTinyMarginTop" />
+                        <Text id="actEffect" text="{out>effect}" wrapping="true" class="sapUiTinyMarginTop tideFigureNote" />
+                    </VBox>
+                    <Button
+                        id="actButton"
+                        text="{out>buttonText}"
+                        type="{= %{out>recommended} ? 'Emphasized' : 'Default' }"
+                        visible="{= !!%{out>operation} &amp;&amp; %{caseStatus} === 'open' }"
+                        press="Outlook.onOption" />
+                </HBox>
+            </CustomListItem>
+        </List>
+        <core:Fragment id="deliveryPageActions" fragmentName="tide.cockpit.ext.ActionSection" type="XML" />
+    </VBox>
+</core:FragmentDefinition>

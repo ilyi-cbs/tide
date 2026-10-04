@@ -1,0 +1,6 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+    <ObjectStatus
+        text="{= %{casePriority} === 0 ? 'Critical' : %{casePriority} === 1 ? 'High' : %{casePriority} === 2 ? 'Medium' : %{casePriority} === 3 ? 'Low' : 'Unknown' }"
+        icon="{= %{casePriority} === 0 ? 'sap-icon://high-priority' : %{casePriority} === 1 || %{casePriority} === 2 ? 'sap-icon://alert' : %{casePriority} === 3 ? 'sap-icon://hint' : '' }"
+        state="{= %{casePriority} === 0 ? 'Indication01' : %{casePriority} === 1 ? 'Error' : %{casePriority} === 2 ? 'Warning' : %{casePriority} === 3 ? 'Information' : 'None' }" />
+</core:FragmentDefinition>

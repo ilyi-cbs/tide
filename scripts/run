@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+case "${1:-start}" in
+  start)
+    if [[ $# -gt 0 ]]; then shift; fi
+    exec node "$ROOT/scripts/tide.mjs" start "$@"
+    ;;
+  -h|--help)
+    exec node "$ROOT/scripts/tide.mjs" start --help
+    ;;
+  *)
+    printf '%s\n' "Usage: scripts/run [start|--help]. Runs in the foreground; Ctrl+C stops its children. Reset, stop, status, and --force-ports are retired; no data or processes were changed." >&2
+    exit 2
+    ;;
+esac

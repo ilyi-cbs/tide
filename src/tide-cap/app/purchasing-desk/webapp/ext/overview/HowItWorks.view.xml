@@ -1,0 +1,71 @@
+<mvc:View
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.f"
+    controllerName="tide.cockpit.ext.overview.HowItWorks"
+    height="100%">
+    <f:DynamicPage id="hiwPage" headerExpanded="true" showFooter="false">
+        <f:title>
+            <f:DynamicPageTitle id="hiwTitle">
+                <f:heading>
+                    <Title id="hiwHeading" text="{i18nOverview>hiwTitle}" level="H2" />
+                </f:heading>
+                <f:actions>
+                    <Button id="hiwBack" text="{i18nOverview>ovTitle}" icon="sap-icon://home" press=".onOpenOverview" />
+                </f:actions>
+            </f:DynamicPageTitle>
+        </f:title>
+        <f:content>
+            <VBox id="hiwContent">
+                <Text id="hiwIntro" text="{i18nOverview>hiwIntro}" class="sapUiSmallMarginBottom" />
+
+                <Title id="hiwTriggersTitle" text="{i18nOverview>hiwTriggers}" level="H3" class="sapUiTinyMarginBottom" />
+                <List id="hiwTriggerList" showSeparators="Inner" class="sapUiSmallMarginBottom" ariaLabelledBy="hiwTriggersTitle">
+                    <StandardListItem id="hiwMorningItem" icon="sap-icon://along-stacked-chart" title="{i18nOverview>hiwMorning}" description="{i18nOverview>hiwMorningText}" wrapping="true" />
+                    <StandardListItem id="hiwArrivedItem" icon="sap-icon://inbox" title="{i18nOverview>hiwArrived}" description="{i18nOverview>hiwArrivedText}" wrapping="true" />
+                </List>
+
+                <Table id="hiwListTable" items="{path: 'hiw>/lists', templateShareable: false}" class="sapUiSmallMarginBottom" ariaLabelledBy="hiwListsTitle">
+                    <headerToolbar>
+                        <OverflowToolbar id="hiwListsToolbar">
+                            <Title id="hiwListsTitle" text="{i18nOverview>hiwLists}" level="H3" />
+                        </OverflowToolbar>
+                    </headerToolbar>
+                    <columns>
+                        <Column id="hiwColList" width="14rem"><Text id="hiwColListText" text="{i18nOverview>hiwColList}" /></Column>
+                        <Column id="hiwColCheck" minScreenWidth="Tablet" demandPopin="true"><Text id="hiwColCheckText" text="{i18nOverview>hiwColCheck}" /></Column>
+                        <Column id="hiwColResult" minScreenWidth="Tablet" demandPopin="true"><Text id="hiwColResultText" text="{i18nOverview>hiwColResult}" /></Column>
+                        <Column id="hiwColNext" width="12rem"><Text id="hiwColNextText" text="{i18nOverview>hiwColNext}" /></Column>
+                    </columns>
+                    <items>
+                        <ColumnListItem id="hiwListRow">
+                            <cells>
+                                <Link id="hiwListLink" text="{hiw>name}" press=".onOpenList" />
+                                <Text id="hiwListCheck" text="{hiw>check}" />
+                                <Text id="hiwListResult" text="{hiw>result}" />
+                                <Text id="hiwListNext" text="{hiw>next}" />
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+
+                <Title id="hiwSourcesTitle" text="{i18nOverview>hiwSources}" level="H3" class="sapUiTinyMarginBottom" />
+                <VBox id="hiwSources" items="{path: 'hiw>/sources', templateShareable: false}" class="sapUiSmallMarginBottom">
+                    <HBox id="hiwSource" alignItems="Center" class="sapUiTinyMarginBottom">
+                        <ObjectStatus id="hiwSourceWord" text="{hiw>word}" state="{hiw>state}" inverted="true" class="sapUiSmallMarginEnd" />
+                        <Text id="hiwSourceTip" text="{hiw>tip}" />
+                    </HBox>
+                </VBox>
+
+                <Title id="hiwNeverTitle" text="{i18nOverview>hiwNever}" level="H3" class="sapUiTinyMarginBottom" />
+                <List id="hiwNeverList" showSeparators="None" ariaLabelledBy="hiwNeverTitle">
+                    <StandardListItem id="hiwNever1" icon="sap-icon://email" title="{i18nOverview>hiwNever1}" wrapping="true" />
+                    <StandardListItem id="hiwNever2" icon="sap-icon://locked" title="{i18nOverview>hiwNever2}" wrapping="true" />
+                    <StandardListItem id="hiwNever3" icon="sap-icon://approvals" title="{i18nOverview>hiwNever3}" wrapping="true" />
+                    <StandardListItem id="hiwNever4" icon="sap-icon://refresh" title="{i18nOverview>hiwNever4}" wrapping="true" />
+                </List>
+            </VBox>
+        </f:content>
+    </f:DynamicPage>
+</mvc:View>

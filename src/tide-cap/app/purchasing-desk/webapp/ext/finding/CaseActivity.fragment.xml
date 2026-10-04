@@ -1,0 +1,13 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+    <Panel id="caseActivityPanel" class="sapUiNoContentPadding">
+        <List id="caseActivityList" items="{caseEvents}" noDataText="No activity has been recorded for this delivery risk yet." showSeparators="Inner">
+            <CustomListItem>
+                <VBox class="sapUiSmallMargin">
+                    <ObjectStatus text="{eventText}" state="Information" icon="sap-icon://history" />
+                    <Text text="{reason}" visible="{= %{reason} !== '' &amp;&amp; %{reason} !== null &amp;&amp; %{reason} !== undefined }" wrapping="true" class="sapUiTinyMarginTop" />
+                    <Text text="{= ${occurredAt} + (${actor} ? ' · ' + ${actor} : '') }" class="tideFigureNote sapUiTinyMarginTop" />
+                </VBox>
+            </CustomListItem>
+        </List>
+    </Panel>
+</core:FragmentDefinition>

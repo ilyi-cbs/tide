@@ -1,0 +1,45 @@
+{
+  "classes": [
+    "late",
+    "on_time"
+  ],
+  "dropped_columns": [],
+  "elapsed_ms": 0.0,
+  "fallback": null,
+  "levels": null,
+  "output_type": "probas",
+  "placeholder": false,
+  "predictions": [
+    {
+      "probabilities": [
+        0.09999999999999998,
+        0.9
+      ],
+      "quantiles": null,
+      "row_key": "PO1-10",
+      "value": "on_time"
+    },
+    {
+      "probabilities": [
+        0.09999999999999998,
+        0.9
+      ],
+      "quantiles": null,
+      "row_key": "PO2-10",
+      "value": "on_time"
+    }
+  ],
+  "task": "classification",
+  "train_rows": 4,
+  "usage": {
+    "backend": "fake",
+    "calls": 1,
+    "context_cells": 12,
+    "cost_units": 0.0005926,
+    "effective_feature_count": 2,
+    "model_version": null,
+    "num_cells": null,
+    "num_predictions": null,
+    "predicted_cells": 4
+  }
+}

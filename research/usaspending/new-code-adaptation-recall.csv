@@ -1,0 +1,9 @@
+task,examples,rows,tabpfn_text,logreg_tfidf,knn_cv,knn_1
+product_or_service_code,0,,0.000,0.000,0.000,
+product_or_service_code,1,48,0.167,0.000,0.208,0.44
+product_or_service_code,2,38,0.368,0.026,0.474,0.50
+product_or_service_code,4,18,0.667,0.056,0.778,0.78
+recipient,0,,0.000,0.000,0.000,
+recipient,1,560,0.671,0.000,0.171,0.57
+recipient,2,497,0.755,0.042,0.398,0.69
+recipient,4,371,0.819,0.582,0.534,0.77

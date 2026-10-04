@@ -1,0 +1,11 @@
+code;text
+10;Consignment
+20;External procurement
+30;Subcontracting
+40;Stock transfer (procurement from alternative plant)
+45;Stock transfer from plant
+50;Phantom assembly
+52;Direct production
+60;Planned independent requirements
+70;Withdrawal from alternative plant
+80;Production in other plant

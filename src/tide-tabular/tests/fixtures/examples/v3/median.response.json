@@ -1,0 +1,43 @@
+{
+  "backendKey": "fake",
+  "capability_digest": "5529ab2f60bd19738f9efbb88dc5ab03e43a38529e19a4e16e4fbe50b67afc36",
+  "configuration_identity": "synthetic-contract-v3",
+  "contract_version": 3,
+  "diagnostics": {
+    "effective_chunk_rows": 1000,
+    "fit_calls": 1,
+    "fit_strategy": "stateless_fit_predict",
+    "model_identity_kind": "synthetic",
+    "server_defaults": "unknown unless reported by the provider"
+  },
+  "dropped_columns": [
+    "PurchaseOrderType"
+  ],
+  "elapsed_ms": 0.0,
+  "fallback": null,
+  "modelKey": "default",
+  "payload": {
+    "keys": [
+      "PO1-10"
+    ],
+    "statistic": "median",
+    "type": "point",
+    "values": [
+      16.0
+    ]
+  },
+  "placeholder": true,
+  "plan_fingerprint": "dd3c34627ffa1d0183242ef9bd76c9a1b579a1a9e78656fffb9eab6ee86f0764",
+  "train_rows": 4,
+  "usage": {
+    "backend": "fake",
+    "calls": 1,
+    "context_cells": 12,
+    "cost_units": 0.0003026,
+    "effective_feature_count": 2,
+    "model_version": null,
+    "num_cells": null,
+    "num_predictions": null,
+    "predicted_cells": 2
+  }
+}

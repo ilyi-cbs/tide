@@ -1,0 +1,25 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+    <VBox width="100%" class="sapUiSmallMarginTop" core:require="{Workspace: 'tide/cockpit/ext/prevention/Workspace'}" busy="{prevention>/assessing}">
+        <Title text="{= %{prevention>/unusual} ? 'All Predictions' : 'Prediction Evidence' }" level="H4" visible="{= !!%{prevention>/assessment} }" />
+        <Text text="Background prediction evidence is not yet available for this case." wrapping="true" visible="{= !%{prevention>/assessment} &amp;&amp; !%{prevention>/pricePage} }" class="tidePreventionNote" />
+        <MessageStrip text="{prevention>/assessmentError}" type="Error" showIcon="true" visible="{= !!%{prevention>/assessmentError} }" />
+        <VBox visible="{= !!%{prevention>/assessment} }" class="sapUiSmallMarginTop">
+            <ObjectStatus text="{prevention>/assessment/status}" icon="{= %{prevention>/assessment/ai} ? 'sap-icon://ai' : 'sap-icon://information' }" />
+            <Text text="{prevention>/assessment/summary}" wrapping="true" />
+            <Text text="{prevention>/assessment/generatedText}" wrapping="true" class="tidePreventionNote" />
+            <List items="{prevention>/assessment/metrics}" noDataText="No supported assessment metrics available.">
+                <CustomListItem>
+                    <VBox class="sapUiSmallMargin">
+                        <Title text="{prevention>label}" level="H5" wrapping="true" />
+                        <ObjectStatus text="{prevention>sourceText}" icon="sap-icon://ai" class="tideAIStatus" visible="{prevention>ai}" />
+                        <ObjectStatus text="{prevention>sourceText}" icon="sap-icon://information" visible="{= !%{prevention>ai} }" />
+                        <Text text="{= 'Current: ' + %{prevention>currentText} }" wrapping="true" />
+                        <ObjectStatus text="{prevention>valueText}" class="tideAIStatus" visible="{prevention>ai}" />
+                        <ObjectStatus text="{prevention>valueText}" visible="{= !%{prevention>ai} }" />
+                        <Text text="{prevention>detailText}" wrapping="true" class="tidePreventionNote" />
+                    </VBox>
+                </CustomListItem>
+            </List>
+        </VBox>
+    </VBox>
+</core:FragmentDefinition>

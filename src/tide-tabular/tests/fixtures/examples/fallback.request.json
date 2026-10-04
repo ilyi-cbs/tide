@@ -1,0 +1,41 @@
+{
+  "columns": [
+    {
+      "kind": "categorical",
+      "name": "Plant"
+    }
+  ],
+  "keys": [
+    "PO1-10"
+  ],
+  "output": {
+    "levels": [
+      0.1,
+      0.5,
+      0.9
+    ],
+    "type": "quantiles"
+  },
+  "task": "regression",
+  "x_test": [
+    [
+      "P1"
+    ]
+  ],
+  "x_train": [
+    [
+      "P1"
+    ],
+    [
+      "P1"
+    ],
+    [
+      "P1"
+    ]
+  ],
+  "y_train": [
+    10,
+    20,
+    30
+  ]
+}

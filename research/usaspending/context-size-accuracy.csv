@@ -1,0 +1,10 @@
+task,context_rows,majority,knn_cv,knn_pg,knn_1,logreg_tfidf,lgbm_small_tfidf,tabpfn_notext,tabpfn_text
+product_or_service_code,250,0.269,0.473,0.426,0.431,0.461,0.436,0.448,0.511
+product_or_service_code,1000,0.270,0.535,0.503,0.498,0.547,0.265,0.522,0.597
+product_or_service_code,full,0.275,0.583,0.577,0.555,0.634,0.347,0.601,0.676
+awarding_office,250,0.235,0.431,0.422,0.423,0.446,0.402,0.391,0.508
+awarding_office,1000,0.240,0.519,0.481,0.490,0.546,0.416,0.453,0.609
+awarding_office,full,0.231,0.597,0.564,0.570,0.656,0.421,0.543,0.706
+recipient,250,0.040,0.118,0.131,0.111,0.120,0.077,0.106,0.135
+recipient,1000,0.043,0.182,0.192,0.176,0.183,0.041,0.135,0.206
+recipient,full,0.044,0.250,0.257,0.242,0.261,0.061,0.152,0.279

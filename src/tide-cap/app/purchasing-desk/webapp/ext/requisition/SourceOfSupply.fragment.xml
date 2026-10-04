@@ -1,0 +1,11 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:macros="sap.fe.macros">
+    <f:Form id="sourceWorkingForm" editable="{ui>/isEditable}">
+        <f:layout><f:ColumnLayout columnsM="1" columnsL="2" columnsXL="2" labelCellsLarge="12" /></f:layout>
+        <f:formContainers><f:FormContainer id="sourceWorkingFields"><f:formElements>
+            <macros:FormElement id="supplierElement" metaPath="Supplier"><macros:fields><core:Fragment fragmentName="tide.cockpit.ext.requisition.SupplierField" type="XML" /></macros:fields></macros:FormElement>
+            <macros:FormElement id="infoRecordElement" metaPath="reviewedPurchasingInfoRecord"><macros:fields><core:Fragment fragmentName="tide.cockpit.ext.requisition.InfoRecordField" type="XML" /></macros:fields></macros:FormElement>
+            <macros:FormElement id="contractElement" metaPath="reviewedOutlineAgreement" />
+            <macros:FormElement id="contractItemElement" metaPath="reviewedOutlineAgreementItem" />
+        </f:formElements></f:FormContainer></f:formContainers>
+    </f:Form>
+</core:FragmentDefinition>

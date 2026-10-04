@@ -1,0 +1,17 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:r="tide.cockpit.ext.rangeBar" xmlns:p="tide.cockpit.ext.prevention">
+    <VBox id="supplierLeadTimeComparison" width="100%" class="tidePreventionComparison" core:require="{Workspace: 'tide/cockpit/ext/prevention/Workspace'}" modelContextChange="Workspace.onContextChange" busy="{prevention>/loading}">
+        <core:Fragment fragmentName="tide.cockpit.ext.prevention.CaseSummary" type="XML" />
+        <core:Fragment fragmentName="tide.cockpit.ext.prevention.LoadState" type="XML" />
+        <MessageStrip text="{prevention>/banner}" type="Warning" showIcon="true" visible="{prevention>/loaded}" />
+        <core:Fragment fragmentName="tide.cockpit.ext.prevention.PredictionControls" type="XML" />
+        <HBox id="supplierLeadTimeComparisonValues" width="100%" wrap="Wrap" class="tidePriceSummary tideComparisonSummary">
+            <VBox id="supplierLeadTimeCurrent" class="tidePreventionMetric"><Label text="Current planned time" /><ObjectNumber number="{prevention>/row/currentDays}" unit="days" /></VBox>
+            <VBox id="supplierLeadTimeRecommended" class="tidePreventionMetric"><Label text="Proposed planned time" /><ObjectNumber number="{prevention>/row/proposedDays}" unit="days" /></VBox>
+            <VBox id="supplierLeadTimeExpected" class="tidePreventionMetric"><Label text="Estimated delivery time (P50)" /><ObjectNumber number="{prevention>/leadTimePrediction/p50}" unit="days" visible="{prevention>/hasLeadTimePrediction}" /><ObjectStatus text="{= %{prevention>/leadTimePrediction/ai} ? 'AI estimate · TabPFN' : %{prevention>/leadTimePrediction/source} }" icon="{= %{prevention>/leadTimePrediction/ai} ? 'sap-icon://ai' : 'sap-icon://information' }" class="tideAIStatus" /><Text text="Unavailable" visible="{= !%{prevention>/hasLeadTimePrediction} }" /></VBox>
+            <VBox id="supplierLeadTimeActual" class="tidePreventionMetric"><Label text="Observed delivery time (P50)" /><ObjectNumber number="{prevention>/row/p50}" unit="days" /></VBox>
+            <VBox id="supplierLeadTimeEvidence" class="tidePreventionMetric"><Label text="Deliveries used" /><ObjectNumber number="{prevention>/row/ownDeliveries}" /></VBox>
+        </HBox>
+        <p:EvidenceChart data="{prevention>/chart}" visible="{= %{prevention>/loaded} &amp;&amp; !%{prevention>/hasLeadTimePrediction} }" />
+        <core:Fragment fragmentName="tide.cockpit.ext.prevention.PlannedTimeEvidence" type="XML" />
+    </VBox>
+</core:FragmentDefinition>

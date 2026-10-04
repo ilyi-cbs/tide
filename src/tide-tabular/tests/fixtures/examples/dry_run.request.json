@@ -1,0 +1,37 @@
+{
+  "columns": [
+    {
+      "kind": "numeric",
+      "name": "OrderQuantity"
+    }
+  ],
+  "keys": [
+    "PO1-10"
+  ],
+  "mode": "dry_run",
+  "output": {
+    "type": "point"
+  },
+  "task": "regression",
+  "x_test": [
+    [
+      4
+    ]
+  ],
+  "x_train": [
+    [
+      1
+    ],
+    [
+      2
+    ],
+    [
+      3
+    ]
+  ],
+  "y_train": [
+    4,
+    5,
+    6
+  ]
+}

@@ -1,0 +1,13 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:macros="sap.fe.macros">
+    <f:Form id="purchaseOrderWorkingForm" editable="{ui>/isEditable}">
+        <f:layout><f:ColumnLayout columnsM="1" columnsL="2" columnsXL="2" labelCellsLarge="12" /></f:layout>
+        <f:formContainers><f:FormContainer id="codingWorkingFields"><f:formElements>
+            <macros:FormElement id="prTypeElement" metaPath="reviewedPrType" />
+            <macros:FormElement id="itemCategoryElement" metaPath="reviewedItemCategory"><macros:fields><core:Fragment fragmentName="tide.cockpit.ext.requisition.ItemCategoryField" type="XML" /></macros:fields></macros:FormElement>
+            <macros:FormElement id="materialGroupElement" metaPath="MaterialGroup"><macros:fields><core:Fragment fragmentName="tide.cockpit.ext.requisition.MaterialGroupField" type="XML" /></macros:fields></macros:FormElement>
+            <macros:FormElement id="purchasingGroupElement" metaPath="reviewedPurchasingGroup"><macros:fields><core:Fragment fragmentName="tide.cockpit.ext.requisition.PurchasingGroupField" type="XML" /></macros:fields></macros:FormElement>
+            <macros:FormElement id="organisationElement" metaPath="reviewedPurchasingOrganization"><macros:fields><macros:Field id="organisationField" metaPath="reviewedPurchasingOrganization" change=".extension.tide.cockpit.ext.controller.RequisitionWorkspace.onFieldChange" /></macros:fields></macros:FormElement>
+            <macros:FormElement id="companyElement" metaPath="reviewedCompanyCode" />
+        </f:formElements></f:FormContainer></f:formContainers>
+    </f:Form>
+</core:FragmentDefinition>

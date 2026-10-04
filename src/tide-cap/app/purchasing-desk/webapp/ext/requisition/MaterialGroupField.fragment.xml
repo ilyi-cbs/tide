@@ -1,0 +1,14 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:macros="sap.fe.macros" xmlns:assist="tide.cockpit.ext.requisition">
+    <assist:AssistedField width="100%">
+        <HBox alignItems="Center" width="100%">
+            <VBox>
+                <layoutData><FlexItemData growFactor="{= %{ui>/isEditable} ? 1 : 0 }" shrinkFactor="1" baseSize="auto" /></layoutData>
+                <macros:Field id="materialGroupWorkingField" metaPath="/PurchaseRequisitionReviews/MaterialGroup" change=".extension.tide.cockpit.ext.controller.RequisitionWorkspace.onFieldChange" />
+            </VBox>
+            <Button id="materialGroupAssistant" icon="sap-icon://ai" type="Transparent" class="sapUiTinyMarginBegin" tooltip="{i18nFreetext>openMaterialGroupAssistance}" visible="{workspace>/evidence/MaterialGroup/capabilities/canInspect}" press=".extension.tide.cockpit.ext.controller.RequisitionWorkspace.onEvidencePress">
+                <layoutData><FlexItemData shrinkFactor="0" /></layoutData>
+                <customData><core:CustomData key="property" value="MaterialGroup" /></customData>
+            </Button>
+        </HBox>
+    </assist:AssistedField>
+</core:FragmentDefinition>
